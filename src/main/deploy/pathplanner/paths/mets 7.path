@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.6977195945945946,
+        "y": 3.995354729729729
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.947374051927722,
+        "y": 3.9822150214490386
+      },
+      "isLocked": false,
+      "linkedName": "mets 6"
+    },
+    {
+      "anchor": {
+        "x": 3.1226351351351354,
+        "y": 3.995354729729729
+      },
+      "prevControl": {
+        "x": 2.873270460177452,
+        "y": 4.013166492226708
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "THE METS",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}
