@@ -9,6 +9,12 @@
           "data": {
             "pathName": "test"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": null
+          }
         }
       ]
     }

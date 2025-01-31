@@ -3,45 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.988344594594595,
-        "y": 0.7244932432432438
+        "x": 3.7847128378378376,
+        "y": 5.191047297297297
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.7340501051606454,
-        "y": 2.430011405280668
+        "x": 2.7140126887648397,
+        "y": 6.276215843743951
       },
       "isLocked": false,
-      "linkedName": "mets 5"
+      "linkedName": "ITG 5"
     },
     {
       "anchor": {
-        "x": 2.6977195945945946,
-        "y": 3.303631756756756
+        "x": 1.6008445945945946,
+        "y": 7.305743243243243
       },
       "prevControl": {
-        "x": 2.8574656340065694,
-        "y": 2.986257973698275
-      },
-      "nextControl": {
-        "x": 2.58532041002231,
-        "y": 3.5269396681873313
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.6977195945945946,
-        "y": 3.995354729729729
-      },
-      "prevControl": {
-        "x": 2.6981845007605396,
-        "y": 3.724132997321045
+        "x": 2.3821982579792595,
+        "y": 6.540534476855967
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "mets 6"
+      "linkedName": "ITG 7"
     }
   ],
   "rotationTargets": [],
@@ -58,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -53.8092398528788
   },
   "reversed": false,
-  "folder": "THE METS",
+  "folder": "In the geto",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.7440592028887
+    "rotation": -58.27639704231606
   },
   "useDefaultConstraints": true
 }

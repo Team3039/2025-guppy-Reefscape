@@ -3,45 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.988344594594595,
-        "y": 0.7244932432432438
+        "x": 5.1088682432432435,
+        "y": 5.260219594594593
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.7340501051606454,
-        "y": 2.430011405280668
+        "x": 3.8440033783783782,
+        "y": 6.772128378378378
       },
       "isLocked": false,
-      "linkedName": "mets 5"
+      "linkedName": "SM 1"
     },
     {
       "anchor": {
-        "x": 2.6977195945945946,
-        "y": 3.303631756756756
+        "x": 1.6107263513513512,
+        "y": 7.276097972972973
       },
       "prevControl": {
-        "x": 2.8574656340065694,
-        "y": 2.986257973698275
-      },
-      "nextControl": {
-        "x": 2.58532041002231,
-        "y": 3.5269396681873313
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.6977195945945946,
-        "y": 3.995354729729729
-      },
-      "prevControl": {
-        "x": 2.6981845007605396,
-        "y": 3.724132997321045
+        "x": 1.9766883198687544,
+        "y": 7.070942118492649
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "mets 6"
+      "linkedName": "SM 2"
     }
   ],
   "rotationTargets": [],
@@ -58,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -53.69550287742481
   },
   "reversed": false,
-  "folder": "THE METS",
+  "folder": "NO STARVEN MARVIN THATS MY POT PIE",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.7440592028887
+    "rotation": -118.88658176691077
   },
   "useDefaultConstraints": true
 }
