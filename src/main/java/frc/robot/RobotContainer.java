@@ -53,6 +53,10 @@ public class RobotContainer {
     
         autoChooser.addRoutine("Very cool test", autoRoutines::verycooltest);
 
+        autoChooser.addRoutine("not-cool-test", autoRoutines::verycooltest);
+
+
+
         SmartDashboard.putData("Auto Chooser", autoChooser);
 
         configureBindings();

@@ -29,9 +29,21 @@ public class AutoRoutines {
         routine.active().onTrue(
             simplePath.resetOdometry()
                 .andThen(simplePath.cmd())
+            );
+            return routine;
+        }
+
+             public AutoRoutine notcooltest() {
+        final AutoRoutine routine = m_factory.newRoutine("not-cool-test");
+        final AutoTrajectory simplePath = routine.trajectory("not-cool-test");
+
+        routine.active().onTrue(
+            simplePath.resetOdometry()
+                .andThen(simplePath.cmd())
         );
+
         return routine;
-    }
+    
 
     }
-
+}
