@@ -50,15 +50,14 @@ public class RobotContainer {
         autoRoutines = new AutoRoutines(autoFactory);
 
         autoChooser.addRoutine("ran-test", autoRoutines::simplePathAuto);
-        autoChooser.select("ran-test");
+    
+        autoChooser.addRoutine("Very cool test", autoRoutines::verycooltest);
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
 
-        var data = SmartDashboard.getData("Auto Chooser");
-        System.out.println(data.toString());
-
         configureBindings();
     }
+
 
     private void configureBindings() {
         // Note that X is defined as forward according to WPILib convention,
@@ -91,10 +90,10 @@ public class RobotContainer {
         joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
-        // reset the field-centric heading on start buttion 
+
         joystick.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
-        drivetrain.registerTelemetry(logger::telemeterize);
+    drivetrain.registerTelemetry(logger::telemeterize);
     }
 
     public Command getAutonomousCommand() {
