@@ -23,9 +23,9 @@ import edu.wpi.first.wpilibj.XboxController;
  * project.
  */
 public class CoolElevator  extends TimedRobot {
-  private final TalonFX m_fx = new TalonFX(1, "main");
+  private final TalonFX m_fx = new TalonFX(12, "MainCan");
 
-  private final XboxController m_joystick = new XboxController(0);
+  private final XboxController m_joystick = new XboxController(1);
 
 
   /* Be able to switch which control request to use based on a button press */
@@ -91,7 +91,7 @@ public class CoolElevator  extends TimedRobot {
   public void teleopPeriodic() {
     double desiredRotations = m_joystick.getLeftY() * 10; // Go for plus/minus 10 rotations
     if (Math.abs(desiredRotations) <= 0.1) { // Joystick deadzone
-      desiredRotations = 0;
+      desiredRotations = 1;
     }
 
     if (m_joystick.getLeftBumperButton()) {

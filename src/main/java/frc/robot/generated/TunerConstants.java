@@ -70,7 +70,7 @@ public class TunerConstants {
 
     // CAN bus that the devices are located on;
     // All swerve devices must share the same CAN bus
-    public static final CANBus kCANBus = new CANBus("Drive Motors", "./logs/example.hoot");
+    public static final CANBus kCANBus = new CANBus("MainCan", "./logs/example.hoot");
 
 
 
@@ -171,6 +171,12 @@ public class TunerConstants {
 
     private static final Distance kBackRightXPos = Inches.of(-10.75);
     private static final Distance kBackRightYPos = Inches.of(-10.75);
+
+    // Elavator ids  
+    private static final int kElevatorMotorId = 12;
+    private static final int kElevatorEncoderId = 13;
+
+
 
 
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> FrontLeft =
