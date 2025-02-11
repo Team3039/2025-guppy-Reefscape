@@ -51,6 +51,8 @@ public class CoolElevator  extends TimedRobot {
     configs.Voltage.withPeakForwardVoltage(Volts.of(8))
       .withPeakReverseVoltage(Volts.of(-8));
 
+
+
     configs.Slot1.kP = 60; // An error of 1 rotation results in 60 A output
     configs.Slot1.kI = 0; // No output for integrated error
     configs.Slot1.kD = 6; // A velocity of 1 rps results in 6 A output
@@ -89,21 +91,54 @@ public class CoolElevator  extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    double desiredRotations = m_joystick.getLeftY() * 10; // Go for plus/minus 10 rotations
-    if (Math.abs(desiredRotations) <= 0.1) { // Joystick deadzone
-      desiredRotations = 1;
+    double L1 = m_joystick.getLeftY() * 10; // Go for plus/minus 10 rotations
+    if (Math.abs(L1) <= 0.1) { // Joystick deadzone
+      L1 = 1;
+
+      double L2 = m_joystick.getLeftY() * 10; //
+    if (Math.abs(L2) <= 0.1) { 
+      L2 = 4;
+
+      double zero = m_joystick.getLeftY() * 10; 
+    if (Math.abs(zero) <= 0.1) { 
+      zero = 0;
+      
     }
 
     if (m_joystick.getLeftBumperButton()) {
       /* Use position voltage */
-      m_fx.setControl(m_positionVoltage.withPosition(desiredRotations));
+      m_fx.setControl(m_positionVoltage.withPosition(L1));
     } else if (m_joystick.getRightBumperButton()) {
       /* Use position torque */
-      m_fx.setControl(m_positionTorque.withPosition(desiredRotations));
+      m_fx.setControl(m_positionTorque.withPosition(L1));
     } else {
       /* Disable the motor instead */
       m_fx.setControl(m_brake);
     }
+    //
+    if (m_joystick.getRightBumperButton()) {
+      /* Use position voltage */
+      m_fx.setControl(m_positionVoltage.withPosition(L2));
+    } else if (m_joystick.getRightBumperButton()) {
+      /* Use position torque */
+      m_fx.setControl(m_positionTorque.withPosition(L2));
+    } else {
+      /* Disable the motor instead */
+      m_fx.setControl(m_brake);
+    }
+    if (m_joystick.getAButton()) {
+      /* Use position voltage */
+      m_fx.setControl(m_positionVoltage.withPosition(zero));
+    } else if (m_joystick.getAButton()) {
+      /* Use position torque */
+      m_fx.setControl(m_positionTorque.withPosition(zero));
+    } else {
+      /* Disable the motor instead */
+      m_fx.setControl(m_brake);
+    }
+
+  }
+  }
   }
 
   @Override
