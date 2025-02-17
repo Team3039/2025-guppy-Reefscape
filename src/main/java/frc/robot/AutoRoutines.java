@@ -32,7 +32,7 @@ public class AutoRoutines {
             );
             return routine;
         }
-
+//these autos are cool but pies are cooler.
              public AutoRoutine notcooltest() {
         final AutoRoutine routine = m_factory.newRoutine("not-cool-test");
         final AutoTrajectory simplePath = routine.trajectory("not-cool-test");

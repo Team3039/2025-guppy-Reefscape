@@ -174,8 +174,6 @@ public class TunerConstants {
 
     // Elavator ids  
     private static final int kElevatorMotorId = 12;
-    private static final int kElevatorEncoderId = 13;
-
 
 
 
