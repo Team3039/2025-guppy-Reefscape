@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.kinematics.Odometry;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -24,6 +25,7 @@ import java.net.URL;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -1586,4 +1588,9 @@ public class LimelightHelpers {
 
         return results;
     }
+     {
+
+    SmartDashboard.putNumberArray("cam to target", getCameraPose_TargetSpace("john") );
+
+     }
 }
