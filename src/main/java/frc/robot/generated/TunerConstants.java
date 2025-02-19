@@ -89,7 +89,7 @@ public class TunerConstants {
     private static final boolean kInvertLeftSide = false;
     private static final boolean kInvertRightSide = true;
 
-    private static final int kPigeonId = 12;
+
 
     // These are only used for simulation
     private static final MomentOfInertia kSteerInertia = KilogramSquareMeters.of(0.01);
@@ -97,6 +97,9 @@ public class TunerConstants {
     // Simulated voltage necessary to overcome friction
     private static final Voltage kSteerFrictionVoltage = Volts.of(0.2);
     private static final Voltage kDriveFrictionVoltage = Volts.of(0.2);
+
+    private static final int kPigeonId = 15;
+
 
     public static final SwerveDrivetrainConstants DrivetrainConstants = new SwerveDrivetrainConstants()
             .withCANBusName(kCANBus.getName())
@@ -127,7 +130,19 @@ public class TunerConstants {
             .withDriveFrictionVoltage(kDriveFrictionVoltage);
 
 
+
+
+
+
+
+
+
+
+    public static final double MaxAngularRate = 1.0; // define the MaxAngularRate constant
+
+            
     // Front Left
+
     private static final int kFrontLeftDriveMotorId = 0;
     private static final int kFrontLeftSteerMotorId = 1;
     private static final int kFrontLeftEncoderId = 2;
@@ -172,8 +187,12 @@ public class TunerConstants {
     private static final Distance kBackRightXPos = Inches.of(-10.75);
     private static final Distance kBackRightYPos = Inches.of(-10.75);
 
-    // Elavator ids  
-    private static final int kElevatorMotorId = 12;
+    // Other ids  
+    public static final int CLAW = 12;
+    public static final int WRIST= 13;
+    public static final int CBT= 13; // <---- Ben told me to name it this get mad at him
+    public static final int Elevator= 14;
+   // private static final int kPigeonId = 15;
 
 
 
@@ -274,7 +293,7 @@ public class TunerConstants {
          * @param visionStandardDeviation   The standard deviation for vision calculation
          *                                  in the form [x, y, theta]ᵀ, with units in meters
          *                                  and radians
-         * @param modules                   Constants for each specific module
+         * @param modules                   Constants for each specific modulexx
          */
         public TunerSwerveDrivetrain(
             SwerveDrivetrainConstants drivetrainConstants,

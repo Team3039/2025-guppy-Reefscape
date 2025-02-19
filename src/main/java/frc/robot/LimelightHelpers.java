@@ -1587,10 +1587,16 @@ public class LimelightHelpers {
         }
 
         return results;
-    }
-     {
 
-    SmartDashboard.putNumberArray("cam to target", getCameraPose_TargetSpace("john") );
 
      }
+        public static void setPipeline(String limelightName, int pipeline) {
+      
+          // Implementation for setting the pipeline
+      
+        }
+      
+public static void updateSmartDashboard() {
+    SmartDashboard.putNumberArray("cam to target", getCameraPose_TargetSpace("john"));
+}
 }
