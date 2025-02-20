@@ -4,29 +4,22 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
-
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PneumaticHub;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.generated.TunerConstants;
-import frc.robot.RobotContainer;
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.controls.StrictFollower;
+
+import org.ejml.equation.ManagerFunctions.Input1;
+
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-
+import com.revrobotics.spark.config.AbsoluteEncoderConfig;
+import com.revrobotics.AbsoluteEncoder;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 
 
@@ -39,6 +32,9 @@ public class Claw extends SubsystemBase {
 		RELEASE
 	}
 
+
+
+
 	// public Spark motor = new Spark(0);
 	// public Spark motorTwo = new Spark(1);
 
@@ -47,9 +43,15 @@ public class Claw extends SubsystemBase {
 	
 	public TalonFX claw = new TalonFX(TunerConstants.CLAW);
 	public TalonFX wrist = new TalonFX(TunerConstants.WRIST);
-	public TalonFX cbt = new TalonFX(TunerConstants.CBT);
-
+	DigitalInput input = new DigitalInput(0);
+	DutyCycleEncoder WristEncoder = new DutyCycleEncoder(1);
+	public TalonFX shoulder = new TalonFX(TunerConstants.SHOULDER);
+	DigitalInput bazinga = new DigitalInput(1);
+	DutyCycleEncoder ShoulderEncoder = new DutyCycleEncoder(1);
+	
 	public Timer timer = new Timer();
+
+
 
 	public boolean deactivateIntake = false;
 
@@ -88,9 +90,11 @@ public class Claw extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		// SmartDashboard.putNumber("Claw Current", claw.getStatorCurrent());
 		SmartDashboard.putBoolean("Is Intake Deactivated", isIntakeDeactivated());
 		SmartDashboard.putString("Claw State", String.valueOf(getState()));
+		SmartDashboard.putNumber("Wrist pose", WristEncoder.get());
+		SmartDashboard.putNumber("Shoulder pose", ShoulderEncoder.get());
+
 
 		switch (clawState) {
 			case IDLE:
@@ -104,9 +108,7 @@ public class Claw extends SubsystemBase {
 				setWheelSpeed(0.08);
 				break;
 			case INTAKE:
-				// if (allowSnapping) {
-				// 	setSnapper(false);
-				// }
+				
 			 
 				if (!deactivateIntake) {
 					setWheelSpeed(0.8);
