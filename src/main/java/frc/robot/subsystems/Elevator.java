@@ -35,12 +35,12 @@
 // 			TunerConstants.cbt.CLIMB_KI,
 // 			TunerConstants.cbt.CLIMB_KD);
 
-// 	// kraken rotations
-// 	public static double setpointClimb = 0;
+	// // kraken rotations
+	// public static double setpointClimb = 0;
 
-// 	public Elevator() {
+	// public Elevator() {
 		
-// 		controller.setTolerance(3);
+	// 	controller.setTolerance(3);
 // 	}
 
 // 	public void setState(ClimbState state) {

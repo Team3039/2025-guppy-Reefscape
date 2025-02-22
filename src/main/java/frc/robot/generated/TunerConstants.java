@@ -8,6 +8,7 @@ import com.ctre.phoenix6.hardware.*;
 import com.ctre.phoenix6.signals.*;
 import com.ctre.phoenix6.swerve.*;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.*;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.numbers.N1;
@@ -190,7 +191,7 @@ public class TunerConstants {
     // Other ids  
     public static final int CLAW = 12;
     public static final int WRIST= 13;
-    public static final int CBT= 13; // <---- Ben told me to name it this get mad at him
+    public static final int SHOULDER= 13; // <---- those who know
     public static final int Elevator= 14;
    // private static final int kPigeonId = 15;
 

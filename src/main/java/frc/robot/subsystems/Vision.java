@@ -15,9 +15,9 @@ import frc.robot.RobotContainer;
 
 public class Vision extends SubsystemBase {
 
-    public static final Pose3d SpeakerCenterBlue = new Pose3d(0.2167, 5.549, 2.12, new Rotation3d());
-    public static final Pose3d SpeakerCenterRed = new Pose3d(16.3, 5.549, 2.12, new Rotation3d());
-    static Pose3d desiredSpeakerPose;
+    public static final Pose3d FrontReefBlue = new Pose3d(7.043 , 7.358 , 2.12, new Rotation3d());
+    public static final Pose3d FrontReefRed = new Pose3d(16.3, 5.549, 2.12, new Rotation3d());
+    static Pose3d desiredReefPose;
 
     public enum VisionState {
         DRIVING,
@@ -26,15 +26,13 @@ public class Vision extends SubsystemBase {
 
     VisionState visionState = VisionState.DRIVING;
 
-    double setpointWrist;
-    double setpointShooter;
+    
     static double distance = 0;
-    public static double speakerHeight = 1.95; // tune this value
     static double targetYaw;
     public static double yawOffset = -1 * Units.degreesToRadians(11);
 
     public static double rotation = 0;
-    public static boolean shouldRotateToSpeaker = false;
+    public static boolean shouldRotateToReef = false;
     int indexID;
     double desiredAllianceID;
 
@@ -65,27 +63,27 @@ public class Vision extends SubsystemBase {
     public boolean isAtRotationSetpoint() {
         var alliance = DriverStation.getAlliance();
         if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) {
-            desiredSpeakerPose = SpeakerCenterBlue;
+            desiredReefPose = FrontReefBlue;
         } else {
-            desiredSpeakerPose = SpeakerCenterRed;
+            desiredReefPose = FrontReefRed;
         }
 
-        return (Math.abs(Math.atan((RobotContainer.drivetrain.getState().Pose.getY() - desiredSpeakerPose.getY())
-                / (RobotContainer.drivetrain.getState().Pose.getX() - desiredSpeakerPose.getX())) -
+        return (Math.abs(Math.atan((RobotContainer.drivetrain.getState().Pose.getY() - desiredReefPose.getY())
+                / (RobotContainer.drivetrain.getState().Pose.getX() - desiredReefPose.getX())) -
                 RobotContainer.drivetrain.getState().Pose.getRotation().getRadians())) < .5;
     }
 
     public static double getDistanceToSpeaker() {
         var alliance = DriverStation.getAlliance();
         if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) {
-            desiredSpeakerPose = SpeakerCenterBlue;
+            desiredReefPose = FrontReefBlue;
         } else {
-            desiredSpeakerPose = SpeakerCenterRed;
+            desiredReefPose = FrontReefRed;
         }
 
-        double SpeakerX = desiredSpeakerPose.getX();
+        double SpeakerX = desiredReefPose.getX();
         double distanceXToSpeaker = SpeakerX - RobotContainer.drivetrain.getState().Pose.getX();
-        double SpeakerY = desiredSpeakerPose.getY();
+        double SpeakerY = desiredReefPose.getY();
         double distanceYToSpeaker = SpeakerY - RobotContainer.drivetrain.getState().Pose.getY();
 
         distance = Math.hypot(distanceXToSpeaker, distanceYToSpeaker);
@@ -93,17 +91,17 @@ public class Vision extends SubsystemBase {
     }
 
     public static double getRotationToSpeaker() {
-        if (shouldRotateToSpeaker || RobotContainer.driverPad.rightBumper().getAsBoolean()) {
+        if (shouldRotateToReef || RobotContainer.driverPad.rightBumper().getAsBoolean()) {
             var alliance = DriverStation.getAlliance();
             if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) {
-                desiredSpeakerPose = SpeakerCenterBlue;
+                desiredReefPose = FrontReefBlue;
             } else if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
-                desiredSpeakerPose = SpeakerCenterRed;
+                desiredReefPose = FrontReefRed;
             }
 
             targetYaw = Math.atan((RobotContainer.drivetrain.getState().Pose.getY() -
-                    desiredSpeakerPose.getY()) /
-                    (RobotContainer.drivetrain.getState().Pose.getX() - desiredSpeakerPose.getX()));
+                    desiredReefPose.getY()) /
+                    (RobotContainer.drivetrain.getState().Pose.getX() - desiredReefPose.getX()));
 
             rotation = 1.0 * targetAlignment
                     .calculate(RobotContainer.drivetrain.getState().Pose.getRotation().getRadians(), targetYaw);
@@ -121,12 +119,52 @@ public class Vision extends SubsystemBase {
 
         switch (visionState) {
             case DRIVING:
-                shouldRotateToSpeaker = false;
+            desiredReefPose = null;
                 break;
             case ROTATING:
                 getRotationToSpeaker();
-                shouldRotateToSpeaker = true;
+                desiredReefPose = null;
                 break;
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// man I love pies how about you 

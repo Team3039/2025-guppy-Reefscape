@@ -4,23 +4,19 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.generated.TunerConstants;
-
-import org.ejml.equation.ManagerFunctions.Input1;
-
-import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.config.AbsoluteEncoderConfig;
-import com.revrobotics.AbsoluteEncoder;
-import edu.wpi.first.wpilibj.DigitalInput;
-
 
 
 public class Claw extends SubsystemBase {
@@ -33,6 +29,7 @@ public class Claw extends SubsystemBase {
 	}
 
 
+	
 
 
 	// public Spark motor = new Spark(0);
@@ -43,11 +40,20 @@ public class Claw extends SubsystemBase {
 	
 	public TalonFX claw = new TalonFX(TunerConstants.CLAW);
 	public TalonFX wrist = new TalonFX(TunerConstants.WRIST);
-	DigitalInput input = new DigitalInput(0);
-	DutyCycleEncoder WristEncoder = new DutyCycleEncoder(1);
+	DigitalInput input = new DigitalInput(5);
+	DutyCycleEncoder WristEncoder = new DutyCycleEncoder(5);
 	public TalonFX shoulder = new TalonFX(TunerConstants.SHOULDER);
 	DigitalInput bazinga = new DigitalInput(1);
 	DutyCycleEncoder ShoulderEncoder = new DutyCycleEncoder(1);
+	
+
+boolean synced = false;
+
+
+
+
+
+
 	
 	public Timer timer = new Timer();
 
@@ -88,12 +94,34 @@ public class Claw extends SubsystemBase {
 
 	
 
+	
+	
+	
+
+
 	@Override
 	public void periodic() {
-		SmartDashboard.putBoolean("Is Intake Deactivated", isIntakeDeactivated());
-		SmartDashboard.putString("Claw State", String.valueOf(getState()));
-		SmartDashboard.putNumber("Wrist pose", WristEncoder.get());
-		SmartDashboard.putNumber("Shoulder pose", ShoulderEncoder.get());
+		
+
+		System.out.println("Wrist Encoder Position: " + WristEncoder.get());
+		System.out.println("Shoulder Encoder Position: " + ShoulderEncoder.get());
+		TalonFXConfiguration config = new TalonFXConfiguration();
+		config.Feedback. FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
+		//config.Feedback. FeedbackRotoroffset = encoder.getAbsolutePosition();
+		config.Voltage.PeakForwardVoltage = 4;
+		config.Voltage.PeakForwardVoltage = 4;
+		config.Slot0.kP = 12;
+		wrist.getConfigurator().apply(config);
+		PositionVoltage request = new PositionVoltage(WristEncoder.get());
+		//talon.setPosition(encoder.getAbsolutePosition());
+		}
+		public void goToPosition (double setpoint) {
+		if (!synced)
+		wrist.setPosition(WristEncoder.get(), 1);
+		
+		
+
+
 
 
 		switch (clawState) {
