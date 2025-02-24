@@ -39,6 +39,7 @@ public class RobotContainer {
     public final static CommandXboxController driverPad = new CommandXboxController(0);
 
     public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    public static final String Elevator = null;
 
 // MAKE THE ELAVATOR WIRES 12FT LONG (Young told someone to write it down)
 
@@ -49,6 +50,8 @@ public class RobotContainer {
     private final AutoChooser autoChooser = new AutoChooser();
 
     public RobotContainer() {
+
+        
         autoFactory = drivetrain.createAutoFactory();
         autoRoutines = new AutoRoutines(autoFactory);
 

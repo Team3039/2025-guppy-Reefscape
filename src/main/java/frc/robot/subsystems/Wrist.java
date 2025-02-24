@@ -4,158 +4,160 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Elevator;
 
+public class Wrist extends SubsystemBase {
 
-public class Claw extends SubsystemBase {
+  public enum WristState {
+    IDLE,
+    MANUAL,
+    POSITION,
+    PASSIVE
+  }
 
-	public enum ClawState {
-		IDLE,
-		PASSIVE,
-		INTAKE,
-		RELEASE
+  public WristState wristState = WristState.IDLE;
+
+  public TalonSRX wrist = new TalonSRX(TunerConstants.WRIST);
+
+  public ArmFeedforward feedForward = new ArmFeedforward(
+    TunerConstants.Wrist.WRIST_KS,
+    TunerConstants.Wrist.WRIST_KG,
+    TunerConstants.Wrist.WRIST_KV);
+
+  public ProfiledPIDController profiledController = new ProfiledPIDController(
+    TunerConstants.Wrist.WRIST_KP,
+      TunerConstants.Wrist.WRIST_KI,
+      TunerConstants.Wrist.WRIST_KD,
+      new TrapezoidProfile.Constraints(
+        TunerConstants.Wrist.WRIST_MAX_VEL,
+        TunerConstants.Wrist.WRIST_MAX_ACCEL));
+
+  public PIDController controller = new PIDController(
+    TunerConstants.Wrist.WRIST_KP,
+      TunerConstants.Wrist.WRIST_KI,
+      TunerConstants.Wrist.WRIST_KD);
+
+  public static double setpointWrist = 0;
+  public static double idleSetpoint = 0;
+
+  double wristSetpointOffset = 0;
+
+  public Wrist() {
+    // wrist.configFactoryDefault();%
+    wrist.setNeutralMode(NeutralMode.Brake);
+
+    // Wrist must start in the vertical position in order to be legal. DONT FORGET TO DO THIS PLS
+    wrist.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    // wrist.setInverted(true);
+    // wrist.setSensorPhase(true);
+    
+    wrist.configForwardSoftLimitEnable(true);
+    wrist.configReverseSoftLimitEnable(true);
+    wrist.configForwardSoftLimitThreshold(degreesToTicks(121));
+    wrist.configReverseSoftLimitThreshold(degreesToTicks(-15));
+
+    wrist.setSelectedSensorPosition(degreesToTicks(120.9));
+  }
+
+  public WristState getState() {
+    return wristState;
+  }
+
+  public void setState(WristState state) {
+    wristState = state;
+  }
+
+  public double degreesToTicks(double degrees) {
+    double armRotations = degrees / 360;
+    double ticks = armRotations * 4096;
+    return ticks;
+  }
+
+  // give the encoder value to get degrees
+  public double ticksToDegrees(double ticks) {
+    double armRotations = ticks / 4096;
+    double armDegrees = armRotations * 360;
+    return armDegrees;
+  }
+
+  public void setWristPosition(boolean isProfiled) {
+    if (isProfiled) {
+      profiledController.setGoal(setpointWrist);
+      // wrist.set(ControlMode.Position, degreesToTicks(degrees));
+      wrist.set(ControlMode.PercentOutput, profiledController.calculate(wrist.getSelectedSensorPosition()) +
+          feedForward.calculate(Math.toRadians(profiledController.getSetpoint().position),
+              profiledController.getSetpoint().velocity));
+    } else {
+      wrist.set(ControlMode.PercentOutput, MathUtil.clamp(controller.calculate(
+          ticksToDegrees(wrist.getSelectedSensorPosition()),
+          setpointWrist), -.25, .3),
+          DemandType.ArbitraryFeedForward,
+          (Math.cos(Math.toRadians(ticksToDegrees(wrist.getSelectedSensorPosition()))) * TunerConstants.Wrist.WRIST_KG +
+          TunerConstants.Wrist.WRIST_KS));
+    }
+  }
+
+  public void setWristPercent(double percent) {
+    wrist.set(ControlMode.PercentOutput, percent +
+        Math.cos(Math.toRadians(ticksToDegrees(wrist.getSelectedSensorPosition()))) * TunerConstants.Wrist.WRIST_KG +
+        TunerConstants.Wrist.WRIST_KS);
+  }
+
+  public static double getSetpoint() {
+    return setpointWrist;
+  }
+
+  public static void setSetpoint(double setpoint) {
+    setpointWrist = setpoint;
+  }
+
+  public double getWristPosition() {
+    return ticksToDegrees(wrist.getSelectedSensorPosition());
+  }
+
+	public boolean isAtSetpoint(boolean isProfiled, double tolerance) {
+		return Math.abs((setpointWrist - ticksToDegrees(wrist.getSelectedSensorPosition()))) <= tolerance;
 	}
 
+  public double getWristOffset() {
+    return wristSetpointOffset;
+  }
 
-	
+  public void changeWristOffset(double offset) {
+    wristSetpointOffset += offset;
+  }
 
+  @Override
+  public void periodic() {
+    // SmartDashboard.putNumber("Wrist Absolute Encoder",
+    // wrist.getSelectedSensorPosition());
+    // System.out.println(ticksToDegrees(wrist.getSelectedSensorPosition()));
+    // System.out.println(wrist.getMotorOutputPercent());
+    // SmartDashboard.putNumber("Wrist Currnent Input", wrist.getSupplyCurrent());
+    // SmartDashboard.putNumber("Wrist Current Output", wrist.getStatorCurrent());
+    // System.out.println(setpointWrist);
+    SmartDashboard.putNumber("Wrist Angle", getWristPosition());
+    // SmartDashboard.putString("Wrist State", String.valueOf(getState()));
+    // SmartDashboard.putNumber("Wrist Offset", getWristOffset());
+    // SmartDashboard.putNumber("Wrist Setpoint", getSetpoint());
+    idleSetpoint = getState().equals(WristState.IDLE) ? idleSetpoint : setpointWrist;
+    
 
-	// public Spark motor = new Spark(0);
-	// public Spark motorTwo = new Spark(1);
-
-	public ClawState clawState = ClawState.IDLE;
-
-	
-	public TalonFX claw = new TalonFX(TunerConstants.CLAW);
-	public TalonFX wrist = new TalonFX(TunerConstants.WRIST);
-	DigitalInput input = new DigitalInput(5);
-	DutyCycleEncoder WristEncoder = new DutyCycleEncoder(5);
-	public TalonFX shoulder = new TalonFX(TunerConstants.SHOULDER);
-	DigitalInput bazinga = new DigitalInput(1);
-	DutyCycleEncoder ShoulderEncoder = new DutyCycleEncoder(1);
-	
-
-boolean synced = false;
-
-
-
-
-
-
-	
-	public Timer timer = new Timer();
-
-
-
-	public boolean deactivateIntake = false;
-
-	public boolean allowSnapping = false;
-
-	public Claw() {
-		// pH.disableCompressor();
-		// leftWheels.setIdleMode(IdleMode.kBrake);
-		// rightWheels.setIdleMode(IdleMode.kBrake);
-		claw.setNeutralMode(NeutralModeValue.Brake);
-
-		// leftWheels.setInverted(false);
-		// rightWheels.setInverted(true);
-
-		timer.reset();
-	}
-
-	public void setState(ClawState state) {
-		clawState = state;
-	}
-
-	public ClawState getState() {
-		return clawState;
-	}
-
-	public void setWheelSpeed(double speed) {
-		claw.setControl(new VelocityVoltage(speed));
-	}
-
-
-	public boolean isIntakeDeactivated() {
-		return deactivateIntake;
-	}
-
-	
-
-	
-	
-	
-
-
-	@Override
-	public void periodic() {
-		
-
-		System.out.println("Wrist Encoder Position: " + WristEncoder.get());
-		System.out.println("Shoulder Encoder Position: " + ShoulderEncoder.get());
-		TalonFXConfiguration config = new TalonFXConfiguration();
-		config.Feedback. FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-		//config.Feedback. FeedbackRotoroffset = encoder.getAbsolutePosition();
-		config.Voltage.PeakForwardVoltage = 4;
-		config.Voltage.PeakForwardVoltage = 4;
-		config.Slot0.kP = 12;
-		wrist.getConfigurator().apply(config);
-		PositionVoltage request = new PositionVoltage(WristEncoder.get());
-		//talon.setPosition(encoder.getAbsolutePosition());
-		}
-		public void goToPosition (double setpoint) {
-		if (!synced)
-		wrist.setPosition(WristEncoder.get(), 1);
-		
-		
-
-
-
-
-		switch (clawState) {
-			case IDLE:
-				timer.stop();
-				timer.reset();
-				setWheelSpeed(0);
-				deactivateIntake = false;
-				break;
-			case PASSIVE:
-				deactivateIntake = true;
-				setWheelSpeed(0.08);
-				break;
-			case INTAKE:
-				
-			 
-				if (!deactivateIntake) {
-					setWheelSpeed(0.8);
-				}
-				if (deactivateIntake && timer.get() > 0.1) {
-					setWheelSpeed(0);
-					wrist.setControl(new VelocityVoltage(20));
-					timer.stop();
-					timer.reset();
-				}
-				break;
-			case RELEASE:
-				deactivateIntake = false;
-				if (DriverStation.isAutonomousEnabled())  {
-					setWheelSpeed(-0.8);
-				}
-				else {
-					setWheelSpeed(-0.8);
-				}
-		}
-	}
+    
+  }
 }
