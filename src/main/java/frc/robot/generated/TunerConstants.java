@@ -141,6 +141,8 @@ public class TunerConstants {
 
     public static final double MaxAngularRate = 1.0; // define the MaxAngularRate constant
 
+
+    
             
     // Front Left
 
@@ -193,6 +195,7 @@ public class TunerConstants {
     public static final int WRIST= 13;
     public static final int Elevator= 14;
     public static final int SHOULDER= 15; // <---- those who know
+    public static final int Climb= 16;
    // private static final int kPigeonId = 15;
 
 

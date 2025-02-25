@@ -8,11 +8,13 @@ import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
 
 import choreo.auto.AutoChooser;
 import choreo.auto.AutoFactory;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -45,29 +47,17 @@ public class RobotContainer {
 
 
     /* Path follower */
-    private final AutoFactory autoFactory;
-    private final AutoRoutines autoRoutines;
-    private final AutoChooser autoChooser = new AutoChooser();
+    private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-
-        
-        autoFactory = drivetrain.createAutoFactory();
-        autoRoutines = new AutoRoutines(autoFactory);
-
-        autoChooser.addRoutine("ran-test", autoRoutines::simplePathAuto);
-    
-        autoChooser.addRoutine("Very cool test", autoRoutines::verycooltest);
-
-        autoChooser.addRoutine("not-cool-test", autoRoutines::verycooltest);
+        autoChooser = AutoBuilder.buildAutoChooser("Tests");
 
 
 
-        SmartDashboard.putData("Auto Chooser", autoChooser);
+        SmartDashboard.putData("Auto Mode", autoChooser);
 
         configureBindings();
     }
-
 
     private void configureBindings() {
         // Note that X is defined as forward according to WPILib convention,
@@ -109,8 +99,8 @@ public class RobotContainer {
 
     }
 
-    public Command getAutonomousCommand() {
-        /* Run the routine selected from the auto chooser */
-        return autoChooser.selectedCommand();
+     public Command getAutonomousCommand() {
+        /* Run the path selected from the auto chooser */
+        return autoChooser.getSelected();
     }
 }
