@@ -3,37 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.388948863636363,
-        "y": 0.5399289772727275
+        "x": 5.197804054054054,
+        "y": 2.7601351351351355
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.76925635448956,
-        "y": 1.6121953536152223
+        "x": 5.958699324324324,
+        "y": 2.1869932432432426
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BS2"
     },
     {
       "anchor": {
-        "x": 5.055596590909091,
-        "y": 2.6838210227272725
+        "x": 5.998226351351351,
+        "y": 0.734375
       },
       "prevControl": {
-        "x": 5.32030408693326,
-        "y": 2.5613666284927863
+        "x": 5.958699324324324,
+        "y": 2.167229729729729
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 128.03031444806706
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -47,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 120.4322840842169
+    "rotation": -90.0
   },
   "reversed": false,
-  "folder": "test paths",
+  "folder": "The ball graber",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 118.2074908790153
   },
   "useDefaultConstraints": true
 }
