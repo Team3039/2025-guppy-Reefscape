@@ -4,14 +4,13 @@
 
 package frc.robot;
 
-import static edu.wpi.first.units.Units.*;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
-
-import choreo.auto.AutoChooser;
-import choreo.auto.AutoFactory;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -19,9 +18,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.robot.commands.SetElevatorManualOverride;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Wrist;
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -39,9 +40,12 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     public final static CommandXboxController driverPad = new CommandXboxController(0);
+    public final static CommandXboxController operatorPad = new CommandXboxController(1);
+
 
     public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    public static final String Elevator = null;
+    public static final Elevator elevator = new Elevator();
+    public static final Wrist wrist = new Wrist();
 
 // MAKE THE ELAVATOR WIRES 12FT LONG (Young told someone to write it down)
 
@@ -90,12 +94,16 @@ public class RobotContainer {
         driverPad.start().and(driverPad.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         driverPad.start().and(driverPad.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
-
         driverPad.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
-    drivetrain.registerTelemetry(logger::telemeterize);
+        drivetrain.registerTelemetry(logger::telemeterize);
 
-    
+        // Elevator
+        operatorPad.a().toggleOnTrue(new SetElevatorManualOverride());
+
+        // Wrist
+        
+
 
     }
 

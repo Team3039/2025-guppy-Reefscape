@@ -8,25 +8,19 @@
 package frc.robot.subsystems;
 
 
-import com.revrobotics.RelativeEncoder;
-
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.generated.TunerConstants;
 import frc.robot.RobotContainer;
+import frc.robot.generated.TunerConstants;
 
 public class Elevator extends SubsystemBase {
 
@@ -38,21 +32,12 @@ public class Elevator extends SubsystemBase {
 
 	public ElevatorState elevatorState = ElevatorState.IDLE;
 
-    public TalonSRX elavator = new TalonSRX(TunerConstants.ELEVATOR);
-
+    public TalonFX elavator = new TalonFX(TunerConstants.ELEVATOR);
 
 	public ElevatorFeedforward feedForward = new ElevatorFeedforward(
 			TunerConstants.ElevatorPID.ELEVATOR_KS,
 			TunerConstants.ElevatorPID.ELEVATOR_KG,
 			TunerConstants.ElevatorPID.ELEVATOR_KV);
-
-	private ProfiledPIDController profiledController = new ProfiledPIDController(
-        TunerConstants.ElevatorPID.ELEVATOR_KP,
-        TunerConstants.ElevatorPID.ELEVATOR_KI,
-			TunerConstants.ElevatorPID.ELEVATOR_KD,
-			new TrapezoidProfile.Constraints(
-                TunerConstants.ElevatorPID.ELEVATOR_MAX_VEL,
-                TunerConstants.ElevatorPID.ELEVATOR_MAX_ACCEL));
 
 	private PIDController controller = new PIDController(
         TunerConstants.ElevatorPID.ELEVATOR_KP,
@@ -60,25 +45,21 @@ public class Elevator extends SubsystemBase {
         TunerConstants.ElevatorPID.ELEVATOR_KD);
 
 	
-	// neo rotations
+	// kraken encoder ticks
 	public static double setpointElevator = 0;
 
 	public Elevator() {
-        // elavator.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
-        // elavator.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+		TalonFXConfiguration config = new TalonFXConfiguration();
 
-        elavator.setNeutralMode(NeutralMode.Brake);
+		config.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+		config.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+		config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 0;	
+		config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0;	
 
-        elavator.setInverted(false);
+		config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+		config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
-        elavator.configForwardSoftLimitEnable(true);
-        elavator.configReverseSoftLimitEnable(true);
-        elavator.configForwardSoftLimitThreshold(88);
-        elavator.configReverseSoftLimitThreshold(0);
-
-
-		controller.setTolerance(3);
-		profiledController.setTolerance(3);
+		elavator.getConfigurator().apply(config);
 	}
 
 	public void setState(ElevatorState state) {
@@ -90,41 +71,35 @@ public class Elevator extends SubsystemBase {
 	}
 
 	public void setElevatorOpenLoop(double percent) {
-        elavator.set(ControlMode.PercentOutput, percent);
+        elavator.set(percent);
     }
 
-    public void setElevatorClosedLoop(boolean isProfiled) {
+    public void setElevatorClosedLoop() {
         double output = 0;
-        if (isProfiled) {
-            profiledController.setGoal(setpointElevator);
-            output = profiledController.calculate(elavator.getSelectedSensorPosition()) +
-                    feedForward.calculate(profiledController.getSetpoint().velocity);
-            elavator.set(ControlMode.Position, setpointElevator, DemandType.ArbitraryFeedForward, output);
-        } else {
-            output = controller.calculate(elavator.getSelectedSensorPosition(), setpointElevator) + TunerConstants.ElevatorPID.ELEVATOR_KS;
-            elavator.set(ControlMode.Position, setpointElevator, DemandType.ArbitraryFeedForward, MathUtil.clamp(output, -.75, .85));
-		}
+        output = controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator) + TunerConstants.ElevatorPID.ELEVATOR_KS;
+        elavator.set(MathUtil.clamp(output, -.3, .3));
 	}
 
 	public static double getSetpoint() {
 		return setpointElevator;
 	}
 
-	public static void setSetpoint(double setpoint) {
+	public static void setElevatorSetpoint(double setpoint) {
         setpointElevator = setpoint;
     }
 
-    public boolean isAtSetpoint(boolean isProfiled, double tolerance) {
-        return Math.abs((setpointElevator - elavator.getSelectedSensorPosition())) <= tolerance;
+    public boolean isAtSetpoint(double tolerance) {
+        return Math.abs((setpointElevator - getElevatorPosition())) <= tolerance;
     }
 
-    public double getPosition() {
-        return elavator.getSelectedSensorPosition();
+    public double getElevatorPosition() {
+        return elavator.getPosition().getValueAsDouble();
     }
 
     @Override
     public void periodic() {
-		// SmartDashboard.putNumber("Elevator Encoder", encoder.getPosition());
+		SmartDashboard.putNumber("Elevator Encoder", getElevatorPosition());
+		SmartDashboard.putNumber("Elevator Output", RobotContainer.driverPad.getLeftY());
 		// SmartDashboard.putString("Elevator State", String.valueOf(getState()));
 
 		// SmartDashboard.putNumber("Elevator Output", elevator.get());
@@ -133,32 +108,17 @@ public class Elevator extends SubsystemBase {
 		// System.out.println(isAtSetpoint(false));
 		switch (elevatorState) {
 			case IDLE:
-				setSetpoint(0);
-				setElevatorClosedLoop(false);
+				setElevatorSetpoint(0);
+				// setElevatorClosedLoop();
 				break;
 			case MANUAL:
 				setElevatorOpenLoop(RobotContainer.driverPad.getLeftY());
 				break;
 			case POSITION:
-				setElevatorClosedLoop(false);
+				// setElevatorClosedLoop();
 				break;
 		}
 	}
 }
 
 
-
-
-
-
-
-
-//I see you are looking at the elevator subsystem.
-// This is a very important subsystem that is used to move the elevator up and down.
-
-
-
-
-
-
-// I should do this about now

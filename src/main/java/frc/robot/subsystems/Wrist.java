@@ -8,18 +8,17 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.Elevator;
 
 public class Wrist extends SubsystemBase {
 
@@ -32,46 +31,30 @@ public class Wrist extends SubsystemBase {
 
   public WristState wristState = WristState.IDLE;
 
-  public TalonSRX wrist = new TalonSRX(TunerConstants.WRIST);
-
-  public ArmFeedforward feedForward = new ArmFeedforward(
-    TunerConstants.Wrist.WRIST_KS,
-    TunerConstants.Wrist.WRIST_KG,
-    TunerConstants.Wrist.WRIST_KV);
-
-  public ProfiledPIDController profiledController = new ProfiledPIDController(
-    TunerConstants.Wrist.WRIST_KP,
-      TunerConstants.Wrist.WRIST_KI,
-      TunerConstants.Wrist.WRIST_KD,
-      new TrapezoidProfile.Constraints(
-        TunerConstants.Wrist.WRIST_MAX_VEL,
-        TunerConstants.Wrist.WRIST_MAX_ACCEL));
+  public TalonFX wrist = new TalonFX(TunerConstants.WRIST);
 
   public PIDController controller = new PIDController(
-    TunerConstants.Wrist.WRIST_KP,
-      TunerConstants.Wrist.WRIST_KI,
-      TunerConstants.Wrist.WRIST_KD);
+    TunerConstants.WristPID.WRIST_KP,
+      TunerConstants.WristPID.WRIST_KI,
+      TunerConstants.WristPID.WRIST_KD);
 
   public static double setpointWrist = 0;
-  public static double idleSetpoint = 0;
+  public static double idleSetpoint = 3;
 
   double wristSetpointOffset = 0;
 
   public Wrist() {
-    // wrist.configFactoryDefault();%
-    wrist.setNeutralMode(NeutralMode.Brake);
+    TalonFXConfiguration config = new TalonFXConfiguration();
 
-    // Wrist must start in the vertical position in order to be legal. DONT FORGET TO DO THIS PLS
-    wrist.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-    // wrist.setInverted(true);
-    // wrist.setSensorPhase(true);
-    
-    wrist.configForwardSoftLimitEnable(true);
-    wrist.configReverseSoftLimitEnable(true);
-    wrist.configForwardSoftLimitThreshold(degreesToTicks(121));
-    wrist.configReverseSoftLimitThreshold(degreesToTicks(-15));
+		config.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+		config.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
+		config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 0;	
+		config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0;	
 
-    wrist.setSelectedSensorPosition(degreesToTicks(120.9));
+		config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+		config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
+		wrist.getConfigurator().apply(config);
   }
 
   public WristState getState() {
@@ -95,27 +78,16 @@ public class Wrist extends SubsystemBase {
     return armDegrees;
   }
 
-  public void setWristPosition(boolean isProfiled) {
-    if (isProfiled) {
-      profiledController.setGoal(setpointWrist);
-      // wrist.set(ControlMode.Position, degreesToTicks(degrees));
-      wrist.set(ControlMode.PercentOutput, profiledController.calculate(wrist.getSelectedSensorPosition()) +
-          feedForward.calculate(Math.toRadians(profiledController.getSetpoint().position),
-              profiledController.getSetpoint().velocity));
-    } else {
-      wrist.set(ControlMode.PercentOutput, MathUtil.clamp(controller.calculate(
-          ticksToDegrees(wrist.getSelectedSensorPosition()),
-          setpointWrist), -.25, .3),
-          DemandType.ArbitraryFeedForward,
-          (Math.cos(Math.toRadians(ticksToDegrees(wrist.getSelectedSensorPosition()))) * TunerConstants.Wrist.WRIST_KG +
-          TunerConstants.Wrist.WRIST_KS));
-    }
+  public void setWristPosition() {
+    wrist.set(MathUtil.clamp(controller.calculate(getWristPosition(), setpointWrist), -.2, .2) + 
+        (Math.cos(Math.toRadians(getWristPosition()))) * TunerConstants.WristPID.WRIST_KG +
+        TunerConstants.WristPID.WRIST_KS);
   }
 
   public void setWristPercent(double percent) {
-    wrist.set(ControlMode.PercentOutput, percent +
-        Math.cos(Math.toRadians(ticksToDegrees(wrist.getSelectedSensorPosition()))) * TunerConstants.Wrist.WRIST_KG +
-        TunerConstants.Wrist.WRIST_KS);
+    wrist.set(percent +
+        Math.cos(Math.toRadians(ticksToDegrees(getWristPosition()))) * TunerConstants.WristPID.WRIST_KG +
+        TunerConstants.WristPID.WRIST_KS);
   }
 
   public static double getSetpoint() {
@@ -127,11 +99,11 @@ public class Wrist extends SubsystemBase {
   }
 
   public double getWristPosition() {
-    return ticksToDegrees(wrist.getSelectedSensorPosition());
+    return ticksToDegrees(wrist.getPosition().getValueAsDouble());
   }
 
 	public boolean isAtSetpoint(boolean isProfiled, double tolerance) {
-		return Math.abs((setpointWrist - ticksToDegrees(wrist.getSelectedSensorPosition()))) <= tolerance;
+		return Math.abs((setpointWrist - ticksToDegrees(getWristPosition()))) <= tolerance;
 	}
 
   public double getWristOffset() {
@@ -157,7 +129,23 @@ public class Wrist extends SubsystemBase {
     // SmartDashboard.putNumber("Wrist Setpoint", getSetpoint());
     idleSetpoint = getState().equals(WristState.IDLE) ? idleSetpoint : setpointWrist;
     
-
+    switch (wristState) {
+      case IDLE:
+        setSetpoint(idleSetpoint);
+        setWristPosition();
+        break;
+      case MANUAL:
+        setWristPercent(RobotContainer.operatorPad.getRightY());
+        break;
+      case PASSIVE:
+        break;
+      case POSITION:
+        setWristPosition();
+        break;
+      default:
+        break;
+      
+    }
     
   }
 }

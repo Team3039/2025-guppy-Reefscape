@@ -191,11 +191,12 @@ public class TunerConstants {
     private static final Distance kBackRightYPos = Inches.of(-10.75);
 
     // Other ids  
+    public static final int CANrange = 11;
     public static final int CLAW = 12;
     public static final int WRIST= 13;
-    public static final int Elevator= 14;
+    public static final int ELEVATOR= 14;
     public static final int SHOULDER= 15; // <---- those who know
-    public static final int Climb= 16;
+    public static final int CLIMB = 16;
    // private static final int kPigeonId = 15;
 
 
@@ -223,6 +224,7 @@ public class TunerConstants {
             kBackRightSteerMotorId, kBackRightDriveMotorId, kBackRightEncoderId, kBackRightEncoderOffset,
             kBackRightXPos, kBackRightYPos, kInvertRightSide, kBackRightSteerMotorInverted, kBackRightEncoderInverted
         );
+
 
     /**
      * Creates a CommandSwerveDrivetrain instance.
@@ -317,16 +319,33 @@ public class TunerConstants {
         }
         
     }
-public static final class Wrist {
-    public static final double WRIST_KP = 0.008;
-    public static final double WRIST_KI = 0;
-    public static final double WRIST_KD = 0;
-    public static final double WRIST_KS = 0.025;
-    public static final double WRIST_KG = 0.025;
-    public static final double WRIST_KV = 0;
-    public static final double WRIST_MAX_VEL = 0;
-    public static final double WRIST_MAX_ACCEL = 0;
-}
+
+    /**
+    *   Other Constants
+    */
+    public static final class WristPID {
+        public static final double WRIST_KP = 0.000;
+        public static final double WRIST_KI = 0;
+        public static final double WRIST_KD = 0;
+        public static final double WRIST_KS = 0;
+        public static final double WRIST_KG = 0;
+        public static final double WRIST_KV = 0;
+        public static final double WRIST_MAX_VEL = 0;
+        public static final double WRIST_MAX_ACCEL = 0;
+    }
+    public static final class ElevatorPID {
+        public static final double ELEVATOR_KP = 0.000;
+        public static final double ELEVATOR_KI = 0;
+        public static final double ELEVATOR_KD = 0;
+        public static final double ELEVATOR_KS = 0;
+        public static final double ELEVATOR_KG = 0;
+        public static final double ELEVATOR_KV = 0;
+        public static final double ELEVATOR_MAX_VEL = 0;
+        public static final double ELEVATOR_MAX_ACCEL = 0;
+    }
+
+
+
 
 }
 
