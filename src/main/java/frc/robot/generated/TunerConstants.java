@@ -182,7 +182,8 @@ public class TunerConstants {
     private static final Distance kBackRightYPos = Inches.of(-10.75);
 
     // Other CAN IDs 
-    public static final int CANrange = 17;
+    public static final int CORALCANRANGE = 17;
+    public static final int BRANCHCANRANGE = 18;
     public static final int CLAW = 15;
     public static final int WRIST = 13;
     public static final int ELEVATOR = 14;
@@ -316,7 +317,7 @@ public class TunerConstants {
     /**
     *   Other Constants
     */
-    public static final class WristPID {
+    public static final class Wrist {
         public static final double WRIST_KP = 0.000;
         public static final double WRIST_KI = 0;
         public static final double WRIST_KD = 0;
@@ -325,9 +326,11 @@ public class TunerConstants {
         public static final double WRIST_KV = 0;
         public static final double WRIST_MAX_VEL = 0;
         public static final double WRIST_MAX_ACCEL = 0;
+
+        public static final double WRIST_OFFSET = 120;
     }
 
-    public static final class ElevatorPID {
+    public static final class Elevator {
         public static final double ELEVATOR_KP = 0.000;
         public static final double ELEVATOR_KI = 0;
         public static final double ELEVATOR_KD = 0;
@@ -337,10 +340,6 @@ public class TunerConstants {
         public static final double ELEVATOR_MAX_VEL = 0;
         public static final double ELEVATOR_MAX_ACCEL = 0;
     }
-
-
-
-
 }
 
 

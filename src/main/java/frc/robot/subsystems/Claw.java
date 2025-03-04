@@ -11,12 +11,15 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.generated.TunerConstants;
 
 public class Claw extends SubsystemBase {
 
+  // Create the possible states of the claw
   public enum ClawState {
     IDLE,
     PASSIVE,
@@ -25,22 +28,35 @@ public class Claw extends SubsystemBase {
     RELEASE
   }
 
+  // Create a variable to store the current state of the claw
   ClawState clawState = ClawState.IDLE;
 
+  // Keep track of whether or not the intake has a gamepiece
   public boolean deactivateIntake = false;
 
+  // Create a talonfx for the claw
   TalonFX claw = new TalonFX(TunerConstants.CLAW);
 
-  CANrange canRange = new CANrange(TunerConstants.CANrange);
+  // This CANrange is used to detect coral in the intake
+  CANrange coralCANRange = new CANrange(TunerConstants.CORALCANRANGE);
 
+  // This CANrange is used to align with the branch when scoring coral
+  CANrange branchCANRange = new CANrange(TunerConstants.BRANCHCANRANGE);
+
+  // Claw Constructor
   public Claw() {
+
+    // Create a talonfx configurator.
     TalonFXConfiguration clawConfig = new TalonFXConfiguration();
 
+    // Inverted and Neutral Modes
     clawConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     clawConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
+    // Apply the configurator to the claw motor
     claw.getConfigurator().apply(clawConfig);
 
+    // Create a CANrange configurator
     CANrangeConfiguration canRangeConfig = new CANrangeConfiguration();
 
     // canRangeConfig.ProximityParams.ProximityThreshold = 0.08;
@@ -48,36 +64,84 @@ public class Claw extends SubsystemBase {
 
   }
 
+  /**
+   * Get the current state of the claw
+   * 
+   * @return the current state of the claw as a ClawState
+   */
+  public ClawState getState() {
+    return clawState;
+  }
+  
+  /**
+   * Set the state of the claw
+   * 
+   * @param state the state to set the claw to
+   */
   public void setState(ClawState state) {
     clawState = state;
   }
 
-  public ClawState getState() {
-    return clawState;
-  }
-
+  /**
+   * Set the speed of the claw
+   * <p>
+   * Positive values will intake algae, negative values will intake coral
+   * 
+   * @param speed the speed to set the claw to (-1 to 1)
+   */
   public void setWheelSpeed(double speed) {
     claw.set(speed);
   }
 
+  /** 
+   * Check to see whether the intake is deactivated (i.e. has a gamepiece)
+   * 
+   * @return true if the intake is deactivated, false otherwise
+   */
   public boolean isIntakeDeactivated() {
     return deactivateIntake;
   }
 
+  /**
+   * Check to see if the claw is aligned with the branch.
+   * It does this by checking the distance detected by the branchCANRange.
+   * If it detects an object closer than 0.5 meters, it is likely the branch, and thus we are aligned.
+   * 
+   * @return true if the claw is aligned with the branch, false otherwise
+   */
+  public boolean isBranchDetected() {
+    return branchCANRange.getDistance().getValueAsDouble() < 0.5;
+  }
+
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("CanRange Distance Detected", canRange.getDistance().getValueAsDouble());
+    SmartDashboard.putNumber("CanRange Distance Detected", coralCANRange.getDistance().getValueAsDouble());
     SmartDashboard.putNumber("Claw Current", claw.getSupplyCurrent().getValueAsDouble());
     SmartDashboard.putString("Claw State", String.valueOf(getState()));
 
+    SmartDashboard.putBoolean("Aligned With Branch", isBranchDetected());
 
+    // If the robot is ready to score a coral, rumble the driver controller to indicate this
+    if (isBranchDetected() && Elevator.getSetpoint() > 50 && getState() == ClawState.PASSIVE) {
+      RobotContainer.driverPad.setRumble(RumbleType.kBothRumble, 0.4);
+    }
+    else {
+      RobotContainer.driverPad.setRumble(RumbleType.kBothRumble, 0); 
+    }
+
+    // Claw State Machine
     switch (clawState) {
+
+      // In the idle state, the claw does not intake, and it isnt deactivated
       case IDLE:
         setWheelSpeed(0);
         deactivateIntake = false;
         break;
+
+      // In the coral state, the claw will spin in reverse to intake coral,
+      //  deactivating if the coralCANRange detects an object
       case CORAL:
-        if (canRange.getDistance().getValueAsDouble() < 0.08) {
+        if (coralCANRange.getDistance().getValueAsDouble() < 0.08) {
           setWheelSpeed(0);
           deactivateIntake = true;
         }
@@ -85,6 +149,9 @@ public class Claw extends SubsystemBase {
           setWheelSpeed(-0.3);
         }
         break;
+
+      // In the algae state, the claw will spin forwards to intake algae, 
+      //  deactivating if the current exceeds 10 amps
       case ALGAE:
         if (claw.getSupplyCurrent().getValueAsDouble() > 10) {
           setWheelSpeed(0);
@@ -94,10 +161,16 @@ public class Claw extends SubsystemBase {
           setWheelSpeed(0.3);
         }
         break;
+
+      // In the release state, the claw will spin forwards to release the gamepiece
+      //  and will release the deactivation lock
       case RELEASE:
         setWheelSpeed(0.7);
         deactivateIntake = false;
         break;
+
+      // In the passive state, the claw will not intake, and will deactivate the intake. 
+      //  This will be used when the claw has a gamepiece
       case PASSIVE:
         setWheelSpeed(0);
         deactivateIntake = true;
