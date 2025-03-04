@@ -31,8 +31,11 @@ public class Claw extends SubsystemBase {
   // Create a variable to store the current state of the claw
   ClawState clawState = ClawState.IDLE;
 
-  // Keep track of whether or not the intake has a gamepiece
-  public boolean deactivateIntake = false;
+  // Keep track of whether or not the intake has a coral
+  public boolean hasCoral = false;
+
+  // Keep track of whether or not the intake has an algae
+  public boolean hasAlgae = false;
 
   // Create a talonfx for the claw
   TalonFX claw = new TalonFX(TunerConstants.CLAW);
@@ -94,12 +97,12 @@ public class Claw extends SubsystemBase {
   }
 
   /** 
-   * Check to see whether the intake is deactivated (i.e. has a gamepiece)
+   * Check to see whether the intake has either gamepiece
    * 
-   * @return true if the intake is deactivated, false otherwise
+   * @return true if the intake has either gamepiece, false otherwise
    */
-  public boolean isIntakeDeactivated() {
-    return deactivateIntake;
+  public boolean hasGamepiece() {
+    return hasCoral || hasAlgae;
   }
 
   /**
@@ -122,7 +125,7 @@ public class Claw extends SubsystemBase {
     SmartDashboard.putBoolean("Aligned With Branch", isBranchDetected());
 
     // If the robot is ready to score a coral, rumble the driver controller to indicate this
-    if (isBranchDetected() && Elevator.getSetpoint() > 50 && getState() == ClawState.PASSIVE) {
+    if (isBranchDetected() && Elevator.getSetpoint() > 50 && hasCoral) {
       RobotContainer.driverPad.setRumble(RumbleType.kBothRumble, 0.4);
     }
     else {
@@ -135,7 +138,8 @@ public class Claw extends SubsystemBase {
       // In the idle state, the claw does not intake, and it isnt deactivated
       case IDLE:
         setWheelSpeed(0);
-        deactivateIntake = false;
+        hasAlgae = false;
+        hasCoral = false;
         break;
 
       // In the coral state, the claw will spin in reverse to intake coral,
@@ -143,9 +147,9 @@ public class Claw extends SubsystemBase {
       case CORAL:
         if (coralCANRange.getDistance().getValueAsDouble() < 0.08) {
           setWheelSpeed(0);
-          deactivateIntake = true;
+          hasCoral = true;
         }
-        else if (!deactivateIntake) {
+        else if (!hasGamepiece()) {
           setWheelSpeed(-0.3);
         }
         break;
@@ -155,9 +159,9 @@ public class Claw extends SubsystemBase {
       case ALGAE:
         if (claw.getSupplyCurrent().getValueAsDouble() > 10) {
           setWheelSpeed(0);
-          deactivateIntake = true;
+          hasAlgae = true;
         }
-        else if (!deactivateIntake) {
+        else if (!hasGamepiece()) {
           setWheelSpeed(0.3);
         }
         break;
@@ -166,14 +170,14 @@ public class Claw extends SubsystemBase {
       //  and will release the deactivation lock
       case RELEASE:
         setWheelSpeed(0.7);
-        deactivateIntake = false;
+        hasAlgae = false;
+        hasCoral = false;
         break;
 
       // In the passive state, the claw will not intake, and will deactivate the intake. 
       //  This will be used when the claw has a gamepiece
       case PASSIVE:
         setWheelSpeed(0);
-        deactivateIntake = true;
         break;
     }
   

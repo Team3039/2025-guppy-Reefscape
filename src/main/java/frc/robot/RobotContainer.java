@@ -24,6 +24,7 @@ import frc.robot.commands.ElevatorRoutines.ScoreCoralL3;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL4;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralTrough;
 import frc.robot.generated.TunerConstants;
+
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
@@ -118,8 +119,6 @@ public class RobotContainer {
         // operatorPad.povRight().onTrue(new ScoreCoralL2());
         // operatorPad.povLeft().onTrue(new ScoreCoralL3());
         // operatorPad.povUp().onTrue(new ScoreCoralL4());
-
-
     }
 
      public Command getAutonomousCommand() {

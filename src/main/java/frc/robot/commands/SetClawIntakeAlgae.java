@@ -18,7 +18,7 @@ public class SetClawIntakeAlgae extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (!RobotContainer.claw.isIntakeDeactivated()) {
+    if (!RobotContainer.claw.hasGamepiece()) {
       RobotContainer.claw.setState(ClawState.ALGAE);
     }
   }
@@ -30,7 +30,7 @@ public class SetClawIntakeAlgae extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (!RobotContainer.claw.isIntakeDeactivated()) {
+    if (!RobotContainer.claw.hasGamepiece()) {
       RobotContainer.claw.setState(ClawState.IDLE);
     }
     else {
