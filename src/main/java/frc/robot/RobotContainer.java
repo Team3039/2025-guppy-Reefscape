@@ -10,16 +10,21 @@ import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.SetClawIntakeAlgae;
+import frc.robot.commands.SetClawIntakeCoral;
 import frc.robot.commands.SetElevatorManualOverride;
+import frc.robot.commands.SetWristManualOverride;
+import frc.robot.commands.ElevatorRoutines.ScoreCoralL2;
+import frc.robot.commands.ElevatorRoutines.ScoreCoralL3;
+import frc.robot.commands.ElevatorRoutines.ScoreCoralL4;
+import frc.robot.commands.ElevatorRoutines.ScoreCoralTrough;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Wrist;
@@ -46,24 +51,26 @@ public class RobotContainer {
     public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public static final Elevator elevator = new Elevator();
     public static final Wrist wrist = new Wrist();
+    public static final Claw claw = new Claw();
 
 // MAKE THE ELAVATOR WIRES 12FT LONG (Young told someone to write it down)
 
 
     /* Path follower */
-    private final SendableChooser<Command> autoChooser;
+    // private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        autoChooser = AutoBuilder.buildAutoChooser("Tests");
+        // autoChooser = AutoBuilder.buildAutoChooser("Tests");
 
 
 
-        SmartDashboard.putData("Auto Mode", autoChooser);
+        // SmartDashboard.putData("Auto Mode", autoChooser);
 
         configureBindings();
     }
 
     private void configureBindings() {
+        // Drivetrain
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
@@ -98,17 +105,26 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        // Elevator
-        operatorPad.a().toggleOnTrue(new SetElevatorManualOverride());
+        // Overrides
+        operatorPad.povLeft().toggleOnTrue(new SetElevatorManualOverride());
+        operatorPad.povRight().toggleOnTrue(new SetWristManualOverride());
 
-        // Wrist
-        
+        // Intaking
+        operatorPad.leftTrigger().whileTrue(new SetClawIntakeCoral());
+        operatorPad.leftBumper().whileTrue(new SetClawIntakeAlgae());
+
+        // Scoring Coral
+        // operatorPad.povDown().onTrue(new ScoreCoralTrough());
+        // operatorPad.povRight().onTrue(new ScoreCoralL2());
+        // operatorPad.povLeft().onTrue(new ScoreCoralL3());
+        // operatorPad.povUp().onTrue(new ScoreCoralL4());
 
 
     }
 
      public Command getAutonomousCommand() {
         /* Run the path selected from the auto chooser */
-        return autoChooser.getSelected();
+        // return autoChooser.getSelected();
+        return null;
     }
 }

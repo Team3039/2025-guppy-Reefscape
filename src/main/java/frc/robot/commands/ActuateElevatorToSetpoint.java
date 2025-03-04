@@ -23,7 +23,7 @@ public class ActuateElevatorToSetpoint extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Elevator.setElevatorSetpoint(setpoint);
+    Elevator.setSetpoint(setpoint);
     RobotContainer.elevator.setState(ElevatorState.POSITION);
   }
 

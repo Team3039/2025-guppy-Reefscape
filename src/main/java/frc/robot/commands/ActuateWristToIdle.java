@@ -9,16 +9,18 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Wrist.WristState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class SetWristManualOverride extends Command {
-  /** Creates a new SetWristManualOverride. */
-  public SetWristManualOverride() {
-    // Use addRequirements() here to declare subsystem dependencies.
+public class ActuateWristToIdle extends Command {
+
+  public double tolerance = 0;
+  public ActuateWristToIdle(double tolerance) {
+    addRequirements(RobotContainer.wrist);
+    this.tolerance = tolerance;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.wrist.setState(WristState.MANUAL);
+    RobotContainer.wrist.setState(WristState.IDLE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -27,13 +29,11 @@ public class SetWristManualOverride extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    RobotContainer.wrist.setState(WristState.IDLE);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return RobotContainer.wrist.isAtSetpoint(tolerance);
   }
 }

@@ -71,7 +71,7 @@ public class Elevator extends SubsystemBase {
 	}
 
 	public void setElevatorOpenLoop(double percent) {
-        elavator.set(percent);
+        elavator.set(percent + TunerConstants.ElevatorPID.ELEVATOR_KS);
     }
 
     public void setElevatorClosedLoop() {
@@ -84,7 +84,7 @@ public class Elevator extends SubsystemBase {
 		return setpointElevator;
 	}
 
-	public static void setElevatorSetpoint(double setpoint) {
+	public static void setSetpoint(double setpoint) {
         setpointElevator = setpoint;
     }
 
@@ -100,15 +100,13 @@ public class Elevator extends SubsystemBase {
     public void periodic() {
 		SmartDashboard.putNumber("Elevator Encoder", getElevatorPosition());
 		SmartDashboard.putNumber("Elevator Output", RobotContainer.driverPad.getLeftY());
-		// SmartDashboard.putString("Elevator State", String.valueOf(getState()));
+		SmartDashboard.putNumber("Elevator Output Current", elavator.getSupplyCurrent().getValueAsDouble());
+		SmartDashboard.putString("Elevator State", String.valueOf(getState()));
+		SmartDashboard.putNumber("Elevator Setpoint", getSetpoint());
 
-		// SmartDashboard.putNumber("Elevator Output", elevator.get());
-		// System.out.println(encoder.getPosition());
-		// System.out.println(elevator.get());
-		// System.out.println(isAtSetpoint(false));
 		switch (elevatorState) {
 			case IDLE:
-				setElevatorSetpoint(0);
+				setSetpoint(0);
 				// setElevatorClosedLoop();
 				break;
 			case MANUAL:

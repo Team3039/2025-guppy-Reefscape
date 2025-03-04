@@ -5,17 +5,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Claw.ClawState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class SetClawIntake extends Command {
-  /** Creates a new SetClawIntake. */
-  public SetClawIntake() {
-    // Use addRequirements() here to declare subsystem dependencies.
+public class SetClawIntakeAlgae extends Command {
+
+  public SetClawIntakeAlgae() {
+    addRequirements(RobotContainer.claw);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if (!RobotContainer.claw.isIntakeDeactivated()) {
+      RobotContainer.claw.setState(ClawState.ALGAE);
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -23,7 +29,14 @@ public class SetClawIntake extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    if (!RobotContainer.claw.isIntakeDeactivated()) {
+      RobotContainer.claw.setState(ClawState.IDLE);
+    }
+    else {
+      RobotContainer.claw.setState(ClawState.PASSIVE);
+    }
+  }
 
   // Returns true when the command should end.
   @Override

@@ -6,19 +6,21 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Wrist.WristState;
+import frc.robot.subsystems.Claw.ClawState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class SetWristManualOverride extends Command {
-  /** Creates a new SetWristManualOverride. */
-  public SetWristManualOverride() {
-    // Use addRequirements() here to declare subsystem dependencies.
+public class SetClawIntakeCoral extends Command {
+
+  public SetClawIntakeCoral() {
+    addRequirements(RobotContainer.claw);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.wrist.setState(WristState.MANUAL);
+    if (!RobotContainer.claw.isIntakeDeactivated()) {
+      RobotContainer.claw.setState(ClawState.CORAL);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -28,7 +30,12 @@ public class SetWristManualOverride extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.wrist.setState(WristState.IDLE);
+    if (!RobotContainer.claw.isIntakeDeactivated()) {
+      RobotContainer.claw.setState(ClawState.IDLE);
+    }
+    else {
+      RobotContainer.claw.setState(ClawState.PASSIVE);
+    }
   }
 
   // Returns true when the command should end.

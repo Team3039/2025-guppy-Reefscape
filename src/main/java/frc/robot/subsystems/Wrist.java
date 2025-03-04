@@ -12,13 +12,18 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.revrobotics.AbsoluteEncoder;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DutyCycle;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.generated.TunerConstants;
+import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 public class Wrist extends SubsystemBase {
 
@@ -32,6 +37,8 @@ public class Wrist extends SubsystemBase {
   public WristState wristState = WristState.IDLE;
 
   public TalonFX wrist = new TalonFX(TunerConstants.WRIST);
+
+  public DutyCycleEncoder wristEncoder = new DutyCycleEncoder(TunerConstants.WRIST_ENCODER);
 
   public PIDController controller = new PIDController(
     TunerConstants.WristPID.WRIST_KP,
@@ -99,10 +106,10 @@ public class Wrist extends SubsystemBase {
   }
 
   public double getWristPosition() {
-    return ticksToDegrees(wrist.getPosition().getValueAsDouble());
+    return ticksToDegrees(wristEncoder.get());
   }
 
-	public boolean isAtSetpoint(boolean isProfiled, double tolerance) {
+	public boolean isAtSetpoint(double tolerance) {
 		return Math.abs((setpointWrist - ticksToDegrees(getWristPosition()))) <= tolerance;
 	}
 
@@ -116,17 +123,10 @@ public class Wrist extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // SmartDashboard.putNumber("Wrist Absolute Encoder",
-    // wrist.getSelectedSensorPosition());
-    // System.out.println(ticksToDegrees(wrist.getSelectedSensorPosition()));
-    // System.out.println(wrist.getMotorOutputPercent());
-    // SmartDashboard.putNumber("Wrist Currnent Input", wrist.getSupplyCurrent());
-    // SmartDashboard.putNumber("Wrist Current Output", wrist.getStatorCurrent());
-    // System.out.println(setpointWrist);
-    SmartDashboard.putNumber("Wrist Angle", getWristPosition());
-    // SmartDashboard.putString("Wrist State", String.valueOf(getState()));
-    // SmartDashboard.putNumber("Wrist Offset", getWristOffset());
-    // SmartDashboard.putNumber("Wrist Setpoint", getSetpoint());
+    SmartDashboard.putNumber("Wrist Angle", wristEncoder.get());
+    SmartDashboard.putNumber("Wrist Encoder", wristEncoder.get());
+    SmartDashboard.putString("Wrist State", String.valueOf(getState()));
+    SmartDashboard.putNumber("Wrist Setpoint", getSetpoint());
     idleSetpoint = getState().equals(WristState.IDLE) ? idleSetpoint : setpointWrist;
     
     switch (wristState) {
@@ -135,7 +135,7 @@ public class Wrist extends SubsystemBase {
         setWristPosition();
         break;
       case MANUAL:
-        setWristPercent(RobotContainer.operatorPad.getRightY());
+        setWristPercent(RobotContainer.operatorPad.getRightY() * 0.2);
         break;
       case PASSIVE:
         break;

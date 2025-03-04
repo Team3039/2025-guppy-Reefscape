@@ -99,7 +99,7 @@ public class TunerConstants {
     private static final Voltage kSteerFrictionVoltage = Volts.of(0.2);
     private static final Voltage kDriveFrictionVoltage = Volts.of(0.2);
 
-    private static final int kPigeonId = 15;
+    private static final int kPigeonId = 12;
 
 
     public static final SwerveDrivetrainConstants DrivetrainConstants = new SwerveDrivetrainConstants()
@@ -129,15 +129,6 @@ public class TunerConstants {
             .withDriveInertia(kDriveInertia)
             .withSteerFrictionVoltage(kSteerFrictionVoltage)
             .withDriveFrictionVoltage(kDriveFrictionVoltage);
-
-
-
-
-
-
-
-
-
 
     public static final double MaxAngularRate = 1.0; // define the MaxAngularRate constant
 
@@ -190,14 +181,17 @@ public class TunerConstants {
     private static final Distance kBackRightXPos = Inches.of(-10.75);
     private static final Distance kBackRightYPos = Inches.of(-10.75);
 
-    // Other ids  
-    public static final int CANrange = 11;
-    public static final int CLAW = 12;
-    public static final int WRIST= 13;
-    public static final int ELEVATOR= 14;
-    public static final int SHOULDER= 15; // <---- those who know
+    // Other CAN IDs 
+    public static final int CANrange = 17;
+    public static final int CLAW = 15;
+    public static final int WRIST = 13;
+    public static final int ELEVATOR = 14;
+   // public static final int SHOULDER = 15; // <---- those who know
     public static final int CLIMB = 16;
    // private static final int kPigeonId = 15;
+
+   // DIO Ports
+    public static final int WRIST_ENCODER = 9;
 
 
    
@@ -224,7 +218,6 @@ public class TunerConstants {
             kBackRightSteerMotorId, kBackRightDriveMotorId, kBackRightEncoderId, kBackRightEncoderOffset,
             kBackRightXPos, kBackRightYPos, kInvertRightSide, kBackRightSteerMotorInverted, kBackRightEncoderInverted
         );
-
 
     /**
      * Creates a CommandSwerveDrivetrain instance.
@@ -333,6 +326,7 @@ public class TunerConstants {
         public static final double WRIST_MAX_VEL = 0;
         public static final double WRIST_MAX_ACCEL = 0;
     }
+
     public static final class ElevatorPID {
         public static final double ELEVATOR_KP = 0.000;
         public static final double ELEVATOR_KI = 0;
