@@ -1,0 +1,73 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.029814189189189,
+        "y": 2.789780405405405
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.737246621621621,
+        "y": 0.8529560810810799
+      },
+      "isLocked": false,
+      "linkedName": "GP1"
+    },
+    {
+      "anchor": {
+        "x": 1.5711993243243243,
+        "y": 0.734375
+      },
+      "prevControl": {
+        "x": 2.5826473987391436,
+        "y": 1.3153114253822569
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "GP2"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 49.857623079905544
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.22656250000000092,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 1.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 52.206057001383215
+  },
+  "reversed": false,
+  "folder": "the good pipe layer",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 121.21840276434644
+  },
+  "useDefaultConstraints": true
+}

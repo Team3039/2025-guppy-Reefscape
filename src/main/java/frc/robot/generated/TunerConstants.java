@@ -327,14 +327,14 @@ public class TunerConstants {
         public static final double WRIST_MAX_VEL = 0;
         public static final double WRIST_MAX_ACCEL = 0;
 
-        public static final double WRIST_OFFSET = 120;
+        public static final double WRIST_OFFSET = -148;
     }
 
     public static final class Elevator {
         public static final double ELEVATOR_KP = 0.000;
         public static final double ELEVATOR_KI = 0;
         public static final double ELEVATOR_KD = 0;
-        public static final double ELEVATOR_KS = 0;
+        public static final double ELEVATOR_KS = -0.04;
         public static final double ELEVATOR_KG = 0;
         public static final double ELEVATOR_KV = 0;
         public static final double ELEVATOR_MAX_VEL = 0;

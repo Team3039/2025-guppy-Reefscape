@@ -3,37 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.388948863636363,
-        "y": 0.5399289772727275
+        "x": 1.6601351351351352,
+        "y": 7.3353885135135135
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.76925635448956,
-        "y": 1.6121953536152223
+        "x": 2.22425417967487,
+        "y": 6.838267607683652
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Pipe 2"
     },
     {
       "anchor": {
-        "x": 5.039695945945946,
-        "y": 2.7502533783783782
+        "x": 3.9131756756756757,
+        "y": 5.279983108108109
       },
       "prevControl": {
-        "x": 5.3044034419701145,
-        "y": 2.627798984143892
+        "x": 3.498038067916233,
+        "y": 5.6306223093302
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "pipe 3"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 128.03031444806706
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -47,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 120.4322840842169
+    "rotation": -57.65255650055802
   },
   "reversed": false,
-  "folder": "test paths",
+  "folder": "The piper",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -54.582944723532584
   },
   "useDefaultConstraints": true
 }

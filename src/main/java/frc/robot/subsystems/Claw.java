@@ -169,7 +169,7 @@ public class Claw extends SubsystemBase {
       // In the release state, the claw will spin forwards to release the gamepiece
       //  and will release the deactivation lock
       case RELEASE:
-        setWheelSpeed(0.7);
+        setWheelSpeed(-0.7);
         hasAlgae = false;
         hasCoral = false;
         break;

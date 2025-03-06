@@ -1,0 +1,68 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.316385135142252,
+        "y": 5.062584459452276
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.2412162162162166,
+        "y": 6.880827702702703
+      },
+      "isLocked": false,
+      "linkedName": "Pipe 1"
+    },
+    {
+      "anchor": {
+        "x": 1.6601351351351352,
+        "y": 7.3353885135135135
+      },
+      "prevControl": {
+        "x": 3.2214527027027025,
+        "y": 6.880827702702702
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Pipe 2"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.24392361111111077,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 1.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -54.582944723532584
+  },
+  "reversed": false,
+  "folder": "The piper",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -121.07165806084637
+  },
+  "useDefaultConstraints": true
+}

@@ -51,10 +51,10 @@ public class Elevator extends SubsystemBase {
 		TalonFXConfiguration config = new TalonFXConfiguration();
 
 		// Soft Limits
-		config.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+		config.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
 		config.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-		config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 0;	
-		config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0;	
+		config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = -.3;	
+		config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = -46;	
 
 		// Inverted and Neutral Modes
 		config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
@@ -93,9 +93,9 @@ public class Elevator extends SubsystemBase {
     */
     public void setElevatorPosition() {
         double output = 0;
-        output = controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator) + 
+        output = MathUtil.clamp(controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator), -.3, .3) + 
 			TunerConstants.Elevator.ELEVATOR_KS;
-        elavator.set(MathUtil.clamp(output, -.3, .3));
+        elavator.set(output);
 	}
 
 	/**
@@ -115,7 +115,6 @@ public class Elevator extends SubsystemBase {
     public double getElevatorPosition() {
         return elavator.getPosition().getValueAsDouble();
     }
-
 
 	/**
 	 * Get the current setpoint of the elevator
@@ -148,7 +147,7 @@ public class Elevator extends SubsystemBase {
     @Override
     public void periodic() {
 		SmartDashboard.putNumber("Elevator Encoder", getElevatorPosition());
-		SmartDashboard.putNumber("Elevator Output", RobotContainer.driverPad.getLeftY());
+		SmartDashboard.putNumber("Elevator Output", RobotContainer.operatorPad.getLeftY()* 0.3);
 		SmartDashboard.putNumber("Elevator Output Current", elavator.getSupplyCurrent().getValueAsDouble());
 		SmartDashboard.putString("Elevator State", String.valueOf(getState()));
 		SmartDashboard.putNumber("Elevator Setpoint", getSetpoint());
@@ -159,17 +158,17 @@ public class Elevator extends SubsystemBase {
 			// In the Idle state, the elevator rests at the bottom of the robot
 			case IDLE:
 				setSetpoint(0);
-				// setElevatorClosedLoop();
+				setElevatorPosition();
 				break;
 
 			// In the Manual state, the elevator is controlled directly by the operator
 			case MANUAL:
-				setElevatorPercent(RobotContainer.driverPad.getLeftY() * 0.3);
+				setElevatorPercent(RobotContainer.operatorPad.getLeftY() * 0.3);
 				break;
 
 			// In the Position state, the elevator is controlled by the setpoint
 			case POSITION:
-				// setElevatorClosedLoop();
+				setElevatorPosition();
 				break;
 		}
 	}

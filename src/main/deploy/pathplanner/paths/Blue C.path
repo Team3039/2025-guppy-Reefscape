@@ -48,7 +48,7 @@
   "folder": "BLUE PATHFINDING",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 52.61854648756896
+    "rotation": 52.61854648756897
   },
   "useDefaultConstraints": true
 }

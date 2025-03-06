@@ -11,12 +11,17 @@ import static edu.wpi.first.units.Units.RotationsPerSecond;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.SetClawIntakeAlgae;
 import frc.robot.commands.SetClawIntakeCoral;
+import frc.robot.commands.SetClawRelease;
 import frc.robot.commands.SetElevatorManualOverride;
 import frc.robot.commands.SetWristManualOverride;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL2;
@@ -65,7 +70,7 @@ public class RobotContainer {
 
 
 
-        // SmartDashboard.putData("Auto Mode", autoChooser);
+        //  SmartDashboard.putData("Auto Mode", autoChooser);
 
         configureBindings();
     }
@@ -110,9 +115,10 @@ public class RobotContainer {
         operatorPad.povLeft().toggleOnTrue(new SetElevatorManualOverride());
         operatorPad.povRight().toggleOnTrue(new SetWristManualOverride());
 
-        // Intaking
+        // Intaking Coral and Algae
         operatorPad.leftTrigger().whileTrue(new SetClawIntakeCoral());
         operatorPad.leftBumper().whileTrue(new SetClawIntakeAlgae());
+        operatorPad.rightBumper().whileTrue(new SetClawRelease());
 
         // Scoring Coral
         // operatorPad.povDown().onTrue(new ScoreCoralTrough());
@@ -121,9 +127,9 @@ public class RobotContainer {
         // operatorPad.povUp().onTrue(new ScoreCoralL4());
     }
 
-     public Command getAutonomousCommand() {
-        /* Run the path selected from the auto chooser */
-        // return autoChooser.getSelected();
-        return null;
-    }
+    //  public Command getAutonomousCommand() {
+    //     //  Run the path selected from the auto chooser 
+    //      return autoChooser.getSelected();
+        
+    // }
 }

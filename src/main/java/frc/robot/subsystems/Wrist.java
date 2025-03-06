@@ -71,7 +71,6 @@ public class Wrist extends SubsystemBase {
 		wrist.getConfigurator().apply(config);
 
     // Have Wrist Encoder Output in degrees
-    wristEncoder.setDutyCycleRange(0, 360);
   }
 
   /** Obtain the current state of the wrist 
@@ -152,7 +151,7 @@ public class Wrist extends SubsystemBase {
    * @return the current angle of the wrist in degrees
    */
   public double getWristPosition() {
-    return wristEncoder.get() + TunerConstants.Wrist.WRIST_OFFSET;
+    return (wristEncoder.get() * 360) + TunerConstants.Wrist.WRIST_OFFSET;
   }
 
   /**
@@ -168,7 +167,6 @@ public class Wrist extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Wrist Angle", getWristPosition());
-    SmartDashboard.putNumber("Wrist Encoder", wristEncoder.get());
     SmartDashboard.putString("Wrist State", String.valueOf(getState()));
     SmartDashboard.putNumber("Wrist Setpoint", getSetpoint());
     SmartDashboard.putNumber("Wrist Output", RobotContainer.operatorPad.getRightY());
