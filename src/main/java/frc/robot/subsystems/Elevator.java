@@ -57,7 +57,7 @@ public class Elevator extends SubsystemBase {
 		config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = -46;	
 
 		// Inverted and Neutral Modes
-		config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+		// config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 		config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
 		// Apply the configurator to the elevator motor
@@ -113,7 +113,7 @@ public class Elevator extends SubsystemBase {
      * @return the current angle of the wrist in kraken ticks
     */
     public double getElevatorPosition() {
-        return elavator.getPosition().getValueAsDouble();
+        return elavator.getPosition().getValueAsDouble()*-1;
     }
 
 	/**

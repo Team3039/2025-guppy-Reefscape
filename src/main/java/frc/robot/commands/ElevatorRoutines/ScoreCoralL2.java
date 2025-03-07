@@ -5,8 +5,10 @@
 package frc.robot.commands.ElevatorRoutines;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RobotContainer;
 import frc.robot.commands.ActuateElevatorToSetpoint;
 import frc.robot.commands.ActuateWristToSetpoint;
+import frc.robot.subsystems.Elevator.ElevatorState;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -16,9 +18,11 @@ public class ScoreCoralL2 extends SequentialCommandGroup {
   public ScoreCoralL2() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+
+
     addCommands(
-      new ActuateWristToSetpoint(30, 10),
-      new ActuateElevatorToSetpoint(30, 5)
+      new ActuateWristToSetpoint(80, 10),
+      new ActuateElevatorToSetpoint(10, 5)
     );
   }
 }

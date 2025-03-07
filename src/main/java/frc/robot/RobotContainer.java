@@ -116,15 +116,15 @@ public class RobotContainer {
         operatorPad.povRight().toggleOnTrue(new SetWristManualOverride());
 
         // Intaking Coral and Algae
-        operatorPad.leftTrigger().whileTrue(new SetClawIntakeCoral());
+        operatorPad.b().whileTrue(new SetClawIntakeCoral());
         operatorPad.leftBumper().whileTrue(new SetClawIntakeAlgae());
         operatorPad.rightBumper().whileTrue(new SetClawRelease());
-
+        
         // Scoring Coral
-        // operatorPad.povDown().onTrue(new ScoreCoralTrough());
+        operatorPad.povDown().onTrue(new ScoreCoralTrough());
         // operatorPad.povRight().onTrue(new ScoreCoralL2());
         // operatorPad.povLeft().onTrue(new ScoreCoralL3());
-        // operatorPad.povUp().onTrue(new ScoreCoralL4());
+        operatorPad.povUp().onTrue(new ScoreCoralL4());
     }
 
     //  public Command getAutonomousCommand() {

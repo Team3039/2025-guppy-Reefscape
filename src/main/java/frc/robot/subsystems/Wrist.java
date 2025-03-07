@@ -60,8 +60,8 @@ public class Wrist extends SubsystemBase {
     // Soft Limits
 		config.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
 		config.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
-		config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 0;	
-		config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0;	
+		config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 90;	
+		config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 150;	
 
     // Inverted and Neutral Mode
 		config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
