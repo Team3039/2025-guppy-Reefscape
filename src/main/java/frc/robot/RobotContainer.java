@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.ActuateElevatorToSetpoint;
 import frc.robot.commands.SetClawIntakeAlgae;
 import frc.robot.commands.SetClawIntakeCoral;
 import frc.robot.commands.SetClawRelease;
@@ -124,7 +125,7 @@ public class RobotContainer {
         operatorPad.povDown().onTrue(new ScoreCoralTrough());
         // operatorPad.povRight().onTrue(new ScoreCoralL2());
         // operatorPad.povLeft().onTrue(new ScoreCoralL3());
-        operatorPad.povUp().onTrue(new ScoreCoralL4());
+        operatorPad.povUp().onTrue(new ActuateElevatorToSetpoint( 15, 5));
     }
 
     //  public Command getAutonomousCommand() {

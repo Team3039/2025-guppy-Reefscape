@@ -29,7 +29,10 @@ public class ActuateElevatorToSetpoint extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    Elevator.setSetpoint(setpoint);
+    RobotContainer.elevator.setState(ElevatorState.POSITION);
+  }
 
   // Called once the command ends or is interrupted.
   @Override

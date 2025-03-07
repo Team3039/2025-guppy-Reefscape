@@ -22,10 +22,9 @@ public class ScoreCoralL4 extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand())
 
     addCommands(
-      new ActuateWristToSetpoint(114, 5),
+      // new ActuateWristToSetpoint(138, 5),
       new ActuateElevatorToSetpoint( 15, 5)
     );
 
-    RobotContainer.elevator.setState(ElevatorState.POSITION);
   }
 }

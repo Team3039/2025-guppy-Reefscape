@@ -58,7 +58,7 @@ public class Wrist extends SubsystemBase {
     TalonFXConfiguration config = new TalonFXConfiguration();
 
     // Soft Limits
-		config.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+		config.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
 		config.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
 		config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 135;	
 		config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 150;	
