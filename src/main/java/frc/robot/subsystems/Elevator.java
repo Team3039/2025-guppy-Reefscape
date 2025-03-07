@@ -157,7 +157,7 @@ public class Elevator extends SubsystemBase {
 
 			// In the Idle state, the elevator rests at the bottom of the robot
 			case IDLE:
-				setSetpoint(0);
+				setSetpoint(.5);
 				setElevatorPosition();
 				break;
 

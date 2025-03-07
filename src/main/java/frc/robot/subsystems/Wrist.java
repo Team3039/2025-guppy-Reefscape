@@ -58,9 +58,9 @@ public class Wrist extends SubsystemBase {
     TalonFXConfiguration config = new TalonFXConfiguration();
 
     // Soft Limits
-		config.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+		config.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
 		config.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
-		config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 90;	
+		config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 135;	
 		config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 150;	
 
     // Inverted and Neutral Mode
@@ -178,7 +178,7 @@ public class Wrist extends SubsystemBase {
       
       // In the idle state, the wrist rests within the robot
       case IDLE:
-        setSetpoint(90);
+        setSetpoint(130);
         // setWristPosition();
         break;
 
@@ -192,7 +192,7 @@ public class Wrist extends SubsystemBase {
 
       // In the position state, the wrist is controlled by the setpoint
       case POSITION:
-        // setWristPosition();
+         setWristPosition();
         break;
       default:
         break;

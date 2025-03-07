@@ -17,8 +17,8 @@ public class ScoreCoralTrough extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ActuateWristToSetpoint(15, 10),
-      new ActuateElevatorToSetpoint(15, 5)
+      // new ActuateWristToSetpoint(140, 5),
+      new ActuateElevatorToSetpoint(10, 5)
     );
   }
 }
