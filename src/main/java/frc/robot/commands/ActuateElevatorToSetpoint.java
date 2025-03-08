@@ -12,7 +12,7 @@ import frc.robot.subsystems.Elevator.ElevatorState;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ActuateElevatorToSetpoint extends Command {
 
-  double setpoint = 0;
+  double setpoint = 10;
   double tolerance = 0;
   public ActuateElevatorToSetpoint(double setpoint, double tolerance) {
     addRequirements(RobotContainer.elevator);
@@ -30,8 +30,6 @@ public class ActuateElevatorToSetpoint extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Elevator.setSetpoint(setpoint);
-    RobotContainer.elevator.setState(ElevatorState.POSITION);
   }
 
   // Called once the command ends or is interrupted.

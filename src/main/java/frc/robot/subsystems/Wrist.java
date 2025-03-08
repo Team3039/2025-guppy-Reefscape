@@ -102,10 +102,8 @@ public class Wrist extends SubsystemBase {
    */
   public void setWristPosition() {
     double output = 0;
-    output = MathUtil.clamp(controller.calculate(getWristPosition(), setpointWrist), -.2, .2) + 
-      (Math.cos(Math.toRadians(getWristPosition()))) * TunerConstants.Wrist.WRIST_KG +
-      TunerConstants.Wrist.WRIST_KS;
-    wrist.set(output);
+    output = MathUtil.clamp(controller.calculate(getWristPosition(), setpointWrist), -.2, .2);
+    setWristPercent(output*-1);
   }
 
   /**
@@ -122,9 +120,36 @@ public class Wrist extends SubsystemBase {
    * @param percent the percent output to set the wrist to
    */
   public void setWristPercent(double percent) {
-    wrist.set(percent +
-        Math.cos(Math.toRadians(getWristPosition())) * TunerConstants.Wrist.WRIST_KG +
-        TunerConstants.Wrist.WRIST_KS);
+    double output = 0;
+
+
+    
+
+
+    output = percent +
+    Math.cos(Math.toRadians(getWristPosition() + TunerConstants.Wrist.WRIST_COG_OFFSET )) * TunerConstants.Wrist.Coral_WRIST_KG +
+    TunerConstants.Wrist.Coral_WRIST_KS;
+
+    if(getWristPosition() > 156 && output < 0 ) output = 0 ;
+
+    
+    if(getWristPosition() < 36 && output > 0 ) output = 0 ;
+
+    wrist.set(output) ;
+
+
+// if(RobotContainer.claw.hasCoral)
+
+
+
+  // wrist.set(percent +
+  //       Math.cos(Math.toRadians(getWristPosition() + TunerConstants.Wrist.WRIST_COG_OFFSET )) * TunerConstants.Wrist.Coral_WRIST_KG +
+  //       TunerConstants.Wrist.Coral_WRIST_KS );}
+// }
+// else{
+//     // wrist.set(percent +
+//     //      Math.cos(Math.toRadians(getWristPosition()  + TunerConstants.Wrist.WRIST_COG_OFFSET)) * TunerConstants.Wrist.WRIST_KG +
+//     //     TunerConstants.Wrist.WRIST_KS );}
   }
 
   /**
@@ -156,20 +181,20 @@ public class Wrist extends SubsystemBase {
 
   /**
    * Check if the wrist is at the setpoint within a given tolerance
-   * 
+   * heres the thing
    * @param tolerance the tolerance to check if the wrist is at the setpoint
    * @return true if the wrist is at the setpoint within the tolerance, false otherwise
    */
 	public boolean isAtSetpoint(double tolerance) {
 		return Math.abs((setpointWrist - getWristPosition())) <= tolerance;
 	}
-
+//the thing goes thing a thing thing
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Wrist Angle", getWristPosition());
     SmartDashboard.putString("Wrist State", String.valueOf(getState()));
     SmartDashboard.putNumber("Wrist Setpoint", getSetpoint());
-    SmartDashboard.putNumber("Wrist Output", RobotContainer.operatorPad.getRightY());
+    SmartDashboard.putNumber("Wrist Output", wrist.get());
     
     idleSetpoint = getState().equals(WristState.IDLE) ? idleSetpoint : setpointWrist;
     
@@ -178,8 +203,8 @@ public class Wrist extends SubsystemBase {
       
       // In the idle state, the wrist rests within the robot
       case IDLE:
-        setSetpoint(130);
-        // setWristPosition();
+        setSetpoint(140);
+         setWristPosition();
         break;
 
       // In the manual state, the wrist is controlled directly by the operator

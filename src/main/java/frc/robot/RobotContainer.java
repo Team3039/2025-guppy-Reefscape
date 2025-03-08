@@ -60,8 +60,6 @@ public class RobotContainer {
     public static final Wrist wrist = new Wrist();
     public static final Claw claw = new Claw();
 
-// MAKE THE ELAVATOR WIRES 12FT LONG (Young told someone to write it down)
-
 
     /* Path follower */
     // private final SendableChooser<Command> autoChooser;
@@ -117,20 +115,21 @@ public class RobotContainer {
         operatorPad.povRight().toggleOnTrue(new SetWristManualOverride());
 
         // Intaking Coral and Algae
-        operatorPad.b().whileTrue(new SetClawIntakeCoral());
+        // operatorPad.b().whileTrue(new SetClawIntakeCoral());
         operatorPad.leftBumper().whileTrue(new SetClawIntakeAlgae());
         operatorPad.rightBumper().whileTrue(new SetClawRelease());
         
         // Scoring Coral
-        operatorPad.povDown().onTrue(new ScoreCoralTrough());
-        // operatorPad.povRight().onTrue(new ScoreCoralL2());
-        // operatorPad.povLeft().onTrue(new ScoreCoralL3());
-        operatorPad.povUp().onTrue(new ActuateElevatorToSetpoint( 15, 5));
-    }
+    //     operatorPad.povDown().onTrue(new ScoreCoralTrough());
+        operatorPad.povUp().onTrue(new ScoreCoralL2());
+    //     operatorPad.povRight().onTrue(new ScoreCoralL3());
+    //     operatorPad.povUp().onTrue(new ScoreCoralL4());
+    // }
 
     //  public Command getAutonomousCommand() {
     //     //  Run the path selected from the auto chooser 
     //      return autoChooser.getSelected();
         
     // }
+}
 }

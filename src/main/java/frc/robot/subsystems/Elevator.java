@@ -26,7 +26,8 @@ public class Elevator extends SubsystemBase {
 	public enum ElevatorState {
 		IDLE,
 		MANUAL,
-		POSITION
+		POSITION,
+
 	}
 
 	// Create a variable to store the current state of the elevator
@@ -53,7 +54,7 @@ public class Elevator extends SubsystemBase {
 		// Soft Limits
 		config.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
 		config.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-		config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = -.3;	
+		config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 0;	
 		config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = -46;	
 
 		// Inverted and Neutral Modes
@@ -93,9 +94,11 @@ public class Elevator extends SubsystemBase {
     */
     public void setElevatorPosition() {
         double output = 0;
-        output = MathUtil.clamp(controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator), -.3, .3) + 
+        output = MathUtil.clamp(controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator * -1), -.3, .15)  + 
 			TunerConstants.Elevator.ELEVATOR_KS;
         elavator.set(output);
+
+
 	}
 
 	/**
@@ -147,7 +150,7 @@ public class Elevator extends SubsystemBase {
     @Override
     public void periodic() {
 		SmartDashboard.putNumber("Elevator Encoder", getElevatorPosition());
-		SmartDashboard.putNumber("Elevator Output", RobotContainer.operatorPad.getLeftY()* 0.3);
+		SmartDashboard.putNumber("Elevator Output", elavator.get());
 		SmartDashboard.putNumber("Elevator Output Current", elavator.getSupplyCurrent().getValueAsDouble());
 		SmartDashboard.putString("Elevator State", String.valueOf(getState()));
 		SmartDashboard.putNumber("Elevator Setpoint", getSetpoint());
@@ -157,9 +160,10 @@ public class Elevator extends SubsystemBase {
 
 			// In the Idle state, the elevator rests at the bottom of the robot
 			case IDLE:
-				setSetpoint(.5);
+				setSetpoint(0);
 				setElevatorPosition();
 				break;
+
 
 			// In the Manual state, the elevator is controlled directly by the operator
 			case MANUAL:
@@ -173,5 +177,3 @@ public class Elevator extends SubsystemBase {
 		}
 	}
 }
-
-

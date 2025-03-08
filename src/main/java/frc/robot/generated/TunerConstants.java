@@ -316,29 +316,39 @@ public class TunerConstants {
     *   Other Constants
     */
     public static final class Wrist {
-        public static final double WRIST_KP = 0.002;
+        public static final double WRIST_KP = 0.004;
+        public static final double Coral_WRIST_KP = 0.0025;
         public static final double WRIST_KI = 0;
-        public static final double WRIST_KD = 0;
-        public static final double WRIST_KS = -0.025;
-        public static final double WRIST_KG = -0.032;
+        public static final double WRIST_KD = 0.0005;
+        public static final double WRIST_KS = -0;
+        public static final double WRIST_KG = -0;
+        public static final double Coral_WRIST_KS = -0.0;
+        public static final double Coral_WRIST_KG = -0.03;
         public static final double WRIST_KV = 0;
-        public static final double WRIST_MAX_VEL = .1;
+        public static final double WRIST_MAX_VEL = .8;
         public static final double WRIST_MAX_ACCEL = .05;
 
         public static final double WRIST_OFFSET = -148;
+        public static final double WRIST_COG_OFFSET = -39;
+
+
+
     }
 
     public static final class Elevator {
-        public static final double ELEVATOR_KP = 0.02;
+        public static final double ELEVATOR_KP = 0.060;
         public static final double ELEVATOR_KI = 0;
         public static final double ELEVATOR_KD = 0;
         public static final double ELEVATOR_KS = -0.035;
         public static final double ELEVATOR_KG = 0;
         public static final double ELEVATOR_KV = 0;
-        public static final double ELEVATOR_MAX_VEL = 1;
+        public static final double ELEVATOR_MAX_VEL = .1;
         public static final double ELEVATOR_MAX_ACCEL = .5;
     }
+    
+
 }
+
 
 
 
