@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.generated.TunerConstants;
@@ -24,6 +25,7 @@ public class Climb extends SubsystemBase {
   // Create a talonfx for the climb
   TalonFX climb = new TalonFX(TunerConstants.CLIMB);
 
+ 
   // Climb Constructor
   public Climb() {}
 
@@ -50,6 +52,12 @@ public class Climb extends SubsystemBase {
   @Override
   public void periodic() {
     
+
+		SmartDashboard.putString("climbState", String.valueOf(getState()));
+
+
+
+
     // Climb State Machine
     switch (climbState) {
 
@@ -73,3 +81,19 @@ public class Climb extends SubsystemBase {
     climb.getPosition().getValueAsDouble();
   }
 }
+/* 
+
+
+public getClimb 
+\
+public getSetClimb
+
+setClimb []
+
+
+
+
+
+*/ 
+
+

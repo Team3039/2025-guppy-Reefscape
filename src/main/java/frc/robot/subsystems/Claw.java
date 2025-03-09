@@ -62,8 +62,8 @@ public class Claw extends SubsystemBase {
     // Create a CANrange configurator
     CANrangeConfiguration canRangeConfig = new CANrangeConfiguration();
 
-    // canRangeConfig.ProximityParams.ProximityThreshold = 0.08;
-    // canRangeConfig.ProximityParams.ProximityHysteresis = 0.02;
+    canRangeConfig.ProximityParams.ProximityThreshold = 0.08;
+    canRangeConfig.ProximityParams.ProximityHysteresis = 0.02;
 
   }
 
@@ -112,6 +112,10 @@ public class Claw extends SubsystemBase {
    * 
    * @return true if the claw is aligned with the branch, false otherwise
    */
+  public boolean isCoralIn() {
+    return coralCANRange.getDistance().getValueAsDouble() < 0.2;
+  }
+
   public boolean isBranchDetected() {
     return branchCANRange.getDistance().getValueAsDouble() < 0.5;
   }
@@ -121,6 +125,7 @@ public class Claw extends SubsystemBase {
     SmartDashboard.putNumber("CanRange Distance Detected", coralCANRange.getDistance().getValueAsDouble());
     SmartDashboard.putNumber("Claw Current", claw.getSupplyCurrent().getValueAsDouble());
     SmartDashboard.putString("Claw State", String.valueOf(getState()));
+    SmartDashboard.putBoolean("Has Coral", isCoralIn());
 
     SmartDashboard.putBoolean("Aligned With Branch", isBranchDetected());
 
@@ -162,7 +167,7 @@ public class Claw extends SubsystemBase {
           hasAlgae = true;
         }
         else if (!hasGamepiece()) {
-          setWheelSpeed(0.1);
+          setWheelSpeed(-0.1);
         }
         break;
 
