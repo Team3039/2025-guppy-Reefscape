@@ -149,31 +149,13 @@ public class Elevator extends SubsystemBase {
 
     @Override
     public void periodic() {
+		// telemetry
 		SmartDashboard.putNumber("Elevator Encoder", getElevatorPosition());
 		SmartDashboard.putNumber("Elevator Output", elavator.get());
 		SmartDashboard.putNumber("Elevator Output Current", elavator.getSupplyCurrent().getValueAsDouble());
 		SmartDashboard.putString("Elevator State", String.valueOf(getState()));
 		SmartDashboard.putNumber("Elevator Setpoint", getSetpoint());
-
-		// Elevator State Machine
-		switch (elevatorState) {
-
-			// In the Idle state, the elevator rests at the bottom of the robot
-			case IDLE:
-				setSetpoint(0);
-				setElevatorPosition();
-				break;
-
-
-			// In the Manual state, the elevator is controlled directly by the operator
-			case MANUAL:
-				setElevatorPercent(RobotContainer.operatorPad.getLeftY() * 0.3);
-				break;
-
-			// In the Position state, the elevator is controlled by the setpoint
-			case POSITION:
-				setElevatorPosition();
-				break;
-		}
+		
+		// state machine lives in ElevatorStateMachineCommand
 	}
 }

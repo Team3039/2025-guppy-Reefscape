@@ -68,4 +68,8 @@ public class Climb extends SubsystemBase {
         break;
     }
   }
+
+  public void getClimbPosition() {
+    climb.getPosition().getValueAsDouble();
+  }
 }

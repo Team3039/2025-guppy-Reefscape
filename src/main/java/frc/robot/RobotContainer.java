@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.ActuateElevatorToSetpoint;
+import frc.robot.commands.ElevatorStateMachineCommand;
 import frc.robot.commands.SetClawIntakeAlgae;
 import frc.robot.commands.SetClawIntakeCoral;
 import frc.robot.commands.SetClawRelease;
@@ -56,7 +57,11 @@ public class RobotContainer {
 
 
     public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
+    // elevator
     public static final Elevator elevator = new Elevator();
+    ElevatorStateMachineCommand elevatorStateMachine = new ElevatorStateMachineCommand(elevator);
+
     public static final Wrist wrist = new Wrist();
     public static final Claw claw = new Claw();
 
@@ -72,6 +77,7 @@ public class RobotContainer {
         //  SmartDashboard.putData("Auto Mode", autoChooser);
 
         configureBindings();
+        configureElevatorCommands();
     }
 
     private void configureBindings() {
@@ -111,7 +117,7 @@ public class RobotContainer {
         drivetrain.registerTelemetry(logger::telemeterize);
 
         // Overrides
-        operatorPad.povLeft().toggleOnTrue(new SetElevatorManualOverride());
+        // elevator bindings now configureElevatorBindings
         operatorPad.povRight().toggleOnTrue(new SetWristManualOverride());
 
         // Intaking Coral and Algae
@@ -132,4 +138,22 @@ public class RobotContainer {
         
     // }
 }
+
+    private void configureElevatorCommands() {
+        elevatorStateMachine = new ElevatorStateMachineCommand(elevator);
+        
+        // default command is to determine state machine
+        elevator.setDefaultCommand(elevatorStateMachine);
+        
+        // add any additional elevator-related commands
+        // for example manual override commands
+
+        // configure key bindings for the elevator
+        configureElevatorBindings();
+    }
+
+    private void configureElevatorBindings(){
+        operatorPad.povLeft().toggleOnTrue(new SetElevatorManualOverride());
+    }
+
 }
