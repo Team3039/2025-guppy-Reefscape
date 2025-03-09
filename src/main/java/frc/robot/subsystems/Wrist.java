@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Elevator.ElevatorState;
 
 /**
  * The Wrist subsystem is responsible for controlling the wrist of the robot.
@@ -88,6 +89,7 @@ public class Wrist extends SubsystemBase {
   public void setState(WristState state) {
     wristState = state;
   }
+
 
   /**
    * Set the position of the wrist to setpointWrist using PID and Feedforward.

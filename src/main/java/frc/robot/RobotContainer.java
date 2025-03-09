@@ -23,6 +23,7 @@ import frc.robot.commands.ActuateElevatorToSetpoint;
 import frc.robot.commands.SetClawIntakeAlgae;
 import frc.robot.commands.SetClawIntakeCoral;
 import frc.robot.commands.SetClawRelease;
+import frc.robot.commands.SetClimbManualOverride;
 import frc.robot.commands.SetElevatorManualOverride;
 import frc.robot.commands.SetWristManualOverride;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL2;
@@ -31,6 +32,7 @@ import frc.robot.commands.ElevatorRoutines.ScoreCoralL4;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralTrough;
 import frc.robot.generated.TunerConstants;
 
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
@@ -59,6 +61,7 @@ public class RobotContainer {
     public static final Elevator elevator = new Elevator();
     public static final Wrist wrist = new Wrist();
     public static final Claw claw = new Claw();
+    public static final Climb climb = new Climb();
 
 
     /* Path follower */
@@ -110,18 +113,21 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        // Overrides
-        operatorPad.povLeft().toggleOnTrue(new SetElevatorManualOverride());
-        operatorPad.povRight().toggleOnTrue(new SetWristManualOverride());
+        // // Overrides
+        // operatorPad.povLeft().toggleOnTrue(new SetElevatorManualOverride());
+        // operatorPad.povRight().toggleOnTrue(new SetWristManualOverride());
 
         // Intaking Coral and Algae
         // operatorPad.b().whileTrue(new SetClawIntakeCoral());
-        operatorPad.leftBumper().whileTrue(new SetClawIntakeAlgae());
-        operatorPad.rightBumper().whileTrue(new SetClawRelease());
+        operatorPad.a().whileTrue(new SetClawIntakeAlgae());
+        operatorPad.b().whileTrue(new SetClawRelease());
         
+        operatorPad.y().toggleOnTrue(new SetClimbManualOverride());
+
+
         // Scoring Coral
     //     operatorPad.povDown().onTrue(new ScoreCoralTrough());
-        operatorPad.povUp().onTrue(new ScoreCoralL2());
+        // operatorPad.povUp().onTrue(new ScoreCoralL2());
     //     operatorPad.povRight().onTrue(new ScoreCoralL3());
     //     operatorPad.povUp().onTrue(new ScoreCoralL4());
     // }
