@@ -31,6 +31,8 @@ import frc.robot.commands.SetClawRelease;
 import frc.robot.commands.SetClimbManualOverride;
 import frc.robot.commands.SetElevatorManualOverride;
 import frc.robot.commands.SetWristManualOverride;
+import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
+import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL3;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL2;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL3;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL4;
@@ -55,12 +57,20 @@ public RobotContainer() {
     autoChooser = AutoBuilder.buildAutoChooser(); 
     SmartDashboard.putData("Auto Mode", autoChooser);
 
+    //Elevator commands
+    NamedCommands.registerCommand("score L2", new ScoreCoralL2());
     NamedCommands.registerCommand("score L3", new ScoreCoralL3());
+    NamedCommands.registerCommand("score L4", new ScoreCoralL4());
+    NamedCommands.registerCommand("set Wrist/Elevator down ", new ScoreCoralTrough());
+
+    //itake and spit coral 
+    NamedCommands.registerCommand("hwak", new SetClawIntakeCoral());
     NamedCommands.registerCommand("Tuha", new SetClawRelease());
-    NamedCommands.registerCommand("set Wrist/Elevator down ", new SetClawRelease());
 
+
+    //Auto paths                                
     SmartDashboard.putData("Test (Ps 1c)", new PathPlannerAuto("Test (Ps 1c)"));
-
+//                                ^ Name for path in smartdashboard             ^ Name of path in pathplanner
     configureBindings();
 }
     
@@ -170,10 +180,13 @@ public RobotContainer() {
         operatorPad.rightStick().toggleOnTrue(new SetElevatorManualOverride());
         operatorPad.leftStick().toggleOnTrue(new SetWristManualOverride());
 
+        // intake and release
         operatorPad.a().whileTrue(new SetClawIntakeCoral());
         operatorPad.b().whileTrue(new SetClawRelease());
-        
 
+        //clear algae
+        operatorPad.x().whileTrue(new RemoveAlgaeL2());
+        operatorPad.y().whileTrue(new RemoveAlgaeL3());
 
         // Scoring Coral
         operatorPad.povDown().onTrue(new ScoreCoralTrough());
