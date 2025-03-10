@@ -91,7 +91,7 @@ public class Vision extends SubsystemBase {
     }
 
     public static double getRotationToSpeaker() {
-        if (shouldRotateToReef || RobotContainer.driverPad.rightBumper().getAsBoolean()) {
+        if (shouldRotateToReef || RobotContainer.operatorPad.rightBumper().getAsBoolean()) {
             var alliance = DriverStation.getAlliance();
             if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) {
                 desiredReefPose = FrontReefBlue;
@@ -106,7 +106,7 @@ public class Vision extends SubsystemBase {
             rotation = 1.0 * targetAlignment
                     .calculate(RobotContainer.drivetrain.getState().Pose.getRotation().getRadians(), targetYaw);
         } else {
-            rotation = -RobotContainer.driverPad.getRightX() * TunerConstants.MaxAngularRate;
+            rotation = -RobotContainer.operatorPad.getRightX() * TunerConstants.MaxAngularRate;
         }
         return rotation;
     }

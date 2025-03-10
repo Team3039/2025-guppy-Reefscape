@@ -28,6 +28,7 @@ public class Wrist extends SubsystemBase {
     IDLE,
     MANUAL,
     POSITION,
+    CLIMB,
     PASSIVE
   }
 
@@ -211,7 +212,7 @@ public class Wrist extends SubsystemBase {
 
       // In the manual state, the wrist is controlled directly by the operator
       case MANUAL:
-        setWristPercent(RobotContainer.operatorPad.getRightY() * 0.2);
+        setWristPercent(RobotContainer.driverPad.getRightY() * 0.2);
         break;
         
       case PASSIVE:
@@ -223,6 +224,12 @@ public class Wrist extends SubsystemBase {
         break;
       default:
         break;
+
+        case CLIMB:
+        setSetpoint(85);
+        setWristPosition();
+        break;
+        
       
     }
     

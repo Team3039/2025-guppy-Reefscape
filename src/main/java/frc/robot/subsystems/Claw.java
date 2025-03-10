@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,6 +19,7 @@ import frc.robot.RobotContainer;
 import frc.robot.generated.TunerConstants;
 
 public class Claw extends SubsystemBase {
+
 
   // Create the possible states of the claw
   public enum ClawState {
@@ -113,28 +115,29 @@ public class Claw extends SubsystemBase {
    * @return true if the claw is aligned with the branch, false otherwise
    */
   public boolean isCoralIn() {
-    return coralCANRange.getDistance().getValueAsDouble() < 0.2;
+    return coralCANRange.getDistance().getValueAsDouble() < 0.15 ;
   }
 
   public boolean isBranchDetected() {
-    return branchCANRange.getDistance().getValueAsDouble() < 0.5;
+    return branchCANRange.getDistance().getValueAsDouble() < 0.3 && branchCANRange.getDistance().getValueAsDouble()  >.2 ;
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("CanRange Distance Detected", coralCANRange.getDistance().getValueAsDouble());
+    SmartDashboard.putNumber("CanRange Distance Detected", branchCANRange.getDistance().getValueAsDouble());
     SmartDashboard.putNumber("Claw Current", claw.getSupplyCurrent().getValueAsDouble());
     SmartDashboard.putString("Claw State", String.valueOf(getState()));
     SmartDashboard.putBoolean("Has Coral", isCoralIn());
+    
 
     SmartDashboard.putBoolean("Aligned With Branch", isBranchDetected());
 
     // If the robot is ready to score a coral, rumble the driver controller to indicate this
-    if (isBranchDetected() && Elevator.getSetpoint() > 50 && hasCoral) {
-      RobotContainer.driverPad.setRumble(RumbleType.kBothRumble, 0.4);
+    if (isBranchDetected() && Elevator.getSetpoint() > 8 && hasCoral) {
+      RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 10);
     }
     else {
-      RobotContainer.driverPad.setRumble(RumbleType.kBothRumble, 0); 
+      RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 0); 
     }
 
     // Claw State Machine
@@ -150,25 +153,26 @@ public class Claw extends SubsystemBase {
       // In the coral state, the claw will spin in reverse to intake coral,
       //  deactivating if the coralCANRange detects an object
       case CORAL:
-        if (coralCANRange.getDistance().getValueAsDouble() < 0.08) {
+        if (isCoralIn() ) {
+          Timer.delay(.1);
           setWheelSpeed(0);
           hasCoral = true;
         }
         else if (!hasGamepiece()) {
-          setWheelSpeed(-0.1);
+          setWheelSpeed(-0.4);
         }
         break;
 
       // In the algae state, the claw will spin forwards to intake algae, 
       //  deactivating if the current exceeds 10 amps
       case ALGAE:
-        if (claw.getSupplyCurrent().getValueAsDouble() > 10) {
-          setWheelSpeed(0);
-          hasAlgae = true;
-        }
-        else if (!hasGamepiece()) {
-          setWheelSpeed(-0.1);
-        }
+        // if (claw.getSupplyCurrent().getValueAsDouble() > 10) {
+        //   setWheelSpeed(0);
+        //   hasAlgae = true;
+        // }
+        // else if (!hasGamepiece()) {
+        //   setWheelSpeed(-0.1);
+        // }
         break;
 
       // In the release state, the claw will spin forwards to release the gamepiece

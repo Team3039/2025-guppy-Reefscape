@@ -9,6 +9,7 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Climb.ClimbState;
 import frc.robot.subsystems.Elevator.ElevatorState;
+import frc.robot.subsystems.Wrist.WristState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class SetClimbManualOverride extends Command {
@@ -21,6 +22,10 @@ public class SetClimbManualOverride extends Command {
   @Override
   public void initialize() {
     RobotContainer.climb.setState(ClimbState.CLIMBING);
+    RobotContainer.wrist.setState(WristState.CLIMB);
+
+
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,6 +36,8 @@ public class SetClimbManualOverride extends Command {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.climb.setState(ClimbState.DISABLED);
+    RobotContainer.wrist.setState(WristState.IDLE);
+
   }
 
   // Returns true when the command should end.

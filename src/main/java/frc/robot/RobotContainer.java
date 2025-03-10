@@ -14,10 +14,12 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.ActuateElevatorToSetpoint;
 import frc.robot.commands.SetClawIntakeAlgae;
@@ -30,6 +32,7 @@ import frc.robot.commands.ElevatorRoutines.ScoreCoralL2;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL3;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL4;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralTrough;
+import frc.robot.controllers.InterpolatedPS4Gamepad;
 import frc.robot.generated.TunerConstants;
 
 import frc.robot.subsystems.Climb;
@@ -38,7 +41,40 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Wrist;
 
+
 public class RobotContainer {
+    
+
+
+    public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepad(0); // Co-Pilot Joystick
+
+    public final static CommandXboxController operatorPad = new CommandXboxController(1);
+
+
+  /* Operator Buttons */
+  private final JoystickButton driverX = new JoystickButton(driverPad, PS4Controller.Button.kCross.value);
+  private final JoystickButton driverSquare = new JoystickButton(driverPad, PS4Controller.Button.kSquare.value);
+  private final JoystickButton driverTriangle = new JoystickButton(driverPad, PS4Controller.Button.kTriangle.value);
+  private final JoystickButton driverCircle = new JoystickButton(driverPad, PS4Controller.Button.kCircle.value);
+
+  public static final JoystickButton driverL1 = new JoystickButton(driverPad, PS4Controller.Button.kL1.value);
+  public static final JoystickButton driverR1 = new JoystickButton(driverPad, PS4Controller.Button.kR1.value);
+
+  private final JoystickButton driverL2 = new JoystickButton(driverPad, PS4Controller.Button.kL2.value);
+  private final JoystickButton driverR2 = new JoystickButton(driverPad, PS4Controller.Button.kR2.value);
+  private final JoystickButton driverR3 = new JoystickButton(driverPad, PS4Controller.Button.kR3.value);
+
+  private final JoystickButton driverPadButton = new JoystickButton(driverPad,
+      PS4Controller.Button.kTouchpad.value);
+  private final JoystickButton driverStart = new JoystickButton(driverPad, PS4Controller.Button.kPS.value);
+
+  private final JoystickButton driverShare = new JoystickButton(driverPad, PS4Controller.Button.kShare.value);
+  private final JoystickButton driverOptions = new JoystickButton(driverPad, PS4Controller.Button.kOptions.value);
+
+
+
+
+
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
@@ -53,8 +89,7 @@ public class RobotContainer {
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
-    public final static CommandXboxController driverPad = new CommandXboxController(0);
-    public final static CommandXboxController operatorPad = new CommandXboxController(1);
+
 
 
     public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
@@ -81,6 +116,13 @@ public class RobotContainer {
         // Drivetrain
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
+
+
+
+
+//Driver pad 
+
+
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
@@ -90,47 +132,45 @@ public class RobotContainer {
             )
         );
 
-        driverPad.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        driverPad.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-driverPad.getLeftY(), -driverPad.getLeftX()))
-        ));
+        
+        
+        driverX.whileTrue(drivetrain.applyRequest(() -> brake));
+        
 
-        driverPad.pov(0).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0.5).withVelocityY(0))
-        );
-        driverPad.pov(180).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(-0.5).withVelocityY(0))
-        );
-
-        // Run SysId routines when holding back/start and X/Y.
-        // Note that each routine should be run exactly once in a single log.
-        driverPad.back().and(driverPad.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        driverPad.back().and(driverPad.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        driverPad.start().and(driverPad.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        driverPad.start().and(driverPad.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-
-        driverPad.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        driverOptions.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        // // Overrides
-        // operatorPad.povLeft().toggleOnTrue(new SetElevatorManualOverride());
-        // operatorPad.povRight().toggleOnTrue(new SetWristManualOverride());
 
-        // Intaking Coral and Algae
-        // operatorPad.b().whileTrue(new SetClawIntakeCoral());
-        operatorPad.a().whileTrue(new SetClawIntakeAlgae());
+
+        driverR2.whileTrue(new SetClawRelease());
+
+        driverTriangle.toggleOnTrue(new SetClimbManualOverride());
+
+
+
+
+
+
+
+    //My controls 
+
+        // // Overrides
+        operatorPad.rightStick().toggleOnTrue(new SetElevatorManualOverride());
+        operatorPad.leftStick().toggleOnTrue(new SetWristManualOverride());
+
+        operatorPad.a().whileTrue(new SetClawIntakeCoral());
         operatorPad.b().whileTrue(new SetClawRelease());
         
         operatorPad.y().toggleOnTrue(new SetClimbManualOverride());
 
 
         // Scoring Coral
-    //     operatorPad.povDown().onTrue(new ScoreCoralTrough());
-        // operatorPad.povUp().onTrue(new ScoreCoralL2());
-    //     operatorPad.povRight().onTrue(new ScoreCoralL3());
-    //     operatorPad.povUp().onTrue(new ScoreCoralL4());
-    // }
+        operatorPad.povDown().onTrue(new ScoreCoralTrough());
+        operatorPad.povLeft().onTrue(new ScoreCoralL2());
+        operatorPad.povRight().onTrue(new ScoreCoralL3());
+        operatorPad.povUp().onTrue(new ScoreCoralL4());
+    }
 
     //  public Command getAutonomousCommand() {
     //     //  Run the path selected from the auto chooser 
@@ -138,4 +178,6 @@ public class RobotContainer {
         
     // }
 }
-}
+
+
+

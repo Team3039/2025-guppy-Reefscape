@@ -94,7 +94,7 @@ public class Elevator extends SubsystemBase {
     */
     public void setElevatorPosition() {
         double output = 0;
-        output = MathUtil.clamp(controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator * -1), -.3, .15)  + 
+        output = MathUtil.clamp(controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator * -1), -.35, .40)  + 
 			TunerConstants.Elevator.ELEVATOR_KS;
         elavator.set(output);
 
@@ -167,7 +167,7 @@ public class Elevator extends SubsystemBase {
 
 			// In the Manual state, the elevator is controlled directly by the operator
 			case MANUAL:
-				setElevatorPercent(RobotContainer.operatorPad.getLeftY() * 0.3);
+				setElevatorPercent(RobotContainer.driverPad.getLeftY() * 0.3);
 				break;
 
 			// In the Position state, the elevator is controlled by the setpoint

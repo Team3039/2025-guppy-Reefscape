@@ -66,13 +66,14 @@ public class Climb extends SubsystemBase {
         climb.disable();
         break;
       case CLIMBING:
-        if (RobotContainer.driverPad.leftBumper().getAsBoolean()) {
+        if (RobotContainer.driverL1.getAsBoolean()) {
           climb.set(0.5);
-        } else if (RobotContainer.driverPad.rightBumper().getAsBoolean()) {
+        } else if (RobotContainer.driverR1.getAsBoolean()) {
           climb.set(-0.5);
         } else {
           climb.set(0);
         }
+
         break;
     }
   }
