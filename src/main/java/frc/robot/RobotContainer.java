@@ -54,7 +54,7 @@ public class RobotContainer {
     SmartDashboard.putData("Auto Mode", autoChooser);
 
         NamedCommands.registerCommand("score L3", new ScoreCoralL3());
-        NamedCommands.registerCommand("hawk Tuha", new SetClawRelease());
+        NamedCommands.registerCommand("Tuha", new SetClawRelease());
         NamedCommands.registerCommand("set Wrist/Elevator down ", new SetClawRelease());
 
 
