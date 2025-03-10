@@ -173,7 +173,6 @@ public RobotContainer() {
         operatorPad.a().whileTrue(new SetClawIntakeCoral());
         operatorPad.b().whileTrue(new SetClawRelease());
         
-        operatorPad.y().toggleOnTrue(new SetClimbManualOverride());
 
 
         // Scoring Coral
