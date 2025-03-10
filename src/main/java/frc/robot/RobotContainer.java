@@ -15,6 +15,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -48,19 +49,19 @@ public class RobotContainer {
   
 
 
-    private final SendableChooser<Command> autoChooser;{
+private final SendableChooser<Command> autoChooser;
 
+public RobotContainer() {
     autoChooser = AutoBuilder.buildAutoChooser(); 
     SmartDashboard.putData("Auto Mode", autoChooser);
 
-        NamedCommands.registerCommand("score L3", new ScoreCoralL3());
-        NamedCommands.registerCommand("Tuha", new SetClawRelease());
-        NamedCommands.registerCommand("set Wrist/Elevator down ", new SetClawRelease());
+    NamedCommands.registerCommand("score L3", new ScoreCoralL3());
+    NamedCommands.registerCommand("Tuha", new SetClawRelease());
+    NamedCommands.registerCommand("set Wrist/Elevator down ", new SetClawRelease());
 
+    SmartDashboard.putData("Test (Ps 1c)", new PathPlannerAuto("Test (Ps 1c)"));
 
-        SmartDashboard.putData("Test (Ps 1c)", new PathPlannerAuto("Test (Ps 1c)"));
-        
-
+    configureBindings();
 }
     
     
@@ -120,12 +121,6 @@ public class RobotContainer {
     /* Path follower */
     // private final SendableChooser<Command> autoChooser;
 
-    public RobotContainer() {
-        
-
-        configureBindings();
-    
-    }
 
     
     private void configureBindings() {
