@@ -5,9 +5,66 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "Tests"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Tests"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "score L3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Test 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "hawk Tuha"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Test 3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "set Wrist/Elevator down"
+                }
+              }
+            ]
           }
         }
       ]

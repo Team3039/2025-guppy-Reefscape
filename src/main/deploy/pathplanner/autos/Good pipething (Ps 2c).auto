@@ -13,6 +13,12 @@
                 "data": {
                   "pathName": "GP1"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "score L3"
+                }
               }
             ]
           }

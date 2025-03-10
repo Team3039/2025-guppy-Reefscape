@@ -13,6 +13,8 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -43,9 +45,25 @@ import frc.robot.subsystems.Wrist;
 
 
 public class RobotContainer {
+  
+
+
+    private final SendableChooser<Command> autoChooser;{
+
+    autoChooser = AutoBuilder.buildAutoChooser(); 
+    SmartDashboard.putData("Auto Mode", autoChooser);
+
+        NamedCommands.registerCommand("score L3", new ScoreCoralL3());
+        NamedCommands.registerCommand("hawk Tuha", new SetClawRelease());
+        NamedCommands.registerCommand("set Wrist/Elevator down ", new SetClawRelease());
+
+
+        SmartDashboard.putData("Test (Ps 1c)", new PathPlannerAuto("Test (Ps 1c)"));
+        
+
+}
     
-
-
+    
     public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepad(0); // Co-Pilot Joystick
 
     public final static CommandXboxController operatorPad = new CommandXboxController(1);
@@ -103,15 +121,13 @@ public class RobotContainer {
     // private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        // autoChooser = AutoBuilder.buildAutoChooser("Tests");
-
-
-
-        //  SmartDashboard.putData("Auto Mode", autoChooser);
+        
 
         configureBindings();
+    
     }
 
+    
     private void configureBindings() {
         // Drivetrain
         // Note that X is defined as forward according to WPILib convention,
@@ -172,11 +188,11 @@ public class RobotContainer {
         operatorPad.povUp().onTrue(new ScoreCoralL4());
     }
 
-    //  public Command getAutonomousCommand() {
-    //     //  Run the path selected from the auto chooser 
-    //      return autoChooser.getSelected();
-        
-    // }
+    public Command getAutonomousCommand() {
+        return autoChooser.getSelected();
+
+
+    }
 }
 
 
