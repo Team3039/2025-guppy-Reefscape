@@ -51,6 +51,12 @@ public class Elevator extends SubsystemBase {
 		// Create a talonfx configurator.
 		TalonFXConfiguration config = new TalonFXConfiguration();
 
+		config.CurrentLimits.SupplyCurrentLimit = 10;
+		config.CurrentLimits.SupplyCurrentLimitEnable = true;
+
+		config.CurrentLimits.StatorCurrentLimit = 100;
+		config.CurrentLimits.StatorCurrentLimitEnable = true;
+
 		// Soft Limits
 		config.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
 		config.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
@@ -94,7 +100,7 @@ public class Elevator extends SubsystemBase {
     */
     public void setElevatorPosition() {
         double output = 0;
-        output = MathUtil.clamp(controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator * -1), -.35, .40)  + 
+        output = MathUtil.clamp(controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator * -1), -.60, .40)  + 
 			TunerConstants.Elevator.ELEVATOR_KS;
         elavator.set(output);
 

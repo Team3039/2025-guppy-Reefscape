@@ -6,12 +6,19 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.generated.TunerConstants;
 
+
 public class Climb extends SubsystemBase {
+
+
+  Servo RAMPSERVO = new Servo(0);
 
   // Create the possible states of the climb
   public enum ClimbState {
@@ -64,6 +71,8 @@ public class Climb extends SubsystemBase {
       // In the disabled state, the climb is disabled
       case DISABLED:
         climb.disable();
+        RAMPSERVO.set(1);
+          
         break;
       case CLIMBING:
         if (RobotContainer.driverL1.getAsBoolean()) {
@@ -73,6 +82,7 @@ public class Climb extends SubsystemBase {
         } else {
           climb.set(0);
         }
+        RAMPSERVO.set(.5);
 
         break;
     }

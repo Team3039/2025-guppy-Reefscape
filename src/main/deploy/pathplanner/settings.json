@@ -4,11 +4,11 @@
   "holonomicMode": true,
   "pathFolders": [
     "BLUE PATHFINDING",
-    "the good pipe layer",
     "RED PATHFINDING",
     "The ball graber",
-    "The piper",
-    "test paths"
+    "The Pipe man",
+    "test paths",
+    "the good pipe layer"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,

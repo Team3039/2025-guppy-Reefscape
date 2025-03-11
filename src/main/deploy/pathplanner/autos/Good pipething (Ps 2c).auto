@@ -15,6 +15,12 @@
                 }
               },
               {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
                 "type": "named",
                 "data": {
                   "name": "score L3"
@@ -27,6 +33,12 @@
           "type": "sequential",
           "data": {
             "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Tuha"
+                }
+              },
               {
                 "type": "path",
                 "data": {

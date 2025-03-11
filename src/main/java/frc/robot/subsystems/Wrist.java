@@ -226,7 +226,7 @@ public class Wrist extends SubsystemBase {
         break;
 
         case CLIMB:
-        setSetpoint(85);
+        setSetpoint(140);
         setWristPosition();
         break;
         

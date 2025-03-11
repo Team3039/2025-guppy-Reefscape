@@ -31,6 +31,7 @@ import frc.robot.commands.SetClawRelease;
 import frc.robot.commands.SetClimbManualOverride;
 import frc.robot.commands.SetElevatorManualOverride;
 import frc.robot.commands.SetWristManualOverride;
+import frc.robot.commands.AutoCommands.CoralintakeAuto;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL3;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL2;
@@ -54,18 +55,22 @@ public class RobotContainer {
 private final SendableChooser<Command> autoChooser;
 
 public RobotContainer() {
-    autoChooser = AutoBuilder.buildAutoChooser(); 
-    SmartDashboard.putData("Auto Mode", autoChooser);
+  
+
 
     //Elevator commands
     NamedCommands.registerCommand("score L2", new ScoreCoralL2());
     NamedCommands.registerCommand("score L3", new ScoreCoralL3());
     NamedCommands.registerCommand("score L4", new ScoreCoralL4());
-    NamedCommands.registerCommand("set Wrist/Elevator down ", new ScoreCoralTrough());
+    NamedCommands.registerCommand("set Wrist/Elevator down", new ScoreCoralTrough());
 
-    //itake and spit coral 
-    NamedCommands.registerCommand("hwak", new SetClawIntakeCoral());
+    //itake and spit coral             (intake)
+    NamedCommands.registerCommand("hwak", new CoralintakeAuto());
     NamedCommands.registerCommand("Tuha", new SetClawRelease());
+    //                                  (Release)
+
+    autoChooser = AutoBuilder.buildAutoChooser(); //Auto chooser
+    SmartDashboard.putData("Auto Mode", autoChooser);
 
 
     //Auto paths                                
@@ -156,17 +161,14 @@ public RobotContainer() {
         
         
         driverX.whileTrue(drivetrain.applyRequest(() -> brake));
-        
-
+    
         driverOptions.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-
-
         driverR2.whileTrue(new SetClawRelease());
 
-        driverTriangle.toggleOnTrue(new SetClimbManualOverride());
+        driverStart.toggleOnTrue(new SetClimbManualOverride());
 
 
 
