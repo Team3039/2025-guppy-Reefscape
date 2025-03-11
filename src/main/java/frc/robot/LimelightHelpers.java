@@ -1597,6 +1597,6 @@ public class LimelightHelpers {
         }
       
 public static void updateSmartDashboard() {
-    SmartDashboard.putNumberArray("cam to target", getCameraPose_TargetSpace("john"));
+    SmartDashboard.putNumberArray("cam to target", getCameraPose_TargetSpace(""));
 }
 }

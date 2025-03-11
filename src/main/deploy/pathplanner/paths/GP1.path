@@ -4,24 +4,24 @@
     {
       "anchor": {
         "x": 7.154391891891891,
-        "y": 0.516976351351351
+        "y": 0.6059
       },
       "prevControl": null,
       "nextControl": {
         "x": 6.000624902408364,
-        "y": 1.4917794377816282
+        "y": 1.5807030864302771
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.029814189189189,
-        "y": 2.789780405405405
+        "x": 5.1187499999999995,
+        "y": 2.6613175675675667
       },
       "prevControl": {
-        "x": 5.777699150950887,
-        "y": 1.9718598427497107
+        "x": 5.866634961761697,
+        "y": 1.8433970049118722
       },
       "nextControl": null,
       "isLocked": false,
@@ -61,13 +61,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 121.21840276434644
+    "rotation": 119.95360816780148
   },
   "reversed": false,
   "folder": "the good pipe layer",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 179.55585556688808
+    "rotation": -179.620563298581
   },
   "useDefaultConstraints": true
 }

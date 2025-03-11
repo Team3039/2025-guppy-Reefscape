@@ -32,6 +32,8 @@ import frc.robot.commands.SetClawRelease;
 import frc.robot.commands.SetClimbManualOverride;
 import frc.robot.commands.SetElevatorManualOverride;
 import frc.robot.commands.SetWristManualOverride;
+import frc.robot.commands.PathFinding.leftBranchAlign;
+import frc.robot.commands.PathFinding.rightBranchAlign;
 import frc.robot.commands.AutoCommands.CoralintakeAuto;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL3;
@@ -45,6 +47,7 @@ import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Wrist;
 
 
@@ -68,7 +71,7 @@ public RobotContainer() {
     NamedCommands.registerCommand("set Wrist/Elevator down", new ScoreCoralTrough());
 
     //itake and spit coral             (intake)
-    NamedCommands.registerCommand("hwak", new CoralintakeAuto());
+    NamedCommands.registerCommand("hwak", new SetClawIntakeCoral());
     NamedCommands.registerCommand("Tuha", new SetClawRelease());
     //                                  (Release)
 
@@ -136,6 +139,7 @@ configureBindings();
     public static final Wrist wrist = new Wrist();
     public static final Claw claw = new Claw();
     public static final Climb climb = new Climb();
+    public static final Limelight limelight = new Limelight(drivetrain);
 
 
     /* Path follower */
@@ -180,14 +184,17 @@ configureBindings();
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-driverPad.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-driverPad.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-driverPad.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                drive.withVelocityX(-driverPad.interpolatedLeftYAxis() * MaxSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(-driverPad.interpolatedLeftXAxis() * MaxSpeed) // Drive left with negative X (left)
+                    .withRotationalRate(-driverPad.interpolatedRightXAxis() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
         
-        
+        driverL2.whileTrue(new leftBranchAlign());
+        driverR2.whileTrue(new rightBranchAlign());
+
+
         driverX.whileTrue(drivetrain.applyRequest(() -> brake));
     
         driverOptions.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));

@@ -107,6 +107,11 @@ public class Claw extends SubsystemBase {
     return hasCoral || hasAlgae;
   }
 
+
+  public boolean isCoralIn() {
+    return coralCANRange.getDistance().getValueAsDouble() < 0.15 ;
+  }
+
   /**
    * Check to see if the claw is aligned with the branch.
    * It does this by checking the distance detected by the branchCANRange.
@@ -114,10 +119,6 @@ public class Claw extends SubsystemBase {
    * 
    * @return true if the claw is aligned with the branch, false otherwise
    */
-  public boolean isCoralIn() {
-    return coralCANRange.getDistance().getValueAsDouble() < 0.15 ;
-  }
-
   public boolean isBranchDetected() {
     return branchCANRange.getDistance().getValueAsDouble() < 0.3 && branchCANRange.getDistance().getValueAsDouble()  >.2 ;
   }

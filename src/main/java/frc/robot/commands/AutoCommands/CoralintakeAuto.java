@@ -27,10 +27,7 @@ public class CoralintakeAuto extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
     RobotContainer.claw.setState(ClawState.CORAL);
-
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,7 +41,8 @@ public class CoralintakeAuto extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return     RobotContainer.claw.isCoralIn();
+    return RobotContainer.claw.isCoralIn();
+
     
   }
 }
