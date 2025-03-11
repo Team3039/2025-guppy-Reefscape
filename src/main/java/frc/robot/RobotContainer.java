@@ -8,24 +8,25 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.FileVersionException;
 
-
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.ActuateElevatorToSetpoint;
-import frc.robot.commands.SetClawIntakeAlgae;
 import frc.robot.commands.SetClawIntakeCoral;
 import frc.robot.commands.SetClawRelease;
 import frc.robot.commands.SetClimbManualOverride;
@@ -40,12 +41,14 @@ import frc.robot.commands.ElevatorRoutines.ScoreCoralL4;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralTrough;
 import frc.robot.controllers.InterpolatedPS4Gamepad;
 import frc.robot.generated.TunerConstants;
-
-import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Wrist;
+
+
+
 
 
 public class RobotContainer {
@@ -76,7 +79,9 @@ public RobotContainer() {
     //Auto paths                                
     SmartDashboard.putData("Test (Ps 1c)", new PathPlannerAuto("Test (Ps 1c)"));
 //                                ^ Name for path in smartdashboard             ^ Name of path in pathplanner
-    configureBindings();
+configureBindings();
+
+
 }
     
     
@@ -143,6 +148,26 @@ public RobotContainer() {
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
 
+        try {
+            PathPlannerPath path = PathPlannerPath.fromPathFile("Blue A");
+        } catch (FileVersionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        // Create the constraints to use while pathfinding. The constraints defined in the path will only be used for the path.
+        PathConstraints constraints = new PathConstraints(
+                3.0, 4.0,
+                Math.toRadians(360), Math.toRadians(540));
+
+
+
 
 
 
@@ -166,13 +191,10 @@ public RobotContainer() {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        driverR2.whileTrue(new SetClawRelease());
-
         driverStart.toggleOnTrue(new SetClimbManualOverride());
 
 
-
-
+    
 
 
 
