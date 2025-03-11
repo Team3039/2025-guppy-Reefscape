@@ -150,21 +150,24 @@ configureBindings();
 
         try {
             PathPlannerPath path = PathPlannerPath.fromPathFile("Blue A");
+
+            PathConstraints constraints = new PathConstraints(
+                3.0, 4.0,
+                Math.toRadians(360), Math.toRadians(540));
+               
+                Command pathfindingCommand = AutoBuilder.pathfindThenFollowPath(
+                    path,
+                    constraints);
+
         } catch (FileVersionException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        // Create the constraints to use while pathfinding. The constraints defined in the path will only be used for the path.
-        PathConstraints constraints = new PathConstraints(
-                3.0, 4.0,
-                Math.toRadians(360), Math.toRadians(540));
+       
 
 
 
