@@ -44,7 +44,7 @@ public class Limelight extends SubsystemBase {
     public void periodic() {
         // Add your periodic code here
 
-        SmartDashboard.putNumber("Fiducial ID", LimelightHelpers.getFiducialID(""));
+        SmartDashboard.putNumber("Fiducial ID", LimelightHelpers.getFiducialID("limelight"));
 
     }
 
@@ -67,7 +67,7 @@ public class Limelight extends SubsystemBase {
                 3.0, 4.0,
                 degreesToRadians(360), degreesToRadians(540));
 
-        double aprilTagID = LimelightHelpers.getFiducialID("");
+        double aprilTagID = LimelightHelpers.getFiducialID("limelight");
 
         // 17 18 19 20 21 22
         // c a k I g e
@@ -218,7 +218,7 @@ public class Limelight extends SubsystemBase {
         // PathPlannerPath REDF = PathPlannerPath.fromPathFile("RED F");
         // PathPlannerPath REDD = PathPlannerPath.fromPathFile("RED D");
 
-        double aprilTagID = LimelightHelpers.getFiducialID("");
+        double aprilTagID = LimelightHelpers.getFiducialID("limelight");
 
         PathPlannerPath path = null;
 

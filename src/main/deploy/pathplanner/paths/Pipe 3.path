@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.6601351351351352,
-        "y": 7.3353885135135135
+        "x": 1.4822635135135136,
+        "y": 7.167398648648648
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.22425417967487,
-        "y": 6.838267607683652
+        "x": 2.0463825580532484,
+        "y": 6.6702777428187865
       },
       "isLocked": false,
       "linkedName": "Pipe 2"
     },
     {
       "anchor": {
-        "x": 3.9131756756756757,
-        "y": 5.279983108108109
+        "x": 3.755067567567567,
+        "y": 5.596199324324324
       },
       "prevControl": {
-        "x": 3.498038067916233,
-        "y": 5.6306223093302
+        "x": 3.3399299598081242,
+        "y": 5.946838525546416
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -57.65255650055802
+    "rotation": -59.036243467926546
   },
   "reversed": false,
   "folder": "The Pipe man",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -54.582944723532584
+    "rotation": -53.44752724790847
   },
   "useDefaultConstraints": true
 }

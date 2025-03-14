@@ -71,7 +71,7 @@ public RobotContainer() {
     NamedCommands.registerCommand("set Wrist/Elevator down", new ScoreCoralTrough());
 
     //itake and spit coral             (intake)
-    NamedCommands.registerCommand("hwak", new SetClawIntakeCoral());
+    NamedCommands.registerCommand("hwak", new CoralintakeAuto());
     NamedCommands.registerCommand("Tuha", new SetClawRelease());
     //                                  (Release)
 
@@ -91,6 +91,9 @@ configureBindings();
     public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepad(0); // Co-Pilot Joystick
 
     public final static CommandXboxController operatorPad = new CommandXboxController(1);
+
+    public final static CommandXboxController PitPad = new CommandXboxController(2);
+
 
 
   /* Operator Buttons */
@@ -186,7 +189,7 @@ configureBindings();
             drivetrain.applyRequest(() ->
                 drive.withVelocityX(-driverPad.interpolatedLeftYAxis() * MaxSpeed) // Drive forward with negative Y (forward)
                     .withVelocityY(-driverPad.interpolatedLeftXAxis() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-driverPad.interpolatedRightXAxis() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                    .withRotationalRate(driverPad.interpolatedRightXAxis() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
@@ -204,15 +207,19 @@ configureBindings();
         driverStart.toggleOnTrue(new SetClimbManualOverride());
 
 
-    
+        //pit pad
+
+
+        PitPad.y().toggleOnTrue(new SetClimbManualOverride());
+
 
 
 
     //My controls 
 
         // // Overrides
-        operatorPad.rightStick().toggleOnTrue(new SetElevatorManualOverride());
-        operatorPad.leftStick().toggleOnTrue(new SetWristManualOverride());
+        // operatorPad.rightStick().toggleOnTrue(new SetElevatorManualOverride());
+        // operatorPad.leftStick().toggleOnTrue(new SetWristManualOverride());
 
         // intake and release
         operatorPad.a().whileTrue(new SetClawIntakeCoral());

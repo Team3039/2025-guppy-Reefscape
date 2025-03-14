@@ -5,7 +5,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.Servo;
@@ -13,20 +14,28 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.generated.TunerConstants;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+
+
+
 
 
 public class Climb extends SubsystemBase {
 
 
-  Servo RAMPSERVO = new Servo(0);
 
+ 
+
+
+ 
   // Create the possible states of the climb
   public enum ClimbState {
     DISABLED,
     CLIMBING
   }
 
-  // Create a variable to store the current state of the climb
+  // Create a variable to store the current state of the climb\]
   public ClimbState climbState = ClimbState.DISABLED;
 
   // Create a talonfx for the climb
@@ -71,18 +80,17 @@ public class Climb extends SubsystemBase {
       // In the disabled state, the climb is disabled
       case DISABLED:
         climb.disable();
-        RAMPSERVO.set(1);
-          
+      
         break;
       case CLIMBING:
-        if (RobotContainer.driverL1.getAsBoolean()) {
-          climb.set(0.5);
-        } else if (RobotContainer.driverR1.getAsBoolean()) {
-          climb.set(-0.5);
-        } else {
-          climb.set(0);
-        }
-        RAMPSERVO.set(.5);
+        // if (RobotContainer.driverL1.getAsBoolean()) {
+        //   climb.set(0.5);
+        // } else if (RobotContainer.PitPad.rightBumper().getAsBoolean()) {
+        //   climb.set(-.3);
+        // } else {
+        //   climb.set(0);
+        // }
+       
 
         break;
     }

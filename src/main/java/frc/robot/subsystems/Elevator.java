@@ -156,9 +156,9 @@ public class Elevator extends SubsystemBase {
     @Override
     public void periodic() {
 		SmartDashboard.putNumber("Elevator Encoder", getElevatorPosition());
-		SmartDashboard.putNumber("Elevator Output", elavator.get());
-		SmartDashboard.putNumber("Elevator Output Current", elavator.getSupplyCurrent().getValueAsDouble());
-		SmartDashboard.putString("Elevator State", String.valueOf(getState()));
+		// SmartDashboard.putNumber("Elevator Output", elavator.get());
+		// SmartDashboard.putNumber("Elevator Output Current", elavator.getSupplyCurrent().getValueAsDouble());
+		// SmartDashboard.putString("Elevator State", String.valueOf(getState()));
 		SmartDashboard.putNumber("Elevator Setpoint", getSetpoint());
 
 		// Elevator State Machine

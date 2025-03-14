@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.346030405405405,
-        "y": 5.131756756756756
+        "x": 5.612837837837839,
+        "y": 5.368918918918919
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.2708614864793693,
-        "y": 6.950000000007183
+        "x": 3.537668918911803,
+        "y": 7.187162162169345
       },
       "isLocked": false,
       "linkedName": "Pipe 1"
     },
     {
       "anchor": {
-        "x": 1.6601351351351352,
-        "y": 7.3353885135135135
+        "x": 1.4822635135135136,
+        "y": 7.167398648648648
       },
       "prevControl": {
-        "x": 3.2214527027027025,
-        "y": 6.880827702702702
+        "x": 3.0435810810810797,
+        "y": 6.712837837837837
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.24392361111111077,
+      "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 1.5,
         "maxAcceleration": 1.5,
@@ -56,13 +56,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -54.582944723532584
+    "rotation": -53.44752724790847
   },
   "reversed": false,
   "folder": "The Pipe man",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -121.07165806084637
+    "rotation": -116.88693419247679
   },
   "useDefaultConstraints": true
 }

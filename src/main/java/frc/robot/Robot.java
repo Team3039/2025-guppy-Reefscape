@@ -9,11 +9,15 @@ import com.pathplanner.lib.pathfinding.LocalADStar;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 
 import frc.robot.subsystems.Elevator.ElevatorState;
+import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -23,7 +27,8 @@ public class Robot extends TimedRobot {
   private final boolean kUseLimelight = true;
 
 
- 
+ UsbCamera usbCamera;
+  CvSource outputStream;
     
 
 
@@ -32,6 +37,8 @@ public class Robot extends TimedRobot {
 
     Pathfinding.setPathfinder(new LocalADStar());
     
+    usbCamera = CameraServer.startAutomaticCapture();
+    outputStream = CameraServer.putVideo("Rectangle", 640, 480);
   }
 
   @Override
@@ -58,7 +65,7 @@ public class Robot extends TimedRobot {
       if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
         m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
 
-        System.out.println("jimmy is a dumb");
+        System.out.println("If I print The limelight works");
       }
 
       
@@ -66,9 +73,7 @@ public class Robot extends TimedRobot {
 
     
     
-    SmartDashboard.putString("Current Robot Pose", m_robotContainer.drivetrain.getState().Pose.toString());
-
-
+    SmartDashboard.putString("update pose", m_robotContainer.drivetrain.getState().Pose.toString());
     
 
   }

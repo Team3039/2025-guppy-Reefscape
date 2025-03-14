@@ -29,7 +29,7 @@ public class InterpolatedPS4Gamepad extends PS4Controller {
             return 0.0;
         if (RobotContainer.elevator.getElevatorPosition() > 7 ) {
 
-            return ((Math.sin(this.getLeftY())) * .5);
+            return ((Math.sin(this.getLeftY())) * .3);
 
 
         }
@@ -43,7 +43,7 @@ public class InterpolatedPS4Gamepad extends PS4Controller {
 
             if (RobotContainer.elevator.getElevatorPosition() > 7 ) {
 
-                return ((Math.sin(this.getLeftX())) * .5);
+                return ((Math.sin(this.getLeftX())) * .3);
     
     
             }

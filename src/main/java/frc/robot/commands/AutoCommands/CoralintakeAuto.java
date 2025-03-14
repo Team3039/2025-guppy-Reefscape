@@ -20,6 +20,7 @@ public class CoralintakeAuto extends Command {
   /** Creates a new CoralintakeAuto. */
   public CoralintakeAuto() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.claw);
 
 
   }
@@ -41,7 +42,7 @@ public class CoralintakeAuto extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.claw.isCoralIn();
+    return RobotContainer.claw.hasGamepiece();
 
     
   }
