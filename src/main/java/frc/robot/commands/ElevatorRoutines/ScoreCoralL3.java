@@ -17,8 +17,8 @@ public class ScoreCoralL3 extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ActuateWristToSetpoint(128, 4),
-      new ActuateElevatorToSetpoint(26, 5)
+      new ActuateWristToSetpoint(125, 3),
+      new ActuateElevatorToSetpoint(23, 5)
     );
   }
 }

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.612837837837839,
-        "y": 5.368918918918919
+        "x": 5.5930743243243235,
+        "y": 5.625844594594594
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.537668918911803,
-        "y": 7.187162162169345
+        "x": 3.5179054053982877,
+        "y": 7.444087837845021
       },
       "isLocked": false,
       "linkedName": "Pipe 1"
@@ -62,7 +62,7 @@
   "folder": "The Pipe man",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -116.88693419247679
+    "rotation": -118.24973549497427
   },
   "useDefaultConstraints": true
 }

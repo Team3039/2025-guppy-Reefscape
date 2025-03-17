@@ -54,7 +54,7 @@ public class Elevator extends SubsystemBase {
 		config.CurrentLimits.SupplyCurrentLimit = 10;
 		config.CurrentLimits.SupplyCurrentLimitEnable = true;
 
-		config.CurrentLimits.StatorCurrentLimit = 100;
+		config.CurrentLimits.StatorCurrentLimit = 70;
 		config.CurrentLimits.StatorCurrentLimitEnable = true;
 
 		// Soft Limits
@@ -100,7 +100,7 @@ public class Elevator extends SubsystemBase {
     */
     public void setElevatorPosition() {
         double output = 0;
-        output = MathUtil.clamp(controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator * -1), -.60, .40)  + 
+        output = MathUtil.clamp(controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator * -1), -.20, .20)  + 
 			TunerConstants.Elevator.ELEVATOR_KS;
         elavator.set(output);
 
