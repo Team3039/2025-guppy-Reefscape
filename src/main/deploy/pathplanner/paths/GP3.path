@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2451013513513514,
-        "y": 0.991300675675676
+        "x": 1.264864864864865,
+        "y": 1.1098817567567574
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6359395563589947,
-        "y": 1.323879996624994
+        "x": 1.6557030698725084,
+        "y": 1.4424610777060751
       },
       "isLocked": false,
       "linkedName": "GP2"
     },
     {
       "anchor": {
-        "x": 3.7748310810810812,
-        "y": 2.424155405405405
+        "x": 3.6957770270270265,
+        "y": 2.295692567567568
       },
       "prevControl": {
-        "x": 2.8887921527408884,
-        "y": 1.704907813785303
+        "x": 2.8097380986868337,
+        "y": 1.576444975947466
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,10 +32,10 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.6467013888888917,
+      "minWaypointRelativePos": 0.7196180555555556,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 3.0,
+        "maxVelocity": 1.0,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -56,7 +56,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 60.01836063115064
+    "rotation": 58.392497753751115
   },
   "reversed": false,
   "folder": "the good pipe layer",

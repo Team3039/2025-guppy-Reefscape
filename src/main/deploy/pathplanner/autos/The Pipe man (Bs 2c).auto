@@ -13,6 +13,18 @@
                 "data": {
                   "pathName": "Pipe 1"
                 }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Pipe 2"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Pipe 3"
+                }
               }
             ]
           }

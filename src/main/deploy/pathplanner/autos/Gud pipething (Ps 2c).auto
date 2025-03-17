@@ -16,6 +16,18 @@
               }
             ]
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GP2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GP3"
+          }
         }
       ]
     }

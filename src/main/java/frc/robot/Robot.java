@@ -39,6 +39,7 @@ public class Robot extends TimedRobot {
     
     usbCamera = CameraServer.startAutomaticCapture();
     outputStream = CameraServer.putVideo("Rectangle", 640, 480);
+    LimelightHelpers.setCropWindow("limelight", -.5, .7, -1, .9);
   }
 
   @Override
@@ -60,8 +61,8 @@ public class Robot extends TimedRobot {
 
 
 
-      LimelightHelpers.SetRobotOrientation("", headingDeg, 0, 0, 0, 0, 0);
-      var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("");
+      LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0, 0, 0, 0, 0);
+      var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
       if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
         m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
 

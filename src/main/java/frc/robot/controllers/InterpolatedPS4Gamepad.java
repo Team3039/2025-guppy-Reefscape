@@ -41,13 +41,42 @@ public class InterpolatedPS4Gamepad extends PS4Controller {
         if (Math.abs(this.getLeftX()) <= 0.03)
             return 0.0;
 
-            if (RobotContainer.elevator.getElevatorPosition() > 7 ) {
+          
+            if (RobotContainer.elevator.getElevatorPosition() > 5 ) {
 
-                return ((Math.sin(this.getLeftX())) * .3);
+                return ((Math.sin(this.getLeftX())) * .70);
     
     
             }
 
+            if (RobotContainer.elevator.getElevatorPosition() > 10 ) {
+
+                return ((Math.sin(this.getLeftX())) * .60);
+    
+    
+            }
+
+            if (RobotContainer.elevator.getElevatorPosition() > 20 ) {
+
+                return ((Math.sin(this.getLeftX())) * .50);
+    
+    
+            }
+            if (RobotContainer.elevator.getElevatorPosition() > 30 ) {
+
+                return ((Math.sin(this.getLeftX())) * .40);
+    
+    
+            }
+
+            if (RobotContainer.elevator.getElevatorPosition() > 40 ) {
+
+                return ((Math.sin(this.getLeftX())) * .30);
+    
+    
+            }
+
+            
         return ((Math.sin(this.getLeftX())) * 1.2);
     }
 
