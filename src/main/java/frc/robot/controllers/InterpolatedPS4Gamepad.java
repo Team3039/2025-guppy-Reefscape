@@ -42,12 +42,21 @@ public class InterpolatedPS4Gamepad extends PS4Controller {
             return 0.0;
 
           
-            if (RobotContainer.elevator.getElevatorPosition() > 5 ) {
+            if (RobotContainer.elevator.getElevatorPosition() > 7 ) {
 
                 return ((Math.sin(this.getLeftX())) * .70);
     
     
             }
+
+
+            if (RobotContainer.elevator.getElevatorPosition() > 9 ) {
+
+                return ((Math.sin(this.getLeftX())) * .65);
+    
+    
+            }
+
 
             if (RobotContainer.elevator.getElevatorPosition() > 10 ) {
 
@@ -56,28 +65,52 @@ public class InterpolatedPS4Gamepad extends PS4Controller {
     
             }
 
+            if (RobotContainer.elevator.getElevatorPosition() > 15 ) {
+
+                return ((Math.sin(this.getLeftX())) * .60);
+    
+    
+            }
+
+
+
             if (RobotContainer.elevator.getElevatorPosition() > 20 ) {
 
                 return ((Math.sin(this.getLeftX())) * .50);
     
     
             }
-            if (RobotContainer.elevator.getElevatorPosition() > 30 ) {
+
+
+            if (RobotContainer.elevator.getElevatorPosition() > 25 ) {
 
                 return ((Math.sin(this.getLeftX())) * .40);
     
     
             }
-
-            if (RobotContainer.elevator.getElevatorPosition() > 40 ) {
+            if (RobotContainer.elevator.getElevatorPosition() > 30 ) {
 
                 return ((Math.sin(this.getLeftX())) * .30);
     
     
             }
 
+            if (RobotContainer.elevator.getElevatorPosition() > 35 ) {
+
+                return ((Math.sin(this.getLeftX())) * .15);
+    
+    
+            }
+
+            if (RobotContainer.elevator.getElevatorPosition() > 40 ) {
+
+                return ((Math.sin(this.getLeftX())) * .5);
+    
+    
+            }
+
             
-        return ((Math.sin(this.getLeftX())) * 1.2);
+        return ((Math.sin(this.getLeftX())) * 2);
     }
 
     // ps4 user 

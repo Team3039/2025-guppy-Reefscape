@@ -18,9 +18,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+
 
   private final RobotContainer m_robotContainer;
 
@@ -39,11 +41,30 @@ public class Robot extends TimedRobot {
     
     usbCamera = CameraServer.startAutomaticCapture();
     outputStream = CameraServer.putVideo("Rectangle", 640, 480);
-    LimelightHelpers.setCropWindow("limelight", -.5, .7, -1, .9);
+    outputStream = CameraServer.putVideo("limelight", 640, 480);
+
+    if (kUseLimelight) {
+      var driveState = m_robotContainer.drivetrain.getState();
+      double headingDeg = driveState.Pose.getRotation().getDegrees();
+      double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
+
+//This not working is a crime.
+
+      LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0, 0, 0, 0, 0);
+      var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+      if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
+        m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
+
+        }
+      }
+
+
+
   }
 
   @Override
   public void robotPeriodic() {
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("limelight").getDoubleArray(new double[6]);
     CommandScheduler.getInstance().run();
 
     /*
@@ -59,14 +80,13 @@ public class Robot extends TimedRobot {
       double headingDeg = driveState.Pose.getRotation().getDegrees();
       double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
 
-
+//This not working is a crime.
 
       LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0, 0, 0, 0, 0);
       var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
       if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
         m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
 
-        System.out.println("If I print The limelight works");
       }
 
       

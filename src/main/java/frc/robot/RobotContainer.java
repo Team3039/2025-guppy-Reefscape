@@ -11,6 +11,7 @@ import static edu.wpi.first.units.Units.RotationsPerSecond;
 import java.io.IOException;
 
 import org.json.simple.parser.ParseException;
+import java.util.logging.Logger;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -57,7 +58,7 @@ import frc.robot.subsystems.Wrist;
 public class RobotContainer {
   
 
-
+private static final Logger logger = Logger.getLogger(RobotContainer.class.getName());
 private final SendableChooser<Command> autoChooser;
 
 public RobotContainer() {
@@ -132,7 +133,6 @@ configureBindings();
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
-    private final Telemetry logger = new Telemetry(MaxSpeed);
 
 
 
@@ -202,9 +202,9 @@ configureBindings();
     
         driverOptions.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
-        drivetrain.registerTelemetry(logger::telemeterize);
+        // drivetrain.registerTelemetry(logger::telemeterize); // Commented out as Logger does not have telemeterize method
 
-        driverStart.toggleOnTrue(new SetClimbManualOverride());
+        driverShare.toggleOnTrue(new SetClimbManualOverride());
 
 
         //pit pad
@@ -218,9 +218,9 @@ configureBindings();
     //My controls 
 
         // // Overrides
-        // operatorPad.rightStick().toggleOnTrue(new SetElevatorManualOverride());
-        // operatorPad.leftStick().toggleOnTrue(new SetWristManualOverride());
-
+        operatorPad.rightStick().toggleOnTrue(new SetElevatorManualOverride());
+        operatorPad.leftStick().toggleOnTrue(new SetWristManualOverride());
+        
         // intake and release
         operatorPad.a().whileTrue(new SetClawIntakeCoral());
         operatorPad.b().whileTrue(new SetClawRelease());

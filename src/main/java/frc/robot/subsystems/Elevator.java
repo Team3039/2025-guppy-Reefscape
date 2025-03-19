@@ -156,7 +156,7 @@ public class Elevator extends SubsystemBase {
     @Override
     public void periodic() {
 		SmartDashboard.putNumber("Elevator Encoder", getElevatorPosition());
-		// SmartDashboard.putNumber("Elevator Output", elavator.get());
+		SmartDashboard.putNumber("Elevator Output", elavator.get());
 		// SmartDashboard.putNumber("Elevator Output Current", elavator.getSupplyCurrent().getValueAsDouble());
 		// SmartDashboard.putString("Elevator State", String.valueOf(getState()));
 		SmartDashboard.putNumber("Elevator Setpoint", getSetpoint());
@@ -166,7 +166,7 @@ public class Elevator extends SubsystemBase {
 
 			// In the Idle state, the elevator rests at the bottom of the robot
 			case IDLE:
-				setSetpoint(0);
+				setSetpoint(0.2);
 				setElevatorPosition();
 				break;
 

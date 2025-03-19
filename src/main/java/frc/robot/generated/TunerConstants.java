@@ -26,7 +26,7 @@ public class TunerConstants {
     // The steer motor uses any SwerveModule.SteerRequestType control request with the
     // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
     private static final Slot0Configs steerGains = new Slot0Configs()
-        .withKP(90).withKI(0).withKD(0.5)
+        .withKP(70).withKI(0).withKD(0.5)
         .withKS(0.1).withKV(1.91).withKA(0)
         .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
     // When using closed-loop control, the drive motor uses the control
@@ -320,14 +320,14 @@ private static final Distance kBackRightYPos = Inches.of(-11);
     *   Other Constants
     */
     public static final class Wrist {
-        public static final double WRIST_KP = 0.004;
-        public static final double Coral_WRIST_KP = 0.0025;
+        public static final double WRIST_KP = 0.0078;
+        public static final double Coral_WRIST_KP = 0.004;
         public static final double WRIST_KI = 0;
-        public static final double WRIST_KD = 0.0005;
+        public static final double WRIST_KD = 0.00015;
         public static final double WRIST_KS = -0;
         public static final double WRIST_KG = -0;
         public static final double Coral_WRIST_KS = -0.0;
-        public static final double Coral_WRIST_KG = -0.03;
+        public static final double Coral_WRIST_KG = -0.04;
         public static final double WRIST_KV = 0;
         public static final double WRIST_MAX_VEL = .8;
         public static final double WRIST_MAX_ACCEL = .05;
@@ -353,14 +353,14 @@ private static final Distance kBackRightYPos = Inches.of(-11);
         public TalonFXConfiguration talonFXConfigs;
         public MotionMagicConfigs motionMagicConfigs;
 
-        public Elevator() {
-            talonFXConfigs = new TalonFXConfiguration();
-            motionMagicConfigs = new MotionMagicConfigs();
+        // public Elevator() {
+        //     talonFXConfigs = new TalonFXConfiguration();
+        //     motionMagicConfigs = new MotionMagicConfigs();
 
-            motionMagicConfigs.MotionMagicCruiseVelocity = 80; // Target cruise velocity of 80 rps
-            motionMagicConfigs.MotionMagicAcceleration = 160; // Target acceleration of 160 rps/s (0.5 seconds)
-            motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
-        }
+        //      motionMagicConfigs.MotionMagicCruiseVelocity = 80; // Target cruise velocity of 80 rps
+        //      motionMagicConfigs.MotionMagicAcceleration = 160; // Target acceleration of 160 rps/s (0.5 seconds)
+        //      motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
+        // }
         
         
     }
