@@ -1,7 +1,6 @@
 
 package frc.robot.subsystems;
 
-import static edu.wpi.first.math.util.Units.degreesToRadians;
 
 import java.io.IOException;
 
@@ -13,6 +12,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -43,15 +43,22 @@ public class Limelight extends SubsystemBase {
         SmartDashboard.putNumber("Field Error", fieldError);
         SmartDashboard.putNumber("Limelight Error", distanceError);
     }
-
     @Override
     public void periodic() {
         // Add your periodic code here
 
-        SmartDashboard.putNumber("Fiducial ID", LimelightHelpers.getFiducialID("limelight"));
+        SmartDashboard.putNumber("X pose", LimelightHelpers.getFiducialID("limelight"));
+
+       
+        double[] botPose = LimelightHelpers.getBotPose("limelight");
+        double xPose = botPose[0];
+        double yPose = botPose[1];
+        SmartDashboard.putNumber("Limelight X Pose", xPose);
+        SmartDashboard.putNumber("Limelight Y Pose", yPose);
 
     }
 
+   
     public void setAlliance(Alliance alliance) {
         this.alliance = alliance;
     }
@@ -64,12 +71,8 @@ public class Limelight extends SubsystemBase {
         this.trust = trust;
     }
 
-    public Command leftBranchAlign() {
+    public Command leftBranchDriveTo() {
         PathPlannerPath leftPath = null;
-
-        PathConstraints constraints = new PathConstraints(
-                3.0, 4.0,
-                degreesToRadians(360), degreesToRadians(540));
 
         double aprilTagID = LimelightHelpers.getFiducialID("limelight");
 
@@ -79,19 +82,21 @@ public class Limelight extends SubsystemBase {
         // Blue paths
         switch ((int) aprilTagID) {
             case 17:
-                try {
-                    leftPath = PathPlannerPath.fromPathFile("Blue C");
-                } catch (IOException | ParseException e) {
-                    e.printStackTrace();
-                }
+                
+            try {
+                leftPath = PathPlannerPath.fromPathFile("Blue K");
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
                 break;
 
             case 18:
-                try {
-                    leftPath = PathPlannerPath.fromPathFile("Blue A");
-                } catch (IOException | ParseException e) {
-                    e.printStackTrace();
-                }
+
+            try {
+                leftPath = PathPlannerPath.fromPathFile("Blue K");
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
                 break;
 
             case 19:
@@ -207,20 +212,7 @@ public class Limelight extends SubsystemBase {
         // D
 
         // Blue paths
-        // PathPlannerPath BlueB = PathPlannerPath.fromPathFile("Blue B");
-        // PathPlannerPath BlueL = PathPlannerPath.fromPathFile("Blue L");
-        // PathPlannerPath BlueJ = PathPlannerPath.fromPathFile("Blue J");
-        // PathPlannerPath BlueH = PathPlannerPath.fromPathFile("Blue H");
-        // PathPlannerPath BlueF = PathPlannerPath.fromPathFile("Blue F");
-        // PathPlannerPath BlueD = PathPlannerPath.fromPathFile("Blue D");
-
-        // //Red paths
-        // PathPlannerPath REDB = PathPlannerPath.fromPathFile("RED B");
-        // PathPlannerPath REDL = PathPlannerPath.fromPathFile("RED L");
-        // PathPlannerPath REDJ = PathPlannerPath.fromPathFile("RED J");
-        // PathPlannerPath REDH = PathPlannerPath.fromPathFile("RED H");
-        // PathPlannerPath REDF = PathPlannerPath.fromPathFile("RED F");
-        // PathPlannerPath REDD = PathPlannerPath.fromPathFile("RED D");
+        
 
         double aprilTagID = LimelightHelpers.getFiducialID("limelight");
 

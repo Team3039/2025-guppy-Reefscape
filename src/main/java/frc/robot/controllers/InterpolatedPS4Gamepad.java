@@ -42,17 +42,12 @@ public class InterpolatedPS4Gamepad extends PS4Controller {
             return 0.0;
 
           
-            if (RobotContainer.elevator.getElevatorPosition() > 7 ) {
-
-                return ((Math.sin(this.getLeftX())) * .70);
-    
-    
-            }
+           
 
 
             if (RobotContainer.elevator.getElevatorPosition() > 9 ) {
 
-                return ((Math.sin(this.getLeftX())) * .65);
+                return ((Math.sin(this.getLeftX())) * .40);
     
     
             }
@@ -60,14 +55,14 @@ public class InterpolatedPS4Gamepad extends PS4Controller {
 
             if (RobotContainer.elevator.getElevatorPosition() > 10 ) {
 
-                return ((Math.sin(this.getLeftX())) * .60);
+                return ((Math.sin(this.getLeftX())) * .35);
     
     
             }
 
             if (RobotContainer.elevator.getElevatorPosition() > 15 ) {
 
-                return ((Math.sin(this.getLeftX())) * .60);
+                return ((Math.sin(this.getLeftX())) * .30);
     
     
             }
@@ -76,7 +71,7 @@ public class InterpolatedPS4Gamepad extends PS4Controller {
 
             if (RobotContainer.elevator.getElevatorPosition() > 20 ) {
 
-                return ((Math.sin(this.getLeftX())) * .50);
+                return ((Math.sin(this.getLeftX())) * .25);
     
     
             }
@@ -84,33 +79,33 @@ public class InterpolatedPS4Gamepad extends PS4Controller {
 
             if (RobotContainer.elevator.getElevatorPosition() > 25 ) {
 
-                return ((Math.sin(this.getLeftX())) * .40);
+                return ((Math.sin(this.getLeftX())) * .20);
     
     
             }
             if (RobotContainer.elevator.getElevatorPosition() > 30 ) {
-
-                return ((Math.sin(this.getLeftX())) * .30);
-    
-    
-            }
-
-            if (RobotContainer.elevator.getElevatorPosition() > 35 ) {
 
                 return ((Math.sin(this.getLeftX())) * .15);
     
     
             }
 
+            if (RobotContainer.elevator.getElevatorPosition() > 35 ) {
+
+                return ((Math.sin(this.getLeftX())) * .10);
+    
+    
+            }
+
             if (RobotContainer.elevator.getElevatorPosition() > 40 ) {
 
-                return ((Math.sin(this.getLeftX())) * .5);
+                return ((Math.sin(this.getLeftX())) * .05);
     
     
             }
 
             
-        return ((Math.sin(this.getLeftX())) * 2);
+        return ((Math.sin(this.getLeftX())) * .6);
     }
 
     // ps4 user 

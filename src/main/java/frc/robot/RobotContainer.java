@@ -7,6 +7,7 @@ package frc.robot;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
+import edu.wpi.first.units.Units;
 
 import java.io.IOException;
 
@@ -27,6 +28,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.SetClawIntakeCoral;
 import frc.robot.commands.SetClawRelease;
@@ -53,12 +58,10 @@ import frc.robot.subsystems.Wrist;
 
 
 
-
-
 public class RobotContainer {
   
 
-private static final Logger logger = Logger.getLogger(RobotContainer.class.getName());
+// private static final Logger logger = Logger.getLogger(RobotContainer.class.getName());
 private final SendableChooser<Command> autoChooser;
 
 public RobotContainer() {
@@ -83,13 +86,10 @@ public RobotContainer() {
     //Auto paths                                
     SmartDashboard.putData("Test (Ps 1c)", new PathPlannerAuto("Test (Ps 1c)"));
 //                                ^ Name for path in smartdashboard             ^ Name of path in pathplanner
-configureBindings();
-
-
+    configureBindings();
 }
     
-    
-    public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepad(0); // Co-Pilot Joystick
+public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepad(0); // Co-Pilot Joystick
 
     public final static CommandXboxController operatorPad = new CommandXboxController(1);
 
@@ -99,20 +99,20 @@ configureBindings();
 
   /* Operator Buttons */
   private final JoystickButton driverX = new JoystickButton(driverPad, PS4Controller.Button.kCross.value);
-  private final JoystickButton driverSquare = new JoystickButton(driverPad, PS4Controller.Button.kSquare.value);
-  private final JoystickButton driverTriangle = new JoystickButton(driverPad, PS4Controller.Button.kTriangle.value);
-  private final JoystickButton driverCircle = new JoystickButton(driverPad, PS4Controller.Button.kCircle.value);
+//   private final JoystickButton driverSquare = new JoystickButton(driverPad, PS4Controller.Button.kSquare.value);
+//   private final JoystickButton driverTriangle = new JoystickButton(driverPad, PS4Controller.Button.kTriangle.value);
+//   private final JoystickButton driverCircle = new JoystickButton(driverPad, PS4Controller.Button.kCircle.value);
 
   public static final JoystickButton driverL1 = new JoystickButton(driverPad, PS4Controller.Button.kL1.value);
   public static final JoystickButton driverR1 = new JoystickButton(driverPad, PS4Controller.Button.kR1.value);
 
   private final JoystickButton driverL2 = new JoystickButton(driverPad, PS4Controller.Button.kL2.value);
   private final JoystickButton driverR2 = new JoystickButton(driverPad, PS4Controller.Button.kR2.value);
-  private final JoystickButton driverR3 = new JoystickButton(driverPad, PS4Controller.Button.kR3.value);
+//   private final JoystickButton driverR3 = new JoystickButton(driverPad, PS4Controller.Button.kR3.value);
 
-  private final JoystickButton driverPadButton = new JoystickButton(driverPad,
-      PS4Controller.Button.kTouchpad.value);
-  private final JoystickButton driverStart = new JoystickButton(driverPad, PS4Controller.Button.kPS.value);
+//   private final JoystickButton driverPadButton = new JoystickButton(driverPad,
+//       PS4Controller.Button.kTouchpad.value);
+//   private final JoystickButton driverStart = new JoystickButton(driverPad, PS4Controller.Button.kPS.value);
 
   private final JoystickButton driverShare = new JoystickButton(driverPad, PS4Controller.Button.kShare.value);
   private final JoystickButton driverOptions = new JoystickButton(driverPad, PS4Controller.Button.kOptions.value);
@@ -155,25 +155,7 @@ configureBindings();
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
 
-        try {
-            PathPlannerPath path = PathPlannerPath.fromPathFile("Blue A");
-
-            PathConstraints constraints = new PathConstraints(
-                3.0, 4.0,
-                Math.toRadians(360), Math.toRadians(540));
-               
-                Command pathfindingCommand = AutoBuilder.pathfindThenFollowPath(
-                    path,
-                    constraints);
-
-        } catch (FileVersionException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
+        
        
 
 
@@ -194,8 +176,16 @@ configureBindings();
         );
 
         
-        driverL2.whileTrue(new leftBranchAlign());
-        driverR2.whileTrue(new rightBranchAlign());
+        SmartDashboard.putData("On-the-fly path test", Commands.runOnce(() -> {
+            Pose2d currentPose = drivetrain.getPose();
+            
+            // The rotation component in these poses represents the direction of travel
+            Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
+            Pose2d endPos = new Pose2d(currentPose.getTranslation().plus(new Translation2d(5.998, 3.877)), new Rotation2d());
+
+            driverL2.whileTrue(new rightBranchAlign());
+            driverR2.whileTrue(new rightBranchAlign());
+        }));
 
 
         driverX.whileTrue(drivetrain.applyRequest(() -> brake));
