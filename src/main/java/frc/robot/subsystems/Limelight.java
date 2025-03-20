@@ -214,12 +214,10 @@ public class Limelight extends SubsystemBase {
             System.out.println("if you see this I work");
 
             Command leftBranchCommand = AutoBuilder.pathfindThenFollowPath(
-                    leftPath,
-                    constraints
-
-            );
-
-            return leftBranchCommand;
+                                leftPath,
+                                constraints
+                        );
+                        drivetrain.followPath(leftPath);  return leftBranchCommand;
         }
 
         return new Command() {
@@ -384,6 +382,9 @@ public class Limelight extends SubsystemBase {
             Command rightSideCommand = AutoBuilder.pathfindThenFollowPath(
                     path,
                     constraints);
+
+                    drivetrain.followPath(path);  
+
 
             return rightSideCommand;
         }
