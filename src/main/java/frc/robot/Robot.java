@@ -8,7 +8,7 @@ package frc.robot;
 import com.pathplanner.lib.pathfinding.LocalADStar;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 
-import frc.robot.subsystems.Elevator.ElevatorState;
+// import frc.robot.subsystems.Elevator.ElevatorState;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.util.Units;
@@ -131,7 +131,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    RobotContainer.elevator.setState(ElevatorState.IDLE);
+    // RobotContainer.elevator.setState(ElevatorState.IDLE);
 
   }
 

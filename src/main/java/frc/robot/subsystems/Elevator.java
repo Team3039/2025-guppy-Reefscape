@@ -107,7 +107,7 @@ public class Elevator extends SubsystemBase {
 
 	}
 
-	/**
+	/** 
 	 * Set the output of the elevator with feedforward
 	 * 
 	 * @param percent The percentage to set the elevator to
@@ -166,7 +166,7 @@ public class Elevator extends SubsystemBase {
 
 			// In the Idle state, the elevator rests at the bottom of the robot
 			case IDLE:
-				setSetpoint(0.2);
+				setSetpoint(0.1);
 				setElevatorPosition();
 				break;
 

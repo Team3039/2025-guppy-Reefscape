@@ -86,7 +86,7 @@ public class Climb extends SubsystemBase {
         if (RobotContainer.driverL1.getAsBoolean()) {
           climb.set(0.5);
         } else if (RobotContainer.PitPad.rightBumper().getAsBoolean()) {
-          climb.set(-.3);
+          climb.set(-.4);
         } else {
           climb.set(0);
         }

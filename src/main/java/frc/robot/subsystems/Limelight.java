@@ -47,14 +47,7 @@ public class Limelight extends SubsystemBase {
     public void periodic() {
         // Add your periodic code here
 
-        SmartDashboard.putNumber("X pose", LimelightHelpers.getFiducialID("limelight"));
 
-       
-        double[] botPose = LimelightHelpers.getBotPose("limelight");
-        double xPose = botPose[0];
-        double yPose = botPose[1];
-        SmartDashboard.putNumber("Limelight X Pose", xPose);
-        SmartDashboard.putNumber("Limelight Y Pose", yPose);
 
     }
 
@@ -121,6 +114,8 @@ public class Limelight extends SubsystemBase {
                 } catch (IOException | ParseException e) {
                     e.printStackTrace();
                 }
+
+                System.out.println("Hey I work");
                 break;
 
             case 22:
@@ -129,7 +124,11 @@ public class Limelight extends SubsystemBase {
                 } catch (IOException | ParseException e) {
                     e.printStackTrace();
                 }
+
+                System.out.println("Hey I work to");
+
                 break;
+                
 
             // RED paths
             case 6:

@@ -12,6 +12,8 @@ import edu.wpi.first.units.Units;
 import java.io.IOException;
 
 import org.json.simple.parser.ParseException;
+
+import java.util.List;
 import java.util.logging.Logger;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
@@ -19,8 +21,10 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.Waypoint;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.PS4Controller;
@@ -82,10 +86,7 @@ public RobotContainer() {
     autoChooser = AutoBuilder.buildAutoChooser(); //Auto chooser
     SmartDashboard.putData("Auto Mode", autoChooser);
 
-
-    //Auto paths                                
-    SmartDashboard.putData("Test (Ps 1c)", new PathPlannerAuto("Test (Ps 1c)"));
-//                                ^ Name for path in smartdashboard             ^ Name of path in pathplanner
+        
     configureBindings();
 }
     
@@ -99,20 +100,20 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
   /* Operator Buttons */
   private final JoystickButton driverX = new JoystickButton(driverPad, PS4Controller.Button.kCross.value);
-//   private final JoystickButton driverSquare = new JoystickButton(driverPad, PS4Controller.Button.kSquare.value);
-//   private final JoystickButton driverTriangle = new JoystickButton(driverPad, PS4Controller.Button.kTriangle.value);
-//   private final JoystickButton driverCircle = new JoystickButton(driverPad, PS4Controller.Button.kCircle.value);
+  private final JoystickButton driverSquare = new JoystickButton(driverPad, PS4Controller.Button.kSquare.value);
+  private final JoystickButton driverTriangle = new JoystickButton(driverPad, PS4Controller.Button.kTriangle.value);
+  private final JoystickButton driverCircle = new JoystickButton(driverPad, PS4Controller.Button.kCircle.value);
 
   public static final JoystickButton driverL1 = new JoystickButton(driverPad, PS4Controller.Button.kL1.value);
   public static final JoystickButton driverR1 = new JoystickButton(driverPad, PS4Controller.Button.kR1.value);
 
   private final JoystickButton driverL2 = new JoystickButton(driverPad, PS4Controller.Button.kL2.value);
   private final JoystickButton driverR2 = new JoystickButton(driverPad, PS4Controller.Button.kR2.value);
-//   private final JoystickButton driverR3 = new JoystickButton(driverPad, PS4Controller.Button.kR3.value);
+  private final JoystickButton driverR3 = new JoystickButton(driverPad, PS4Controller.Button.kR3.value);
 
-//   private final JoystickButton driverPadButton = new JoystickButton(driverPad,
-//       PS4Controller.Button.kTouchpad.value);
-//   private final JoystickButton driverStart = new JoystickButton(driverPad, PS4Controller.Button.kPS.value);
+  private final JoystickButton driverPadButton = new JoystickButton(driverPad,
+      PS4Controller.Button.kTouchpad.value);
+  private final JoystickButton driverStart = new JoystickButton(driverPad, PS4Controller.Button.kPS.value);
 
   private final JoystickButton driverShare = new JoystickButton(driverPad, PS4Controller.Button.kShare.value);
   private final JoystickButton driverOptions = new JoystickButton(driverPad, PS4Controller.Button.kOptions.value);
@@ -149,7 +150,17 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
     // private final SendableChooser<Command> autoChooser;
 
 
+
     
+    private Pose2d getBotPose() {
+        double[] botPoseArray = LimelightHelpers.getBotPose("limelight");
+        SmartDashboard.putNumberArray("Bot Pose", botPoseArray);
+        return new Pose2d(
+            new Translation2d(botPoseArray[0], botPoseArray[1]),
+            new Rotation2d(botPoseArray[5])
+        );
+    }
+
     private void configureBindings() {
         // Drivetrain
         // Note that X is defined as forward according to WPILib convention,
@@ -175,18 +186,25 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
             )
         );
 
-        
-        SmartDashboard.putData("On-the-fly path test", Commands.runOnce(() -> {
+
+        SmartDashboard.putData("On-the-fly path", Commands.runOnce(() -> {
             Pose2d currentPose = drivetrain.getPose();
             
             // The rotation component in these poses represents the direction of travel
             Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
-            Pose2d endPos = new Pose2d(currentPose.getTranslation().plus(new Translation2d(5.998, 3.877)), new Rotation2d());
-
-            driverL2.whileTrue(new rightBranchAlign());
-            driverR2.whileTrue(new rightBranchAlign());
+            Pose2d endPos = new Pose2d(currentPose.getTranslation().plus(new Translation2d(2.0, 0.0)), new Rotation2d());
+      
+            List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(startPos, endPos);
+            PathPlannerPath path = new PathPlannerPath(
+              waypoints, 
+              new PathConstraints(
+                4.0, 4.0, 
+                Math.toRadians(360), Math.toRadians(540)
+              ),
+              null, // Ideal starting state can be null for on-the-fly paths
+              new GoalEndState(0.0, currentPose.getRotation())
+            );
         }));
-
 
         driverX.whileTrue(drivetrain.applyRequest(() -> brake));
     
@@ -223,15 +241,10 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         operatorPad.povDown().onTrue(new ScoreCoralTrough());
         operatorPad.povLeft().onTrue(new ScoreCoralL2());
         operatorPad.povRight().onTrue(new ScoreCoralL3());
-        operatorPad.povUp().onTrue(new ScoreCoralL4());
+            operatorPad.povUp().onTrue(new ScoreCoralL4());
     }
 
     public Command getAutonomousCommand() {
         return autoChooser.getSelected();
-
-
     }
 }
-
-
-
