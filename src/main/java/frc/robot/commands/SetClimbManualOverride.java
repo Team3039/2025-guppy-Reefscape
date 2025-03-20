@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Climb;
@@ -21,10 +23,9 @@ public class SetClimbManualOverride extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
     RobotContainer.climb.setState(ClimbState.CLIMBING);
     RobotContainer.wrist.setState(WristState.CLIMB);
-
-
 
   }
 

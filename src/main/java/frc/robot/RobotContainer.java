@@ -9,12 +9,8 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import edu.wpi.first.units.Units;
 
-import java.io.IOException;
 
-import org.json.simple.parser.ParseException;
 
-import java.util.List;
-import java.util.logging.Logger;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -28,6 +24,8 @@ import com.pathplanner.lib.path.Waypoint;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -107,7 +105,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
   public static final JoystickButton driverL1 = new JoystickButton(driverPad, PS4Controller.Button.kL1.value);
   public static final JoystickButton driverR1 = new JoystickButton(driverPad, PS4Controller.Button.kR1.value);
 
-  private final JoystickButton driverL2 = new JoystickButton(driverPad, PS4Controller.Button.kL2.value);
+  public final static JoystickButton driverL2 = new JoystickButton(driverPad, PS4Controller.Button.kL2.value);
   private final JoystickButton driverR2 = new JoystickButton(driverPad, PS4Controller.Button.kR2.value);
   private final JoystickButton driverR3 = new JoystickButton(driverPad, PS4Controller.Button.kR3.value);
 
@@ -187,24 +185,28 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         );
 
 
-        SmartDashboard.putData("On-the-fly path", Commands.runOnce(() -> {
-            Pose2d currentPose = drivetrain.getPose();
+        // SmartDashboard.putData("On-the-fly path", Commands.runOnce(() -> {
+        //     Pose2d currentPose = drivetrain.getPose();
             
-            // The rotation component in these poses represents the direction of travel
-            Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
-            Pose2d endPos = new Pose2d(currentPose.getTranslation().plus(new Translation2d(2.0, 0.0)), new Rotation2d());
+        //     // The rotation component in these poses represents the direction of travel
+        //     Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
+        //     Pose2d endPos = new Pose2d(currentPose.getTranslation().plus(new Translation2d(5.893, 3.841)), new Rotation2d());
       
-            List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(startPos, endPos);
-            PathPlannerPath path = new PathPlannerPath(
-              waypoints, 
-              new PathConstraints(
-                4.0, 4.0, 
-                Math.toRadians(360), Math.toRadians(540)
-              ),
-              null, // Ideal starting state can be null for on-the-fly paths
-              new GoalEndState(0.0, currentPose.getRotation())
-            );
-        }));
+        //     List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(startPos, endPos);
+        //     PathPlannerPath path = new PathPlannerPath(
+        //       waypoints, 
+        //       new PathConstraints(
+        //         .5, .5, 
+        //         Math.toRadians(360), Math.toRadians(540)
+        //       ),
+        //       null, // Ideal starting state can be null for on-the-fly paths
+        //       new GoalEndState(0.0, currentPose.getRotation())
+        //     );
+        // }));
+
+        driverL2.whileTrue(new leftBranchAlign(limelight));
+        
+        driverR2.whileTrue(new rightBranchAlign(limelight));
 
         driverX.whileTrue(drivetrain.applyRequest(() -> brake));
     
@@ -219,6 +221,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
 
         PitPad.y().toggleOnTrue(new SetClimbManualOverride());
+        
 
 
 

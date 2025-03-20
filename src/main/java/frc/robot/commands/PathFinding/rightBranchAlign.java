@@ -10,15 +10,21 @@ import frc.robot.subsystems.Limelight;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class rightBranchAlign extends Command {
   /** Creates a new rightBranchAlign. */
-  public rightBranchAlign() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+private final Limelight limelight;
 
-  // Called when the command is initially scheduled.
+public rightBranchAlign(Limelight limelight) {
+    this.limelight = limelight;
+}
+
+
+// Called when the command is initially scheduled.
   @Override
   public void initialize() {
 
-    new rightBranchAlign();
+    System.out.println("But he made graduation");
+
+
+    limelight.rightBranchPathfinding();
 
 
   }

@@ -23,6 +23,7 @@ import edu.wpi.first.cscore.UsbCamera;
 
 public class Climb extends SubsystemBase {
 
+  PowerDistribution examplePD = new PowerDistribution(1, ModuleType.kRev);
 
 
  
@@ -80,17 +81,19 @@ public class Climb extends SubsystemBase {
       // In the disabled state, the climb is disabled
       case DISABLED:
         climb.disable();
+        examplePD.setSwitchableChannel(false);
+
       
         break;
       case CLIMBING:
-        if (RobotContainer.driverL1.getAsBoolean()) {
+        if (RobotContainer.driverR1.getAsBoolean()) {
           climb.set(0.5);
         } else if (RobotContainer.PitPad.rightBumper().getAsBoolean()) {
           climb.set(-.4);
         } else {
           climb.set(0);
         }
-       
+        examplePD.setSwitchableChannel(true);
 
         break;
     }
