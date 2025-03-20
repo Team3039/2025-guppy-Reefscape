@@ -23,8 +23,9 @@ public class leftBranchAlign extends Command {
   @Override
   public void initialize() {
 
-    System.out.println("FUUUUUUCK");
-
+    System.out.println("MUUUUUUUUUUSSSTEEERRRRD");
+    
+//turn his tv off ?!?!?
 
     limelight.leftBranchDriveTo();
   }

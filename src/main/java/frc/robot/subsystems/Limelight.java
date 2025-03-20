@@ -210,6 +210,9 @@ public class Limelight extends SubsystemBase {
         }
 
         if (leftPath != null) {
+
+            System.out.println("if you see this I work");
+
             Command leftBranchCommand = AutoBuilder.pathfindThenFollowPath(
                     leftPath,
                     constraints
