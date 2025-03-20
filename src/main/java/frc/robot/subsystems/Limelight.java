@@ -9,10 +9,10 @@ import org.json.simple.parser.ParseException;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.FileVersionException;
+// import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
+// import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -48,20 +48,7 @@ public class Limelight extends SubsystemBase {
         // Add your periodic code here
     }
 
-    // Method to get target X
-    public double getTargetX() {
-        
-        double targetX = 0.0; 
-        return targetX;
-    }
-
-    // Method to get target X
-    public double getTargetY() {
-        double targetY = 0.0; 
-        return 0.0;
-    }
-
-   
+    
     public void setAlliance(Alliance alliance) {
         this.alliance = alliance;
     }
@@ -137,7 +124,7 @@ public class Limelight extends SubsystemBase {
                     e.printStackTrace();
                 }
 
-                System.out.println("Hey I work");
+                // System.out.println("Hey I work");
                 break;
 
             case 22:
@@ -147,7 +134,7 @@ public class Limelight extends SubsystemBase {
                     e.printStackTrace();
                 }
 
-                System.out.println("Hey Im a dumb ass");
+                // System.out.println("Hey Im a dumb ass");
 
                 break;
                 
@@ -213,14 +200,13 @@ public class Limelight extends SubsystemBase {
 
             System.out.println("if you see this I work");
 
+            PathConstraints constraints = new PathConstraints(0.5, 0.5, Math.toRadians(360), Math.toRadians(540));
             Command leftBranchCommand = AutoBuilder.pathfindThenFollowPath(
-                                leftPath,
-                                constraints
-                        );
-                        drivetrain.followPath(leftPath);  return leftBranchCommand;
-        }
-
-        return new Command() {
+                            leftPath,
+                            constraints
+                    );
+            drivetrain.followPath(leftPath, constraints);    return leftBranchCommand;  }
+     return new Command() {
         };
 
     }
@@ -295,7 +281,7 @@ public class Limelight extends SubsystemBase {
             case 21:
                 try {
 
-                    System.out.println("hey Miles your really cool");
+                    // System.out.println("hey Miles your really cool");
 
 
                     path = PathPlannerPath.fromPathFile("Blue H");
@@ -308,7 +294,7 @@ public class Limelight extends SubsystemBase {
             case 22:
                 try {
 
-                    System.out.println("im weird ");
+                    // System.out.println("im weird ");
 
                     path = PathPlannerPath.fromPathFile("Blue F");
                 } catch (IOException | ParseException e) {
@@ -379,11 +365,14 @@ public class Limelight extends SubsystemBase {
 
         if (path != null) {
 
+            PathConstraints constraints = new PathConstraints(0.5, 0.5, Math.toRadians(360), Math.toRadians(540));
             Command rightSideCommand = AutoBuilder.pathfindThenFollowPath(
                     path,
-                    constraints);
+                    constraints
+                    
+                    );
 
-                    drivetrain.followPath(path);  
+                    drivetrain.followRightPath(path);  
 
 
             return rightSideCommand;
@@ -394,7 +383,7 @@ public class Limelight extends SubsystemBase {
 
     }
 
-    PathConstraints constraints = new PathConstraints(
-            .5, .5,
-            Math.toRadians(360), Math.toRadians(540));
+    // PathConstraints constraints = new PathConstraints(
+    //         .5, .5,
+    //         Math.toRadians(360), Math.toRadians(540));
 }

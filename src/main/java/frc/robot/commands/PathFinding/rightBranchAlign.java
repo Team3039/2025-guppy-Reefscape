@@ -21,8 +21,8 @@ public rightBranchAlign(Limelight limelight) {
   @Override
   public void initialize() {
 
-    System.out.println("But he made graduation");
-
+    // System.out.println("But he made graduation");
+// 6 million what???
 
     limelight.rightBranchPathfinding();
 

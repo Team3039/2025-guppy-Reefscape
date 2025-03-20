@@ -14,6 +14,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.Matrix;
@@ -42,16 +43,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private double m_lastSimTime;
 
 
- public void followPath(PathPlannerPath path) {
-
-        try {
-            var command = AutoBuilder.followPath(path);
-            command.schedule();
-        } catch (Exception ex) {
-            DriverStation.reportError("Failed to follow PathPlanner path", ex.getStackTrace());
-        }
-
-    }
 
 
 
@@ -352,5 +343,24 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         Matrix<N3, N1> visionMeasurementStdDevs
     ) {
         super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds), visionMeasurementStdDevs);
+    }
+
+    public void followPath(PathPlannerPath leftPath, PathConstraints constraints) {
+
+
+        new PathConstraints(
+            .5, .5,
+            Math.toRadians(360), Math.toRadians(540));
+
+        throw new UnsupportedOperationException("Unimplemented method 'followPath'");
+    }
+
+    public void followRightPath(PathPlannerPath Path) {
+    
+        new PathConstraints(
+            .5, .5,
+            Math.toRadians(360), Math.toRadians(540));
+       
+        throw new UnsupportedOperationException("Unimplemented method 'followPath'");
     }
 }

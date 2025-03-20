@@ -23,7 +23,7 @@ public class leftBranchAlign extends Command {
   @Override
   public void initialize() {
 
-    System.out.println("MUUUUUUUUUUSSSTEEERRRRD");
+    // System.out.println("MUUUUUUUUUUSSSTEEERRRRD");
     
 //turn his tv off ?!?!?
 
