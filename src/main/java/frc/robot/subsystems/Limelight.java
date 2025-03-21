@@ -197,7 +197,8 @@ public class Limelight extends SubsystemBase {
             Command leftBranchCommand = AutoBuilder.pathfindThenFollowPath(
                     leftPath,
                     constraints);
-            drivetrain.followPath(leftPath, constraints);
+
+           
             return leftBranchCommand;
         }
         return new Command() {
@@ -347,7 +348,10 @@ public class Limelight extends SubsystemBase {
             Command followRightPath = AutoBuilder.pathfindThenFollowPath(
                     path,
                     constraints);
-            drivetrain.followPath(path, constraints);
+
+
+
+            
             return followRightPath;
         }
 

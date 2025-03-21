@@ -40,8 +40,6 @@ import frc.robot.commands.SetClawRelease;
 import frc.robot.commands.SetClimbManualOverride;
 import frc.robot.commands.SetElevatorManualOverride;
 import frc.robot.commands.SetWristManualOverride;
-import frc.robot.commands.PathFinding.leftBranchAlign;
-import frc.robot.commands.PathFinding.rightBranchAlign;
 import frc.robot.commands.AutoCommands.CoralintakeAuto;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL3;
@@ -57,7 +55,6 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Wrist;
-
 
 
 public class RobotContainer {
@@ -204,9 +201,9 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         //     );
         // }));
 
-        driverL2.whileTrue(new leftBranchAlign(limelight));
+        driverR2.whileTrue(limelight.rightBranchPathfinding());
         
-        driverR2.whileTrue(new rightBranchAlign(limelight));
+        driverL2.whileTrue(limelight.leftBranchDriveTo());
 
         driverX.whileTrue(drivetrain.applyRequest(() -> brake));
     
