@@ -17,19 +17,10 @@ import frc.robot.generated.TunerConstants;
 // import edu.wpi.first.cameraserver.CameraServer;
 // import edu.wpi.first.cscore.UsbCamera;
 
-
-
-
-
 public class Climb extends SubsystemBase {
 
-  PowerDistribution examplePD = new PowerDistribution(1, ModuleType.kRev);
+  PowerDistribution PDH = new PowerDistribution(1, ModuleType.kRev);
 
-
- 
-
-
- 
   // Create the possible states of the climb
   public enum ClimbState {
     DISABLED,
@@ -42,15 +33,15 @@ public class Climb extends SubsystemBase {
   // Create a talonfx for the climb
   TalonFX climb = new TalonFX(TunerConstants.CLIMB);
 
- 
   // Climb Constructor
-  public Climb() {}
+  public Climb() {
+  }
 
   /**
-   * Get the state of the climb 
-   *  
+   * Get the state of the climb
+   * 
    * @return the state of the climb as a ClimbState
-  */
+   */
   public ClimbState getState() {
     return climbState;
   }
@@ -59,21 +50,15 @@ public class Climb extends SubsystemBase {
    * Set the state of the climb
    * 
    * @param state the state of the climb
-  */
+   */
   public void setState(ClimbState state) {
     climbState = state;
   }
 
-
-
   @Override
   public void periodic() {
-    
 
-		SmartDashboard.putString("climbState", String.valueOf(getState()));
-
-
-
+    SmartDashboard.putString("climbState", String.valueOf(getState()));
 
     // Climb State Machine
     switch (climbState) {
@@ -81,37 +66,38 @@ public class Climb extends SubsystemBase {
       // In the disabled state, the climb is disabled
       case DISABLED:
         climb.disable();
-        examplePD.setSwitchableChannel(false);
+        PDH.setSwitchableChannel(false);
 
-      
         break;
       case CLIMBING:
+
+        PDH.setSwitchableChannel(true);
+
         if (RobotContainer.driverR1.getAsBoolean()) {
           climb.set(0.5);
         } else if (RobotContainer.PitPad.rightBumper().getAsBoolean()) {
           climb.set(-.4);
         } else {
           climb.set(0);
+
+          PDH.setSwitchableChannel(true);
         }
-        examplePD.setSwitchableChannel(true);
 
         break;
     }
   }
 }
-/* 
-
-
-public getClimb 
-\
-public getSetClimb
-
-setClimb []
-
-
-
-
-
-*/ 
-
-
+/*
+ * 
+ * 
+ * public getClimb
+ * \
+ * public getSetClimb
+ * 
+ * setClimb []
+ * 
+ * 
+ * 
+ * 
+ * 
+ */

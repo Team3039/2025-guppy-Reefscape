@@ -1,7 +1,6 @@
 
 package frc.robot.subsystems;
 
-
 import java.io.IOException;
 
 import org.json.simple.parser.ParseException;
@@ -20,10 +19,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import frc.robot.subsystems.Util.RectanglePoseArea;
 import frc.robot.LimelightHelpers;
 
-
-
-
-
 public class Limelight extends SubsystemBase {
     CommandSwerveDrivetrain drivetrain;
     Alliance alliance;
@@ -33,6 +28,18 @@ public class Limelight extends SubsystemBase {
     private int fieldError = 0;
     private int distanceError = 0;
     private Pose2d botpose;
+    private PathConstraints constraints = new PathConstraints(
+
+            .5,
+
+            .5,
+
+            .5,
+
+            .5
+
+    );
+
     // private static final RectanglePoseArea field =
     // new RectanglePoseArea(new Translation2d(0.0, 0.0), new Translation2d(16.54,
     // 8.02));
@@ -43,12 +50,12 @@ public class Limelight extends SubsystemBase {
         SmartDashboard.putNumber("Field Error", fieldError);
         SmartDashboard.putNumber("Limelight Error", distanceError);
     }
+
     @Override
     public void periodic() {
         // Add your periodic code here
     }
 
-    
     public void setAlliance(Alliance alliance) {
         this.alliance = alliance;
     }
@@ -61,18 +68,6 @@ public class Limelight extends SubsystemBase {
         this.trust = trust;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
     public Command leftBranchDriveTo() {
         PathPlannerPath leftPath = null;
 
@@ -84,21 +79,21 @@ public class Limelight extends SubsystemBase {
         // Blue paths
         switch ((int) aprilTagID) {
             case 17:
-                
-            try {
-                leftPath = PathPlannerPath.fromPathFile("Blue K");
-            } catch (IOException | ParseException e) {
-                e.printStackTrace();
-            }
+
+                try {
+                    leftPath = PathPlannerPath.fromPathFile("Blue K");
+                } catch (IOException | ParseException e) {
+                    e.printStackTrace();
+                }
                 break;
 
             case 18:
 
-            try {
-                leftPath = PathPlannerPath.fromPathFile("Blue K");
-            } catch (IOException | ParseException e) {
-                e.printStackTrace();
-            }
+                try {
+                    leftPath = PathPlannerPath.fromPathFile("Blue K");
+                } catch (IOException | ParseException e) {
+                    e.printStackTrace();
+                }
                 break;
 
             case 19:
@@ -137,7 +132,6 @@ public class Limelight extends SubsystemBase {
                 // System.out.println("Hey Im a dumb ass");
 
                 break;
-                
 
             // RED paths
             case 6:
@@ -200,31 +194,16 @@ public class Limelight extends SubsystemBase {
 
             System.out.println("if you see this I work");
 
-            PathConstraints constraints = new PathConstraints(0.5, 0.5, Math.toRadians(360), Math.toRadians(540));
             Command leftBranchCommand = AutoBuilder.pathfindThenFollowPath(
-                            leftPath,
-                            constraints
-                    );
-            drivetrain.followPath(leftPath, constraints);    return leftBranchCommand;  }
-     return new Command() {
+                    leftPath,
+                    constraints);
+            drivetrain.followPath(leftPath, constraints);
+            return leftBranchCommand;
+        }
+        return new Command() {
         };
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public Command rightBranchPathfinding() {
         // B
@@ -235,7 +214,6 @@ public class Limelight extends SubsystemBase {
         // D
 
         // Blue paths
-        
 
         double aprilTagID = LimelightHelpers.getFiducialID("limelight");
 
@@ -282,7 +260,6 @@ public class Limelight extends SubsystemBase {
                 try {
 
                     // System.out.println("hey Miles your really cool");
-
 
                     path = PathPlannerPath.fromPathFile("Blue H");
                 } catch (IOException | ParseException e) {
@@ -365,17 +342,13 @@ public class Limelight extends SubsystemBase {
 
         if (path != null) {
 
-            PathConstraints constraints = new PathConstraints(0.5, 0.5, Math.toRadians(360), Math.toRadians(540));
-            Command rightSideCommand = AutoBuilder.pathfindThenFollowPath(
+            System.out.println("if you see this I work but right");
+
+            Command followRightPath = AutoBuilder.pathfindThenFollowPath(
                     path,
-                    constraints
-                    
-                    );
-
-                    drivetrain.followRightPath(path);  
-
-
-            return rightSideCommand;
+                    constraints);
+            drivetrain.followPath(path, constraints);
+            return followRightPath;
         }
 
         return new Command() {
@@ -383,7 +356,4 @@ public class Limelight extends SubsystemBase {
 
     }
 
-    // PathConstraints constraints = new PathConstraints(
-    //         .5, .5,
-    //         Math.toRadians(360), Math.toRadians(540));
 }

@@ -136,7 +136,7 @@ public class TunerConstants {
 
 // Front Left
 private static final int kFrontLeftDriveMotorId = 0;
-private static final int kFrontLeftSteerMotorId = 1;
+private static final int kFrontLeftSteerMotorId = 19;
 private static final int kFrontLeftEncoderId = 2;
 private static final Angle kFrontLeftEncoderOffset = Rotations.of(-0.4306640625);
 private static final boolean kFrontLeftSteerMotorInverted = true;
@@ -183,6 +183,7 @@ private static final Distance kBackRightYPos = Inches.of(-11);
     // Other CAN IDs 
     public static final int CORALCANRANGE = 17;
     public static final int BRANCHCANRANGE = 18;
+    public static final int PDH = 1;
     public static final int CLAW = 15;
     public static final int WRIST = 13;
     public static final int ELEVATOR = 14;
