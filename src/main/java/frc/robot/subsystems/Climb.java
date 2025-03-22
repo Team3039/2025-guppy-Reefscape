@@ -9,6 +9,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 // import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.Timer;
 // import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -71,22 +72,25 @@ public class Climb extends SubsystemBase {
         break;
       case CLIMBING:
 
-        PDH.setSwitchableChannel(true);
+    
 
         if (RobotContainer.driverR1.getAsBoolean()) {
           climb.set(0.5);
         } else if (RobotContainer.PitPad.rightBumper().getAsBoolean()) {
           climb.set(-.4);
-        } else {
-          climb.set(0);
-
+        } 
+        else if(RobotContainer.driverL1.getAsBoolean()) {
           PDH.setSwitchableChannel(true);
         }
+        else {
+          climb.set(0);
 
-        break;
+      }
+      break;
     }
   }
 }
+
 /*
  * 
  * 

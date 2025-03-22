@@ -352,6 +352,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      *                                 in the form [x, y, theta]ᵀ, with units in
      *                                 meters and radians.
      */
+
+     public void followPath(PathPlannerPath path, PathConstraints constraints) {
+
+        // Implementation of followPath method
+
+    }
+
     @Override
     public void addVisionMeasurement(
             Pose2d visionRobotPoseMeters,
@@ -361,13 +368,4 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 visionMeasurementStdDevs);
     }
 
-    public void followPath(PathPlannerPath leftPath, PathConstraints constraints) {
-
-        throw new UnsupportedOperationException("Unimplemented method 'followPath'");
-    }
-
-    public void followRightPath(PathPlannerPath Path) {
-
-        throw new UnsupportedOperationException("Unimplemented method 'followPath'");
-    }
 }

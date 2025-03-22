@@ -190,16 +190,15 @@ public class Limelight extends SubsystemBase {
                 break;
         }
 
-        if (leftPath != null) {
+        if (leftPath != null) {          
+        
+            Command followRightPath = AutoBuilder.followPath(leftPath);
 
-            System.out.println("if you see this I work");
 
-            Command leftBranchCommand = AutoBuilder.pathfindThenFollowPath(
-                    leftPath,
-                    constraints);
+              
+        
 
-           
-            return leftBranchCommand;
+            return followRightPath;
         }
         return new Command() {
         };
@@ -345,15 +344,17 @@ public class Limelight extends SubsystemBase {
 
             System.out.println("if you see this I work but right");
 
-            Command followRightPath = AutoBuilder.pathfindThenFollowPath(
-                    path,
-                    constraints);
+            // Command followRightPath = AutoBuilder.pathfindThenFollowPath(path, constraints);
+
+            // AutoBuilder.followPath(path).schedule();
 
 
-
+            Command followRightPath = AutoBuilder.followPath(path);
             
             return followRightPath;
         }
+
+
 
         return new Command() {
         };

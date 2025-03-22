@@ -24,6 +24,9 @@ import com.pathplanner.lib.auto.NamedCommands;
 // import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.Timer;
 // import edu.wpi.first.wpilibj.PowerDistribution;
 // import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -63,8 +66,10 @@ public class RobotContainer {
 // private static final Logger logger = Logger.getLogger(RobotContainer.class.getName());
 private final SendableChooser<Command> autoChooser;
 
+
+
 public RobotContainer() {
-  
+
 
 
     //Elevator commands
@@ -110,7 +115,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
       PS4Controller.Button.kTouchpad.value);
   private final JoystickButton driverStart = new JoystickButton(driverPad, PS4Controller.Button.kPS.value);
 
-  private final JoystickButton driverShare = new JoystickButton(driverPad, PS4Controller.Button.kShare.value);
+  public final static JoystickButton driverShare = new JoystickButton(driverPad, PS4Controller.Button.kShare.value);
   private final JoystickButton driverOptions = new JoystickButton(driverPad, PS4Controller.Button.kOptions.value);
 
 
@@ -211,7 +216,15 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
         // drivetrain.registerTelemetry(logger::telemeterize); // Commented out as Logger does not have telemeterize method
 
+
         driverShare.toggleOnTrue(new SetClimbManualOverride());
+
+        
+        
+        
+
+
+
 
 
         //pit pad
