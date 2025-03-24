@@ -167,13 +167,13 @@ public class Claw extends SubsystemBase {
       // In the algae state, the claw will spin forwards to intake algae, 
       //  deactivating if the current exceeds 10 amps
       case ALGAE:
-        // if (claw.getSupplyCurrent().getValueAsDouble() > 10) {
-        //   setWheelSpeed(0);
-        //   hasAlgae = true;
-        // }
-        // else if (!hasGamepiece()) {
-        //   setWheelSpeed(-0.1);
-        // }
+        if (claw.getSupplyCurrent().getValueAsDouble() > 6) {
+          setWheelSpeed(0);
+          hasAlgae = true;
+        }
+        else if (!hasGamepiece()) {
+          setWheelSpeed(-0.2);
+        }
         break;
 
       // In the release state, the claw will spin forwards to release the gamepiece

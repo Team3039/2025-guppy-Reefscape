@@ -1238,7 +1238,7 @@ public class LimelightHelpers {
      * @return
      */
     public static PoseEstimate getBotPoseEstimate_wpiBlue(String limelightName) {
-        return getBotPoseEstimate(limelightName, "botpose_wpiblue", false);
+        return getBotPoseEstimate(limelightName, "botpose_wpiblue", true);
     }
 
     /**
@@ -1273,7 +1273,7 @@ public class LimelightHelpers {
      * @return
      */
     public static PoseEstimate getBotPoseEstimate_wpiRed(String limelightName) {
-        return getBotPoseEstimate(limelightName, "botpose_wpired", false);
+        return getBotPoseEstimate(limelightName, "botpose_wpired", true);
     }
 
     /**

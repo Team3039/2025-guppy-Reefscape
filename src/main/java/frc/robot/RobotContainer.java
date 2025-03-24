@@ -46,6 +46,7 @@ import frc.robot.commands.SetWristManualOverride;
 import frc.robot.commands.AutoCommands.CoralintakeAuto;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL3;
+import frc.robot.commands.ElevatorRoutines.ScoreAlgaeProcessor;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL2;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL3;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL4;
@@ -90,7 +91,7 @@ public RobotContainer() {
     configureBindings();
 }
     
-public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepad(0); // Co-Pilot Joystick
+public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepad(0); 
 
     public final static CommandXboxController operatorPad = new CommandXboxController(1);
 
@@ -187,24 +188,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         );
 
 
-        // SmartDashboard.putData("On-the-fly path", Commands.runOnce(() -> {
-        //     Pose2d currentPose = drivetrain.getPose();
-            
-        //     // The rotation component in these poses represents the direction of travel
-        //     Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
-        //     Pose2d endPos = new Pose2d(currentPose.getTranslation().plus(new Translation2d(5.893, 3.841)), new Rotation2d());
       
-        //     List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(startPos, endPos);
-        //     PathPlannerPath path = new PathPlannerPath(
-        //       waypoints, 
-        //       new PathConstraints(
-        //         .5, .5, 
-        //         Math.toRadians(360), Math.toRadians(540)
-        //       ),
-        //       null, // Ideal starting state can be null for on-the-fly paths
-        //       new GoalEndState(0.0, currentPose.getRotation())
-        //     );
-        // }));
 
         driverR2.whileTrue(limelight.rightBranchPathfinding());
         
@@ -247,14 +231,16 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         operatorPad.b().whileTrue(new SetClawRelease());
 
         //clear algae
-        operatorPad.x().whileTrue(new RemoveAlgaeL2());
-        operatorPad.y().whileTrue(new RemoveAlgaeL3());
-
+        // operatorPad.x().whileTrue(new RemoveAlgaeL2());
+        // operatorPad.y().whileTrue(new RemoveAlgaeL3());
+        // operatorPad.rightBumper().onTrue(new ScoreAlgaeProcessor());
+        
+        
         // Scoring Coral
-        operatorPad.povDown().onTrue(new ScoreCoralTrough());
-        operatorPad.povLeft().onTrue(new ScoreCoralL2());
-        operatorPad.povRight().onTrue(new ScoreCoralL3());
-            operatorPad.povUp().onTrue(new ScoreCoralL4());
+    //     operatorPad.povDown().onTrue(new ScoreCoralTrough());
+    //     operatorPad.povLeft().onTrue(new ScoreCoralL2());
+    //     operatorPad.povRight().onTrue(new ScoreCoralL3());
+    //         operatorPad.povUp().onTrue(new ScoreCoralL4());
     }
 
     public Command getAutonomousCommand() {
