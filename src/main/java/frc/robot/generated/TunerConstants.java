@@ -321,20 +321,20 @@ private static final Distance kBackRightYPos = Inches.of(-11);
     *   Other Constants
     */
     public static final class Wrist {
-        public static final double WRIST_KP = 0.0078;
-        public static final double Coral_WRIST_KP = 0.004;
+        public static final double WRIST_KP = 0.0;
+        public static final double Coral_WRIST_KP = 0.000;
         public static final double WRIST_KI = 0;
-        public static final double WRIST_KD = 0.00015;
-        public static final double WRIST_KS = -0;
-        public static final double WRIST_KG = -0;
-        public static final double Coral_WRIST_KS = -0.0;
-        public static final double Coral_WRIST_KG = -0.04;
+        public static final double WRIST_KD = 0.0000;
+        public static final double WRIST_KS = 0;
+        public static final double WRIST_KG = 0;
+        public static final double Coral_WRIST_KS = 0.0;
+        public static final double Coral_WRIST_KG = 0.00;
         public static final double WRIST_KV = 0;
-        public static final double WRIST_MAX_VEL = .8;
-        public static final double WRIST_MAX_ACCEL = .05;
+        public static final double WRIST_MAX_VEL = .0;
+        public static final double WRIST_MAX_ACCEL = .00;
 
-        public static final double WRIST_OFFSET = -148;
-        public static final double WRIST_COG_OFFSET = -39;
+        public static final double WRIST_OFFSET = 0;
+        public static final double WRIST_COG_OFFSET = 0;
 
 
 

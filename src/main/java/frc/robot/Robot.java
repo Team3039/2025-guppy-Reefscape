@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
     
     usbCamera = CameraServer.startAutomaticCapture();
     outputStream = CameraServer.putVideo("Rectangle", 640, 480);
-    outputStream = CameraServer.putVideo("limelight", 640, 480);
+    outputStream = CameraServer.putVideo("limelight", 1280, 700);
 
     if (kUseLimelight) {
       var driveState = m_robotContainer.drivetrain.getState();
@@ -54,7 +54,7 @@ public class Robot extends TimedRobot {
 
 //This not working is a crime.
 
-      LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 15, 0, 0, 0, 0);
+      LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0, 0, 0, 0, 0);
       var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
       if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
         m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
@@ -86,7 +86,7 @@ public class Robot extends TimedRobot {
 
 //This not working is a crime.
 
-      LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 15, 0, 0, 0, 0);
+      LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0, 0, 0, 0, 0);
       var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
       if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
         m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);

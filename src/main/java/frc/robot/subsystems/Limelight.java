@@ -10,6 +10,7 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 // import com.pathplanner.lib.util.FileVersionException;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 // import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -20,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
 
 public class Limelight extends SubsystemBase {
+    private SwerveDrivePoseEstimator m_poseEstimator;
     CommandSwerveDrivetrain drivetrain;
     Alliance alliance;
     private String ll = "limelight";
@@ -119,7 +121,7 @@ public class Limelight extends SubsystemBase {
                     e.printStackTrace();
                 }
 
-                // System.out.println("Hey I work");
+                 System.out.println("Hey I work");
                 break;
 
             case 22:
@@ -129,7 +131,7 @@ public class Limelight extends SubsystemBase {
                     e.printStackTrace();
                 }
 
-                // System.out.println("Hey Im a dumb ass");
+                 System.out.println("Hey Im a dumb ass");
 
                 break;
 
@@ -192,13 +194,16 @@ public class Limelight extends SubsystemBase {
 
         if (leftPath != null) {          
         
-            Command followRightPath = AutoBuilder.followPath(leftPath);
 
+            System.out.println("if you see this I work but right");
 
-              
+            Command followLeftPath = AutoBuilder.pathfindThenFollowPath(leftPath, constraints);
+
+            AutoBuilder.followPath(leftPath).schedule();
+            
         
+            return followLeftPath;
 
-            return followRightPath;
         }
         return new Command() {
         };
@@ -259,7 +264,7 @@ public class Limelight extends SubsystemBase {
             case 21:
                 try {
 
-                    // System.out.println("hey Miles your really cool");
+                    System.out.println("hey Miles your really cool");
 
                     path = PathPlannerPath.fromPathFile("Blue H");
                 } catch (IOException | ParseException e) {
@@ -271,7 +276,7 @@ public class Limelight extends SubsystemBase {
             case 22:
                 try {
 
-                    // System.out.println("im weird ");
+                    System.out.println("im weird ");
 
                     path = PathPlannerPath.fromPathFile("Blue F");
                 } catch (IOException | ParseException e) {
@@ -339,17 +344,13 @@ public class Limelight extends SubsystemBase {
                 // handle other cases
                 break;
         }
-
         if (path != null) {
 
             System.out.println("if you see this I work but right");
 
-            // Command followRightPath = AutoBuilder.pathfindThenFollowPath(path, constraints);
+            Command followRightPath = AutoBuilder.pathfindThenFollowPath(path, constraints);
 
-            // AutoBuilder.followPath(path).schedule();
-
-
-            Command followRightPath = AutoBuilder.followPath(path);
+            AutoBuilder.followPath(path).schedule();
             
             return followRightPath;
         }
