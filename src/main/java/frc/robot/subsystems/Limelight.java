@@ -14,7 +14,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
-// import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,30 +27,30 @@ import frc.robot.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.robot.LimelightHelpers.LimelightTargetingResults;
 
 public class Limelight extends SubsystemBase {
-    // private SwerveDrivePoseEstimator m_poseEstimator;
+    private SwerveDrivePoseEstimator m_poseEstimator;
     CommandSwerveDrivetrain drivetrain;
     Alliance alliance;
 
-    //  private static final RectanglePoseArea field =
-        // new RectanglePoseArea(new Translation2d(0.0, 0.0), new Translation2d(16.54, 8.02));
+     private static final RectanglePoseArea field =
+        new RectanglePoseArea(new Translation2d(0.0, 0.0), new Translation2d(16.54, 8.02));
 
     // Define the RectanglePoseArea class
-    // private static class RectanglePoseArea {
-    //     // private final Translation2d bottomLeft;
-    //     // private final Translation2d topRight;
+    private static class RectanglePoseArea {
+        private final Translation2d bottomLeft;
+        private final Translation2d topRight;
 
-    //     // public RectanglePoseArea(Translation2d bottomLeft, Translation2d topRight) {
-    //     //     this.bottomLeft = bottomLeft;
-    //     //     this.topRight = topRight;
-    //     // }
+        public RectanglePoseArea(Translation2d bottomLeft, Translation2d topRight) {
+            this.bottomLeft = bottomLeft;
+            this.topRight = topRight;
+        }
 
-    //     // public boolean isPoseWithinArea(Pose2d pose) {
-    //     //     double x = pose.getX();
-    //     //     double y = pose.getY();
-    //     //     return x >= bottomLeft.getX() && x <= topRight.getX()
-    //     //         && y >= bottomLeft.getY() && y <= topRight.getY();
-    //     // }
-    // }
+        public boolean isPoseWithinArea(Pose2d pose) {
+            double x = pose.getX();
+            double y = pose.getY();
+            return x >= bottomLeft.getX() && x <= topRight.getX()
+                && y >= bottomLeft.getY() && y <= topRight.getY();
+        }
+    }
 
 
     private String ll = "limelight";
@@ -82,36 +82,37 @@ public class Limelight extends SubsystemBase {
     }
 
      @Override
-  public void periodic() {}
-    // if (enable) {
-//       Double targetDistance = LimelightHelpers.getTargetPose3d_CameraSpace(ll).getTranslation().getDistance(new Translation3d());
-//       Double confidence = 1 - ((targetDistance - 1) / 6);
-//       LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults(ll);
-//       if (results.targetingResults.validTarget) {
-//         botpose = LimelightHelpers.getBotPose2d_wpiBlue(ll);
-//         if (field.isPoseWithinArea(botpose)) {
-//           if (drivetrain.getState().Pose.getTranslation().getDistance(botpose.getTranslation()) < 0.5
-//               || trust
-//               || ((results.targetingResults.targets_Fiducials instanceof java.util.Collection) 
-//                   && ((java.util.Collection<?>) results.targetingResults.targets_Fiducials).size() > 1)) {
+  public void periodic() {
+    if (enable) {
+      Double targetDistance = LimelightHelpers.getTargetPose3d_CameraSpace(ll).getTranslation().getDistance(new Translation3d());
+      Double confidence = 1 - ((targetDistance - 1) / 6);
+      LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults(ll);
+      if (results.targetingResults.validTarget) {
+        botpose = LimelightHelpers.getBotPose2d_wpiBlue(ll);
+        if (field.isPoseWithinArea(botpose)) {
+          if (drivetrain.getState().Pose.getTranslation().getDistance(botpose.getTranslation()) < 0.5
+              || trust
+              || ((results.targetingResults.targets_Fiducials instanceof java.util.Collection) 
+                  && ((java.util.Collection<?>) results.targetingResults.targets_Fiducials).size() > 1)) {
                 
-//             drivetrain.addVisionMeasurement(
-//                 botpose,
-//                 Timer.getFPGATimestamp()
-//                     - (results.targetingResults.targetX / 1000.0)
-//                     - (results.targetingResults.targetY / 1000.0),
-//                 VecBuilder.fill(confidence, confidence, .01));
-//           } else {
-//             distanceError++;
-//             SmartDashboard.putNumber("Limelight Error", distanceError);
-//           }
-//         } else {
-//           fieldError++;
-//           SmartDashboard.putNumber("Field Error", fieldError);
-//         }
-//       }
-//     }
-//   }
+            drivetrain.addVisionMeasurement(
+                botpose,
+                Timer.getFPGATimestamp()
+                    - (results.targetingResults.targetX / 1000.0)
+                    - (results.targetingResults.targetY / 1000.0),
+                VecBuilder.fill(confidence, confidence, .01));
+          } else {
+            distanceError++;
+            SmartDashboard.putNumber("Limelight Error", distanceError);
+          }
+        } else {
+          fieldError++;
+          SmartDashboard.putNumber("Field Error", fieldError);
+        }
+      }
+    }
+  }
+
     public void setAlliance(Alliance alliance) {
         this.alliance = alliance;
     }

@@ -184,7 +184,10 @@ private static final Distance kBackRightYPos = Inches.of(-11);
 
     // Other CAN IDs 
     public static final int CORALCANRANGE = 17;
-    public static final int BRANCHCANRANGE = 18;
+    public static final int BRANCHCANRANGE = 99;
+
+
+    public static final int wcpIsTheBest = 18;
     public static final int PDH = 1;
     public static final int CLAW = 15;
     public static final int WRIST = 20;
@@ -231,7 +234,7 @@ private static final Distance kBackRightYPos = Inches.of(-11);
     public static CommandSwerveDrivetrain createDrivetrain() {
         return new CommandSwerveDrivetrain(
             DrivetrainConstants, 
-            new SwerveModuleConstants[] {FrontLeft, FrontRight, BackLeft, BackRight}
+            0, new SwerveModuleConstants[] {FrontLeft, FrontRight, BackLeft, BackRight}
         );
     }
 
@@ -303,46 +306,46 @@ private static final Distance kBackRightYPos = Inches.of(-11);
          *                                  and radians
          * @param modules                   Constants for each specific modulexx
          */
-//         public TunerSwerveDrivetrain(
-//             SwerveDrivetrainConstants drivetrainConstants,
-//             double odometryUpdateFrequency,
-//             Matrix<N3, N1> odometryStandardDeviation,
-//             Matrix<N3, N1> visionStandardDeviation,
-//             SwerveModuleConstants<?, ?, ?>... modules
-//         ) {
-//             super(
-//                 TalonFX::new, TalonFX::new, CANcoder::new,
-//                 drivetrainConstants, odometryUpdateFrequency,
-//                 odometryStandardDeviation, visionStandardDeviation, modules
-//             );
-//         }
+        public TunerSwerveDrivetrain(
+            SwerveDrivetrainConstants drivetrainConstants,
+            double odometryUpdateFrequency,
+            Matrix<N3, N1> odometryStandardDeviation,
+            Matrix<N3, N1> visionStandardDeviation,
+            SwerveModuleConstants<?, ?, ?>... modules
+        ) {
+            super(
+                TalonFX::new, TalonFX::new, CANcoder::new,
+                drivetrainConstants, odometryUpdateFrequency,
+                odometryStandardDeviation, visionStandardDeviation, modules
+            );
+        }
         
-//     }
-
-    
-// private static final double wheelBase = 0.5; // Define the wheelBase (example value)
-// private static final double trackWidth = 0.5; // Define the trackWidth (example value)
-
-// public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
-//                                 new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
-//                                 new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
-//                                 new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
-//                                 new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
-
-//   public static enum Mode {
-//     /** Running on a real robot. */
-//     REAL,
-
-//     /** Running a physics simulator. */
-//     SIM,
-
-//     /** Replaying from a log file. */
-//     REPLAY
-//   }
-    
-//     /**
-//     *   Other Constants
     }
+
+    
+private static final double wheelBase = 0.5; // Define the wheelBase (example value)
+private static final double trackWidth = 0.5; // Define the trackWidth (example value)
+
+public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
+                                new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
+                                new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
+                                new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
+                                new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
+
+  public static enum Mode {
+    /** Running on a real robot. */
+    REAL,
+
+    /** Running a physics simulator. */
+    SIM,
+
+    /** Replaying from a log file. */
+    REPLAY
+  }
+    
+    
+    //    Other Constants
+    
     public static final class Wrist {
         public static final double WRIST_KP = 0.0;
         public static final double Coral_WRIST_KP = 0.000;
@@ -377,19 +380,19 @@ private static final Distance kBackRightYPos = Inches.of(-11);
         public TalonFXConfiguration talonFXConfigs;
         public MotionMagicConfigs motionMagicConfigs;
 
-        // public Elevator() {
-        //     talonFXConfigs = new TalonFXConfiguration();
-        //     motionMagicConfigs = new MotionMagicConfigs();
+        public Elevator() {
+            talonFXConfigs = new TalonFXConfiguration();
+            motionMagicConfigs = new MotionMagicConfigs();
 
-        //      motionMagicConfigs.MotionMagicCruiseVelocity = 80; // Target cruise velocity of 80 rps
-        //      motionMagicConfigs.MotionMagicAcceleration = 160; // Target acceleration of 160 rps/s (0.5 seconds)
-        //      motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
-        // }
+             motionMagicConfigs.MotionMagicCruiseVelocity = 80; // Target cruise velocity of 80 rps
+             motionMagicConfigs.MotionMagicAcceleration = 160; // Target acceleration of 160 rps/s (0.5 seconds)
+             motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
+        }
         
         
     }
-    
-    }
+}
+
 
 
 
