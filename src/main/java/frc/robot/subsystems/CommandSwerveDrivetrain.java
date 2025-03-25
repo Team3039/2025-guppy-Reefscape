@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
-import static edu.wpi.first.units.Units.*;
+import static edu.wpi.first.units.Units.Second;
+import static edu.wpi.first.units.Units.Volts;
+import edu.wpi.first.math.util.Units;
 
 import java.util.function.Supplier;
 
@@ -9,7 +11,6 @@ import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
@@ -18,19 +19,22 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-
+import frc.robot.LimelightHelpers;
+import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -38,10 +42,29 @@ import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
  * Subsystem so it can easily be used in command-based projects.
  */
 public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Subsystem {
+
+    // Define the getGyroRotation2D method
+    public Rotation2d getGyroRotation2D() {
+        // Return a default value or implement the actual logic to get the gyro rotation
+        return new Rotation2d();
+    }
+
+    // Define the getModulePositions method
+    public SwerveModulePosition[] getModulePositions() {
+        // Return a default value or implement the actual logic to get the module positions
+        return new SwerveModulePosition[0];
+    }
+
+    public LimelightHelpers.PoseEstimate mt2;
+    public LimelightHelpers.PoseEstimate leftPose;
+    public LimelightHelpers.PoseEstimate rightPose;
+    public LimelightHelpers.PoseEstimate[] cameraPoses = new LimelightHelpers.PoseEstimate[2];
+
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
-    private double m_lastSimTime;
+        public SwerveDrivePoseEstimator m_poseEstimator;
 
+    private double m_lastSimTime;
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
     /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
@@ -73,6 +96,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                     null,
                     this));
 
+
     /*
      * SysId routine for characterizing steer. This is used to find PID gains for
      * the steer motors.
@@ -95,26 +119,29 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * HeadingController.
      * See the documentation of SwerveRequest.SysIdSwerveRotation for info on
      * importing the log to SysId.
+     *  m_poseEstimator = new SwerveDrivePoseEstimator(Constants.swerveKinematics, getGyroRotation2D(),
+                getModulePositions(), getPose(), VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0.5)),
+                VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(1.0)));
      */
-    private final SysIdRoutine m_sysIdRoutineRotation = new SysIdRoutine(
-            new SysIdRoutine.Config(
-                    /* This is in radians per second², but SysId only supports "volts per second" */
-                    Volts.of(Math.PI / 6).per(Second),
-                    /* This is in radians per second, but SysId only supports "volts" */
-                    Volts.of(Math.PI),
-                    null, // Use default timeout (10 s)
-                    // Log state with SignalLogger class
-                    state -> SignalLogger.writeString("SysIdRotation_State", state.toString())),
-            new SysIdRoutine.Mechanism(
-                    output -> {
-                        /* output is actually radians per second, but SysId only supports "volts" */
-                        setControl(m_rotationCharacterization.withRotationalRate(output.in(Volts)));
-                        /* also log the requested output for SysId */
-                        SignalLogger.writeDouble("Rotational_Rate", output.in(Volts));
-                    },
-                    null,
-                    this));
-
+    // private final SysIdRoutine m_sysIdRoutineRotation = new SysIdRoutine(
+    //         new SysIdRoutine.Config(
+    //                 /* This is in radians per second², but SysId only supports "volts per second" */
+    //                 Volts.of(Math.PI / 6).per(Second),
+    //                 /* This is in radians per second, but SysId only supports "volts" */
+    //                 Volts.of(Math.PI),
+    //                 null, // Use default timeout (10 s)
+    //                 // Log state with SignalLogger class
+    //                         state -> SignalLogger.writeString("SysIdRotation_State", state.toString()),
+    //                 new SysIdRoutine.Mechanism(
+    //                         output -> {
+    //                             /* output is actually radians per second, but SysId only supports "volts" */
+    //                             setControl(m_rotationCharacterization.withRotationalRate(output.in(Volts)));
+    //                             /* also log the requested output for SysId */
+    //                             SignalLogger.writeDouble("Rotational_Rate", output.in(Volts));
+    //                         },
+    //                         null,
+    //         this);
+    
     /* The SysId routine to test */
     private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineTranslation;
 
@@ -134,12 +161,18 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             SwerveDrivetrainConstants drivetrainConstants,
             SwerveModuleConstants<?, ?, ?>... modules) {
         super(drivetrainConstants, modules);
+        
+        if (Utils.isSimulation()) {
+        m_poseEstimator = new SwerveDrivePoseEstimator(TunerConstants.swerveKinematics, getGyroRotation2D(),
+                        getModulePositions(), getPose(), VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0.5)),
+                        VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(1.0)));
+
         if (Utils.isSimulation()) {
             startSimThread();
         }
+        }
         configureAutoBuilder();
     }
-
     /**
      * Constructs a CTRE SwerveDrivetrain using the specified constants.
      * <p>
@@ -207,6 +240,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         configureAutoBuilder();
     }
 
+
+
+ 
+
+
+
+
     private void configureAutoBuilder() {
         try {
             var config = RobotConfig.fromGUISettings();
@@ -272,6 +312,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     @Override
     public void periodic() {
 
+
+        
+
         /*
          * Periodically try to apply the operator perspective.
          * If we haven't applied the operator perspective before, then we should apply
@@ -331,7 +374,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @return The current pose of the robot.
      */
     public Pose2d getPose() {
+
+
+
         return getState().Pose;
+
     }
 
     /**
