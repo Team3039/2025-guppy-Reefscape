@@ -59,14 +59,14 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return new SwerveModulePosition[0];
     }
 
-    public LimelightHelpers.PoseEstimate mt2;
-    public LimelightHelpers.PoseEstimate leftPose;
-    public LimelightHelpers.PoseEstimate rightPose;
-    public LimelightHelpers.PoseEstimate[] cameraPoses = new LimelightHelpers.PoseEstimate[2];
+    // public LimelightHelpers.PoseEstimate mt2;
+    // public LimelightHelpers.PoseEstimate leftPose;
+    // public LimelightHelpers.PoseEstimate rightPose;
+    // public LimelightHelpers.PoseEstimate[] cameraPoses = new LimelightHelpers.PoseEstimate[2];
 
     private static final double kSimLoopPeriod = 0.005; // 5 ms
-    private Notifier m_simNotifier = null;
-        public SwerveDrivePoseEstimator m_poseEstimator;
+    // private Notifier m_simNotifier = null;
+        // public SwerveDrivePoseEstimator m_poseEstimator;
 
     private double m_lastSimTime;
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
@@ -216,7 +216,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         // if (Utils.isSimulation()) {
         //     startSimThread();
         // }
-        configureAutoBuilder();
+        // configureAutoBuilder();
     }
 
     /**
@@ -246,19 +246,19 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      *                                  and radians
      * @param modules                   Constants for each specific module
      */
-    public CommandSwerveDrivetrain(
-            SwerveDrivetrainConstants drivetrainConstants,
-            double odometryUpdateFrequency,
-            Matrix<N3, N1> odometryStandardDeviation,
-            Matrix<N3, N1> visionStandardDeviation,
-            SwerveModuleConstants<?, ?, ?>... modules) {
-        super(drivetrainConstants, odometryUpdateFrequency, odometryStandardDeviation, visionStandardDeviation,
-                modules);
+    // public CommandSwerveDrivetrain(
+    //         SwerveDrivetrainConstants drivetrainConstants,
+    //         double odometryUpdateFrequency,
+    //         Matrix<N3, N1> odometryStandardDeviation,
+    //         Matrix<N3, N1> visionStandardDeviation,
+    //         SwerveModuleConstants<?, ?, ?>... modules) {
+        // super(drivetrainConstants, odometryUpdateFrequency, odometryStandardDeviation, visionStandardDeviation,
+        //         modules);
         // if (Utils.isSimulation()) {
         //     startSimThread();
         // }
-        configureAutoBuilder();
-    }
+    //     configureAutoBuilder();
+    // }
 
 
 
@@ -279,35 +279,35 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
 
 
-    private void configureAutoBuilder() {
-        try {
-            var config = RobotConfig.fromGUISettings();
-            AutoBuilder.configure(
-                 ()->this.getState().Pose,/// getState().Pose, // Supplier of current robot pose
-                    this::resetPose, // Consumer for seeding pose against auto
-                    () -> getState().Speeds, // Supplier of current robot speeds
-                    // Consumer of ChassisSpeeds and feedforwards to drive the robot
-                    (speeds, feedforwards) -> setControl(
-                            m_pathApplyRobotSpeeds.withSpeeds(speeds)
-                                    .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
-                                    .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())),
-                    new PPHolonomicDriveController(
-                            // PID constants for translation
-                            new PIDConstants(2., 0, 0),// was 0.5  //was 0.7
-                            // kP10
-                            // PID constants for rotation
-                            new PIDConstants(2, 0, 0)),// was 2.0
-                    config,
-                    // Assume the path needs to be flipped for Red vs Blue, this is normally the
-                    // case
-                    () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
-                    this // Subsystem for requirements
-            );
-        } catch (Exception ex) {
-            DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder",
-                    ex.getStackTrace());
-        }
-    }
+    // private void configureAutoBuilder() {
+    //     try {
+    //         var config = RobotConfig.fromGUISettings();
+    //         AutoBuilder.configure(
+    //              ()->this.getState().Pose,/// getState().Pose, // Supplier of current robot pose
+    //                 this::resetPose, // Consumer for seeding pose against auto
+    //                 () -> getState().Speeds, // Supplier of current robot speeds
+    //                 // Consumer of ChassisSpeeds and feedforwards to drive the robot
+    //                 (speeds, feedforwards) -> setControl(
+    //                         m_pathApplyRobotSpeeds.withSpeeds(speeds)
+    //                                 .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
+    //                                 .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())),
+    //                 new PPHolonomicDriveController(
+    //                         // PID constants for translation
+    //                         new PIDConstants(2., 0, 0),// was 0.5  //was 0.7
+    //                         // kP10
+    //                         // PID constants for rotation
+    //                         new PIDConstants(2, 0, 0)),// was 2.0
+    //                 config,
+    //                 // Assume the path needs to be flipped for Red vs Blue, this is normally the
+    //                 // case
+    //                 () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
+    //                 this // Subsystem for requirements
+    //         );
+    //     } catch (Exception ex) {
+    //         DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder",
+    //                 ex.getStackTrace());
+    //     }
+    // }
 
 
 

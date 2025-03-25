@@ -303,46 +303,46 @@ private static final Distance kBackRightYPos = Inches.of(-11);
          *                                  and radians
          * @param modules                   Constants for each specific modulexx
          */
-        public TunerSwerveDrivetrain(
-            SwerveDrivetrainConstants drivetrainConstants,
-            double odometryUpdateFrequency,
-            Matrix<N3, N1> odometryStandardDeviation,
-            Matrix<N3, N1> visionStandardDeviation,
-            SwerveModuleConstants<?, ?, ?>... modules
-        ) {
-            super(
-                TalonFX::new, TalonFX::new, CANcoder::new,
-                drivetrainConstants, odometryUpdateFrequency,
-                odometryStandardDeviation, visionStandardDeviation, modules
-            );
-        }
+//         public TunerSwerveDrivetrain(
+//             SwerveDrivetrainConstants drivetrainConstants,
+//             double odometryUpdateFrequency,
+//             Matrix<N3, N1> odometryStandardDeviation,
+//             Matrix<N3, N1> visionStandardDeviation,
+//             SwerveModuleConstants<?, ?, ?>... modules
+//         ) {
+//             super(
+//                 TalonFX::new, TalonFX::new, CANcoder::new,
+//                 drivetrainConstants, odometryUpdateFrequency,
+//                 odometryStandardDeviation, visionStandardDeviation, modules
+//             );
+//         }
         
+//     }
+
+    
+// private static final double wheelBase = 0.5; // Define the wheelBase (example value)
+// private static final double trackWidth = 0.5; // Define the trackWidth (example value)
+
+// public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
+//                                 new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
+//                                 new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
+//                                 new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
+//                                 new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
+
+//   public static enum Mode {
+//     /** Running on a real robot. */
+//     REAL,
+
+//     /** Running a physics simulator. */
+//     SIM,
+
+//     /** Replaying from a log file. */
+//     REPLAY
+//   }
+    
+//     /**
+//     *   Other Constants
     }
-
-    
-private static final double wheelBase = 0.5; // Define the wheelBase (example value)
-private static final double trackWidth = 0.5; // Define the trackWidth (example value)
-
-public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
-                                new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
-                                new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
-                                new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
-                                new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
-
-  public static enum Mode {
-    /** Running on a real robot. */
-    REAL,
-
-    /** Running a physics simulator. */
-    SIM,
-
-    /** Replaying from a log file. */
-    REPLAY
-  }
-    
-    /**
-    *   Other Constants
-    */
     public static final class Wrist {
         public static final double WRIST_KP = 0.0;
         public static final double Coral_WRIST_KP = 0.000;
@@ -389,8 +389,7 @@ public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKine
         
     }
     
-
-}
+    }
 
 
 
