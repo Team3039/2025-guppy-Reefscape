@@ -39,7 +39,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.LimelightHelpers;
 import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
-import frc.robot.generated.TunerConstants.Constants.swerveKinematics;
+import frc.robot.generated.TunerConstants.Constants;
 
 
 /**
@@ -168,7 +168,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         super(drivetrainConstants, modules);
         
        
-        m_poseEstimator = new SwerveDrivePoseEstimator(TunerConstants.swerveKinematics, getGyroRotation2D(),
+        m_poseEstimator = new SwerveDrivePoseEstimator(TunerConstants.Constants.swerveKinematics, getGyroRotation2D(),
                         getModulePositions(), getPose(), VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0.5)),
                         VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(1.0)));
             } 
@@ -375,11 +375,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      */
     public Pose2d getPose() {
 
-
-
-        return getState().Pose;
-
+        return m_poseEstimator.getEstimatedPosition();
+        
     }
+
+
 
     /**
      * Adds a vision measurement to the Kalman Filter. This will correct the

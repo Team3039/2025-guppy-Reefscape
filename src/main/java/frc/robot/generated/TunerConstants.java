@@ -377,7 +377,7 @@ public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKine
     /** Replaying from a log file. */
     REPLAY
   }
-
+}
 
     
     /**
@@ -431,7 +431,7 @@ public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKine
     
 
 }
-}
+
 
 
 
