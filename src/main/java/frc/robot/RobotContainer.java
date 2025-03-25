@@ -24,9 +24,9 @@ import com.pathplanner.lib.auto.NamedCommands;
 // import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.PS4Controller;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.Timer;
+// import edu.wpi.first.wpilibj.PowerDistribution;
+// import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+// import edu.wpi.first.wpilibj.Timer;
 // import edu.wpi.first.wpilibj.PowerDistribution;
 // import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -66,6 +66,7 @@ public class RobotContainer {
   
 
 // private static final Logger logger = Logger.getLogger(RobotContainer.class.getName());
+
 private final SendableChooser<Command> autoChooser;
 
 

@@ -216,7 +216,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         // if (Utils.isSimulation()) {
         //     startSimThread();
         // }
-        // configureAutoBuilder();
+        configureAutoBuilder();
     }
 
     /**
@@ -257,7 +257,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         // if (Utils.isSimulation()) {
         //     startSimThread();
         // }
-        // configureAutoBuilder();
+        configureAutoBuilder();
     }
 
 
@@ -283,7 +283,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         try {
             var config = RobotConfig.fromGUISettings();
             AutoBuilder.configure(
-                 ()->this.getState().Pose, // Supplier of current robot pose
+                 ()->this.getState().Pose,/// getState().Pose, // Supplier of current robot pose
                     this::resetPose, // Consumer for seeding pose against auto
                     () -> getState().Speeds, // Supplier of current robot speeds
                     // Consumer of ChassisSpeeds and feedforwards to drive the robot
@@ -293,9 +293,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                                     .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())),
                     new PPHolonomicDriveController(
                             // PID constants for translation
-                            new PIDConstants(10, 0, 0),
+                            new PIDConstants(2., 0, 0),// was 0.5  //was 0.7
+                            // kP10
                             // PID constants for rotation
-                            new PIDConstants(7, 0, 0)),
+                            new PIDConstants(2, 0, 0)),// was 2.0
                     config,
                     // Assume the path needs to be flipped for Red vs Blue, this is normally the
                     // case
@@ -455,13 +456,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     // }
 
-    @Override
-    public void addVisionMeasurement(
-            Pose2d visionRobotPoseMeters,
-            double timestampSeconds,
-            Matrix<N3, N1> visionMeasurementStdDevs) {
-        super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds),
-                visionMeasurementStdDevs);
-    }
+    // @Override
+    // public void addVisionMeasurement(
+    //         Pose2d visionRobotPoseMeters,
+    //         double timestampSeconds,
+    //         Matrix<N3, N1> visionMeasurementStdDevs) {
+    //     super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds),
+    //             visionMeasurementStdDevs);
+    // }
 
 }
