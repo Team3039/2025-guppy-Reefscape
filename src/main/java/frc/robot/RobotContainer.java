@@ -38,6 +38,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.SetClawIntakeAlgae;
 import frc.robot.commands.SetClawIntakeCoral;
 import frc.robot.commands.SetClawRelease;
 import frc.robot.commands.SetClimbManualOverride;
@@ -152,15 +153,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
 
 
-    
-    private Pose2d getBotPose() {
-        double[] botPoseArray = LimelightHelpers.getBotPose("limelight");
-        SmartDashboard.putNumberArray("Bot Pose", botPoseArray);
-        return new Pose2d(
-            new Translation2d(botPoseArray[0], botPoseArray[1]),
-            new Rotation2d(botPoseArray[5])
-        );
-    }
+   
 
     private void configureBindings() {
         // Drivetrain
@@ -229,7 +222,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         // intake and release
         operatorPad.a().whileTrue(new SetClawIntakeCoral());
         operatorPad.b().whileTrue(new SetClawRelease());
-
+        operatorPad.leftTrigger().whileTrue(new SetClawIntakeAlgae());
         //clear algae
         // operatorPad.x().whileTrue(new RemoveAlgaeL2());
         // operatorPad.y().whileTrue(new RemoveAlgaeL3());

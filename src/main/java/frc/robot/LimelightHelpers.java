@@ -363,7 +363,7 @@ public class LimelightHelpers {
     /**
      * Limelight Results object, parsed from a Limelight's JSON results output.
      */
-    public static class LimelightResults {
+    public static class LimelightTargetingResults {
         
         public String error;
         
@@ -451,7 +451,7 @@ public class LimelightHelpers {
         @JsonProperty("Barcode")
         public LimelightTarget_Barcode[] targets_Barcode;
 
-        public LimelightResults() {
+        public void LimelightResults() {
             botpose = new double[6];
             botpose_wpired = new double[6];
             botpose_wpiblue = new double[6];
@@ -466,6 +466,11 @@ public class LimelightHelpers {
 
 
     }
+
+
+   
+
+
 
     /**
      * Represents a Limelight Raw Fiducial result from Limelight's NetworkTables output.
@@ -575,6 +580,38 @@ public class LimelightHelpers {
         }
 
     }
+
+
+    public static class LimelightResults {
+        @JsonProperty("Results")
+        public Results targetingResults;
+
+        public double latency_jsonParse; // Added field
+
+        public String error; // Added field to store error messages
+
+        public LimelightResults() {
+            targetingResults = new Results();
+        }
+    }
+
+    /**
+     * Represents the targeting results from the Limelight.
+     */
+    public static class Results {
+        // Define fields and methods for the Results class as needed.
+        public boolean validTarget;
+        public double targetX;
+        public double targetY;
+        public Object targets_Fiducials;
+
+        public Results() {
+            validTarget = false;
+            targetX = 0.0;
+            targetY = 0.0;
+        }
+    }
+
 
     private static ObjectMapper mapper;
 
@@ -786,6 +823,11 @@ public class LimelightHelpers {
     
         return rawDetections;
     }
+
+
+    
+
+
 
     /**
      * Prints detailed information about a PoseEstimate to standard output.

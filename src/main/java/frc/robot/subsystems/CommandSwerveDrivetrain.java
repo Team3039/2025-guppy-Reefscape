@@ -39,7 +39,6 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.LimelightHelpers;
 import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
-import frc.robot.generated.TunerConstants.Constants;
 
 
 /**
@@ -162,17 +161,38 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @param drivetrainConstants Drivetrain-wide constants for the swerve drive
      * @param modules             Constants for each specific module
      */
-    public CommandSwerveDrivetrain(
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+     public CommandSwerveDrivetrain(
             SwerveDrivetrainConstants drivetrainConstants,
             SwerveModuleConstants<?, ?, ?>... modules) {
         super(drivetrainConstants, modules);
         
        
-        m_poseEstimator = new SwerveDrivePoseEstimator(TunerConstants.Constants.swerveKinematics, getGyroRotation2D(),
+        m_poseEstimator = new SwerveDrivePoseEstimator(TunerConstants.swerveKinematics, getGyroRotation2D(),
                         getModulePositions(), getPose(), VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0.5)),
                         VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(1.0)));
             } 
        
+
+
+
+
+
+
+
+
+
+    
     /**
      * Constructs a CTRE SwerveDrivetrain using the specified constants.
      * <p>

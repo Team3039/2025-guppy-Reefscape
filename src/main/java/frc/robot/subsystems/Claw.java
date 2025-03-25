@@ -168,11 +168,11 @@ public class Claw extends SubsystemBase {
       //  deactivating if the current exceeds 10 amps
       case ALGAE:
         if (claw.getSupplyCurrent().getValueAsDouble() > 6) {
-          setWheelSpeed(0);
+          setWheelSpeed(.05);
           hasAlgae = true;
         }
         else if (!hasGamepiece()) {
-          setWheelSpeed(-0.2);
+          setWheelSpeed(0.3);
         }
         break;
 
