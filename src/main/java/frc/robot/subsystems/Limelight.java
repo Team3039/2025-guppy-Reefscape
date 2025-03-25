@@ -72,9 +72,7 @@ public class Limelight extends SubsystemBase {
 
     );
 
-    // private static final RectanglePoseArea field =
-    // new RectanglePoseArea(new Translation2d(0.0, 0.0), new Translation2d(16.54,
-    // 8.02));
+    
 
     /** Creates a new Limelight. */
     public Limelight(CommandSwerveDrivetrain drivetrain) {
