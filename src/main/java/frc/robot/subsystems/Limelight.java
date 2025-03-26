@@ -79,42 +79,29 @@ public class Limelight extends SubsystemBase {
         this.drivetrain = drivetrain;
         SmartDashboard.putNumber("Field Error", fieldError);
         SmartDashboard.putNumber("Limelight Error", distanceError);
-    }
+            }
 
-     @Override
-  public void periodic() {
-    if (enable) {
-      Double targetDistance = LimelightHelpers.getTargetPose3d_CameraSpace(ll).getTranslation().getDistance(new Translation3d());
-      Double confidence = 1 - ((targetDistance - 1) / 6);
-      LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults(ll);
-      if (results.targetingResults.validTarget) {
-        botpose = LimelightHelpers.getBotPose2d_wpiBlue(ll);
-        if (field.isPoseWithinArea(botpose)) {
-          if (drivetrain.getState().Pose.getTranslation().getDistance(botpose.getTranslation()) < 0.5
-              || trust
-              || ((results.targetingResults.targets_Fiducials instanceof java.util.Collection) 
-                  && ((java.util.Collection<?>) results.targetingResults.targets_Fiducials).size() > 1)) {
-                
-            drivetrain.addVisionMeasurement(
-                botpose,
-                Timer.getFPGATimestamp()
-                    - (results.targetingResults.targetX / 1000.0)
-                    - (results.targetingResults.targetY / 1000.0),
-                VecBuilder.fill(confidence, confidence, .01));
-          } else {
-            distanceError++;
-            SmartDashboard.putNumber("Limelight Error", distanceError);
+             @Override
+          public void periodic() {
+            if (enable) {
+              LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults(ll);
+              if (results.targetingResults.validTarget) {
+                botpose = LimelightHelpers.getBotPose2d_wpiBlue(ll);
+                if (field.isPoseWithinArea(botpose)) {
+                  drivetrain.addVisionMeasurement(
+                      botpose,
+                      Timer.getFPGATimestamp()
+                          - (results.targetingResults.targetX / 1000.0)
+                          - (results.targetingResults.targetY / 1000.0));
+                } else {
+                  fieldError++;
+                  SmartDashboard.putNumber("Field Error", fieldError);
+                }
+              }
+            }
           }
-        } else {
-          fieldError++;
-          SmartDashboard.putNumber("Field Error", fieldError);
-        }
-      }
-    }
-  }
 
-    public void setAlliance(Alliance alliance) {
-        this.alliance = alliance;
+            public void setAlliance(Alliance alliance) {  this.alliance = alliance;
     }
 
     public void useLimelight(boolean enable) {

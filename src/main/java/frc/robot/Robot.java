@@ -68,6 +68,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
 
+
+
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("limelight").getDoubleArray(new double[6]);
     CommandScheduler.getInstance().run();
 
