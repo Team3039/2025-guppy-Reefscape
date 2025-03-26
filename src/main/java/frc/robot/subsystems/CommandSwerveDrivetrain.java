@@ -2,8 +2,10 @@ package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.io.IOException;
 import java.util.function.Supplier;
 
+import org.json.simple.parser.ParseException;
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
@@ -23,6 +25,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -33,6 +36,7 @@ import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
  * Subsystem so it can easily be used in command-based projects.
  */
+@SuppressWarnings("unused")
 public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Subsystem {
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
@@ -44,13 +48,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean m_hasAppliedOperatorPerspective = false;
+    private final SwerveRequest.ApplyRobotSpeeds m_pathApplyRobotSpeeds = new SwerveRequest.ApplyRobotSpeeds();
 
     /* Swerve requests to apply during SysId characterization */
     private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
     private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
     private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
-    private final SwerveRequest.ApplyRobotSpeeds m_pathApplyRobotSpeeds = new SwerveRequest.ApplyRobotSpeeds();
-
 
     /* SysId routine for characterizing translation. This is used to find PID gains for the drive motors. */
     private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
@@ -68,48 +71,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         )
     );
 
-
-
-
-    private void configureAutoBuilder() {
-
-
-        try {
-            var config = RobotConfig.fromGUISettings();
-            AutoBuilder.configure(
-                 ()->this.getState().Pose,/// getState().Pose, // Supplier of current robot pose
-                    this::resetPose, // Consumer for seeding pose against auto
-                    () -> getState().Speeds, // Supplier of current robot speeds
-                    // Consumer of ChassisSpeeds and feedforwards to drive the robot
-                    (speeds, feedforwards) -> setControl(
-                            m_pathApplyRobotSpeeds.withSpeeds(speeds)
-                                    .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
-                                    .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())),
-                    new PPHolonomicDriveController(
-                            // PID constants for translation
-                            new PIDConstants(7., 0, 0),// was 0.5  //was 0.7
-                            // kP10
-                            // PID constants for rotation
-                            new PIDConstants(7, 0, 0)),// was 2.0
-                    config,
-                    // Assume the path needs to be flipped for Red vs Blue, this is normally the
-                    // case
-                    () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
-                    this // Subsystem for requirements
-            );
-        } catch (Exception ex) {
-            DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder",
-                    ex.getStackTrace());
-        }
-
-        configureAutoBuilder();
-
-    }
-
-
-
-
     /* SysId routine for characterizing steer. This is used to find PID gains for the steer motors. */
+    //@SuppressWarnings("unused")
     private final SysIdRoutine m_sysIdRoutineSteer = new SysIdRoutine(
         new SysIdRoutine.Config(
             null,        // Use default ramp rate (1 V/s)
@@ -130,6 +93,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * This is used to find PID gains for the FieldCentricFacingAngle HeadingController.
      * See the documentation of SwerveRequest.SysIdSwerveRotation for info on importing the log to SysId.
      */
+    //@SuppressWarnings("unused")
     private final SysIdRoutine m_sysIdRoutineRotation = new SysIdRoutine(
         new SysIdRoutine.Config(
             /* This is in radians per second², but SysId only supports "volts per second" */
@@ -173,8 +137,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (Utils.isSimulation()) {
             startSimThread();
         }
-        // configureAutoBuilder();
-
+        configureAutoBuilder();
     }
 
     /**
@@ -199,8 +162,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (Utils.isSimulation()) {
             startSimThread();
         }
-        // configureAutoBuilder();
-
+        configureAutoBuilder();
     }
 
     /**
@@ -233,8 +195,33 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (Utils.isSimulation()) {
             startSimThread();
         }
-        // configureAutoBuilder();
-
+        configureAutoBuilder();
+    }
+    private void configureAutoBuilder() {
+        try {
+            var config = RobotConfig.fromGUISettings();
+            AutoBuilder.configure(
+                () -> getState().Pose,   // Supplier of current robot pose
+                this::resetPose,         // Consumer for seeding pose against auto
+                () -> getState().Speeds, // Supplier of current robot speeds
+                (speeds, feedforwards) -> setControl(
+                    m_pathApplyRobotSpeeds.withSpeeds(speeds.times(-1))
+                        .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
+                        .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())
+                ),
+                new PPHolonomicDriveController(
+                    new PIDConstants(0.25, 0, 0), //p=0.5
+                    new PIDConstants(2.75, 0, 0) //p=1.1
+                ),
+                config,
+                () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
+                this // Subsystem for requirements
+            );
+        } catch (IOException ioException) {
+            DriverStation.reportError("Auto Builder IO Exception", ioException.getStackTrace());
+        } catch (ParseException parseException) {
+            DriverStation.reportError("Auto Builder Parse Exception", parseException.getStackTrace());
+        }
     }
 
     /**

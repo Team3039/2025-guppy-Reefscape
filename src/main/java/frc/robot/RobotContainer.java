@@ -86,6 +86,7 @@ public RobotContainer() {
     NamedCommands.registerCommand("Tuha", new SetClawRelease());
     //                                  (Release)
 
+    
      autoChooser = AutoBuilder.buildAutoChooser(); //Auto chooser
     SmartDashboard.putData("Auto Mode", autoChooser);
 
