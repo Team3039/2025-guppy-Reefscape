@@ -46,7 +46,7 @@ public class Claw extends SubsystemBase {
   CANrange coralCANRange = new CANrange(TunerConstants.CORALCANRANGE);
 
   // This CANrange is used to align with the branch when scoring coral
-  CANrange branchCANRange = new CANrange(TunerConstants.BRANCHCANRANGE);
+  // CANrange branchCANRange = new CANrange(TunerConstants.BRANCHCANRANGE);
 
   // Claw Constructor
   public Claw() {
@@ -119,27 +119,27 @@ public class Claw extends SubsystemBase {
    * 
    * @return true if the claw is aligned with the branch, false otherwise
    */
-  public boolean isBranchDetected() {
-    return branchCANRange.getDistance().getValueAsDouble() < 0.3 && branchCANRange.getDistance().getValueAsDouble()  >.2 ;
-  }
+  // public boolean isBranchDetected() {
+    // return branchCANRange.getDistance().getValueAsDouble() < 0.3 && branchCANRange.getDistance().getValueAsDouble()  >.2 ;
+  // }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("CanRange Distance Detected", branchCANRange.getDistance().getValueAsDouble());
+    // SmartDashboard.putNumber("CanRange Distance Detected", branchCANRange.getDistance().getValueAsDouble());
     SmartDashboard.putNumber("Claw Current", claw.getSupplyCurrent().getValueAsDouble());
     SmartDashboard.putString("Claw State", String.valueOf(getState()));
     SmartDashboard.putBoolean("Has Coral", isCoralIn());
     
 
-    SmartDashboard.putBoolean("Aligned With Branch", isBranchDetected());
+    // SmartDashboard.putBoolean("Aligned With Branch", isBranchDetected());
 
     // If the robot is ready to score a coral, rumble the driver controller to indicate this
-    if (isBranchDetected() && Elevator.getSetpoint() > 8 && hasCoral) {
-      RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 10);
-    }
-    else {
-      RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 0); 
-    }
+    // if (isBranchDetected() && Elevator.getSetpoint() > 8 && hasCoral) {
+    //   RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 10);
+    // }
+    // else {
+    //   RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 0); 
+    // }
 
     // Claw State Machine
     switch (clawState) {

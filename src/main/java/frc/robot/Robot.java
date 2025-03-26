@@ -10,7 +10,6 @@ import com.pathplanner.lib.pathfinding.Pathfinding;
 
 // import frc.robot.subsystems.Elevator.ElevatorState;
 import edu.wpi.first.cscore.CvSource;
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.util.Units;
 // import edu.wpi.first.wpilibj.PowerDistribution;
 // import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -31,7 +30,6 @@ public class Robot extends TimedRobot {
   private final boolean kUseLimelight = true;
 
 
- UsbCamera usbCamera;
   CvSource outputStream;
     
 
@@ -43,7 +41,6 @@ public class Robot extends TimedRobot {
 
     Pathfinding.setPathfinder(new LocalADStar());
     
-    usbCamera = CameraServer.startAutomaticCapture();
     outputStream = CameraServer.putVideo("Rectangle", 640, 480);
     outputStream = CameraServer.putVideo("limelight", 1280, 700);
 
@@ -69,41 +66,35 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void robotPeriodic() {}
-//     NetworkTableInstance.getDefault().getTable("limelight").getEntry("limelight").getDoubleArray(new double[6]);
-//     CommandScheduler.getInstance().run();
+  public void robotPeriodic() {
 
-//     /*
-//      * This example of adding Limelight is very simple and may not be sufficient for on-field use.
-//      * Users typically need to provide a standard deviation that scales with the distance to target
-//      * and changes with number of tags available.
-//      *
-//      * This example is sufficient to show that vision integration is possible, though exact implementation
-//      * of how to use vision should be tuned per-robot and to the team's specification.
-//      */
-//     if (kUseLimelight) {
-//       var driveState = m_robotContainer.drivetrain.getState();
-//       double headingDeg = driveState.Pose.getRotation().getDegrees();
-//       double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("limelight").getDoubleArray(new double[6]);
+    CommandScheduler.getInstance().run();
 
-// //This not working is a crime.
+    
+    if (kUseLimelight) {
+      var driveState = m_robotContainer.drivetrain.getState();
+      double headingDeg = driveState.Pose.getRotation().getDegrees();
+      double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
 
-//       LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0, 0, 0, 0, 0);
-//       var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-//       if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
-//         m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
+//This not working is a crime.
 
-//       }
+      LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0, 0, 0, 0, 0);
+      var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+      if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
+        m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
+
+      }
 
       
-  //   }
+    }
 
     
     
-  //   SmartDashboard.putString("update pose", m_robotContainer.drivetrain.getState().Pose.toString());
+    SmartDashboard.putString("update pose", m_robotContainer.drivetrain.getState().Pose.toString());
     
-
-  // }
+  }
+  
 
   @Override
   public void disabledInit() {

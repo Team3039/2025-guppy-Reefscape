@@ -161,14 +161,6 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
 
-        
-       
-
-
-
-
-
-
 //Driver pad 
 
 
@@ -224,6 +216,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         operatorPad.a().whileTrue(new SetClawIntakeCoral());
         operatorPad.b().whileTrue(new SetClawRelease());
         operatorPad.leftTrigger().whileTrue(new SetClawIntakeAlgae());
+        
         //clear algae
         // operatorPad.x().whileTrue(new RemoveAlgaeL2());
         // operatorPad.y().whileTrue(new RemoveAlgaeL3());

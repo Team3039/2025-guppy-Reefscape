@@ -28,13 +28,13 @@ public class TunerConstants {
     // The steer motor uses any SwerveModule.SteerRequestType control request with the
     // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
     private static final Slot0Configs steerGains = new Slot0Configs()
-        .withKP(50).withKI(0).withKD(.5)
+        .withKP(100).withKI(0).withKD(.5)
         .withKS(.10).withKV(1.91).withKA(0)
         .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
     // When using closed-loop control, the drive motor uses the control
     // output type specified by SwerveModuleConstants.DriveMotorClosedLoopOutput
     private static final Slot0Configs driveGains = new Slot0Configs()
-        .withKP(0.05).withKI(0).withKD(1)
+        .withKP(0.1).withKI(0).withKD(0)
         .withKS(0).withKV(0.124);
 
     // The closed-loop output type to use for the steer motors;
@@ -184,7 +184,7 @@ private static final Distance kBackRightYPos = Inches.of(-11);
 
     // Other CAN IDs 
     public static final int CORALCANRANGE = 17;
-    public static final int BRANCHCANRANGE = 99;
+    // public static final int BRANCHCANRANGE = 99;
 
 
     public static final int wcpIsTheBest = 18;
@@ -234,7 +234,7 @@ private static final Distance kBackRightYPos = Inches.of(-11);
     public static CommandSwerveDrivetrain createDrivetrain() {
         return new CommandSwerveDrivetrain(
             DrivetrainConstants, 
-            0, new SwerveModuleConstants[] {FrontLeft, FrontRight, BackLeft, BackRight}
+            1000, new SwerveModuleConstants[] {FrontLeft, FrontRight, BackLeft, BackRight}
         );
     }
 
@@ -367,10 +367,10 @@ public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKine
     }
 
     public static final class Elevator {
-        public static final double ELEVATOR_KP = 0.060;
+        public static final double ELEVATOR_KP = 0;   //.060
         public static final double ELEVATOR_KI = 0;
         public static final double ELEVATOR_KD = 0;
-        public static final double ELEVATOR_KS = -0.035;
+        public static final double ELEVATOR_KS = 0;    //-0.035
         public static final double ELEVATOR_KG = 0;
         public static final double ELEVATOR_KV = 0;
         public static final double ELEVATOR_MAX_VEL = .1;
