@@ -117,13 +117,25 @@ public class Elevator extends SubsystemBase {
 	}
 
 	/**
-	 * Set the position of the elevator to setpointElevator using Motion Magic.
+	 * Set the position of the elevator to setpointElevator using PID and
+	 * Feedforward.
 	 * <p>
-	 * It configures the Motion Magic control with the target position and applies it
-	 * to the elevator motor.
+	 * It will first calculate the pid output, clamping it between -.3 and .3.
+	 * <p>
+	 * Then, it adds the KS (feedforward) constant to the output.
+	 * <p>
+	 * This result is the percent output that will be assigned to the elevator
 	 */
+	// public void setElevatorPosition() {
+	// 	double output = 0;
+	// 	output = MathUtil.clamp(controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator * -1),
+	// 			-.20, .20) +
+	// 			TunerConstants.Elevator.ELEVATOR_KS;
+	// 	elavator.set(output);
+
 	public void setElevatorPosition() {
-		motionMagicControl.withPosition(setpointElevator * -1);
+		motionMagicControl.withPosition(setpointElevator * -1)
+			.withFeedForward(TunerConstants.Elevator.ELEVATOR_KS);
 		elavator.setControl(motionMagicControl);
 	}
 
