@@ -391,14 +391,7 @@ TalonFX m_talonFX = new TalonFX(15); // Replace '1' with the appropriate CAN ID 
         public TalonFXConfiguration talonFXConfigs;
         public MotionMagicConfigs motionMagicConfigs;
 
-        public Elevator() {
-            talonFXConfigs = new TalonFXConfiguration();
-            motionMagicConfigs = new MotionMagicConfigs();
-
-             motionMagicConfigs.MotionMagicCruiseVelocity = 50; // Target cruise velocity of 80 rps
-             motionMagicConfigs.MotionMagicAcceleration = 30; // Target acceleration of 160 rps/s (0.5 seconds)
-             motionMagicConfigs.MotionMagicJerk = 100; // Target jerk of 1600 rps/s/s (0.1 seconds)
-        }
+    
         
     }
 }

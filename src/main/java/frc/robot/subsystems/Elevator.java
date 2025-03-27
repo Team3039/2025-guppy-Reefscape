@@ -11,6 +11,9 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,6 +31,8 @@ public class Elevator extends SubsystemBase {
 
 	}
 
+
+
 	// Create a variable to store the current state of the elevator
 	public ElevatorState elevatorState = ElevatorState.IDLE;
 
@@ -39,6 +44,29 @@ public class Elevator extends SubsystemBase {
 			TunerConstants.Elevator.ELEVATOR_KP,
 			TunerConstants.Elevator.ELEVATOR_KI,
 			TunerConstants.Elevator.ELEVATOR_KD);
+
+
+	private MotionMagicVoltage motionMagicControl = new MotionMagicVoltage(0);
+
+	private MotionMagicConfigs motionMagicConfigs = new MotionMagicConfigs();
+
+	{
+		// Set Motion Magic parameters
+		motionMagicConfigs.MotionMagicCruiseVelocity =  5; // Adjust as needed
+		motionMagicConfigs.MotionMagicAcceleration =  10;   // Adjust as needed
+
+		// Configure PID slot for Motion Magic
+		Slot0Configs slot0Configs = new Slot0Configs();
+		slot0Configs.kP = TunerConstants.Elevator.ELEVATOR_KP;
+		slot0Configs.kI = TunerConstants.Elevator.ELEVATOR_KI;
+		slot0Configs.kD = TunerConstants.Elevator.ELEVATOR_KD;
+		slot0Configs.kS = TunerConstants.Elevator.ELEVATOR_KS; // Feedforward constant
+
+		// Apply configurations to the motor
+		elavator.getConfigurator().apply(motionMagicConfigs);
+		elavator.getConfigurator().apply(slot0Configs);
+	}
+
 
 	// Create a variable to store the setpoint of the elevator in kraken encoder
 	// ticks
@@ -89,22 +117,14 @@ public class Elevator extends SubsystemBase {
 	}
 
 	/**
-	 * Set the position of the elevator to setpointElevator using PID and
-	 * Feedforward.
+	 * Set the position of the elevator to setpointElevator using Motion Magic.
 	 * <p>
-	 * It will first calculate the pid output, clamping it between -.3 and .3.
-	 * <p>
-	 * Then, it adds the KS (feedforward) constant to the output.
-	 * <p>
-	 * This result is the percent output that will be assigned to the elevator
+	 * It configures the Motion Magic control with the target position and applies it
+	 * to the elevator motor.
 	 */
 	public void setElevatorPosition() {
-		double output = 0;
-		output = MathUtil.clamp(controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator * -1),
-				-.20, .20) +
-				TunerConstants.Elevator.ELEVATOR_KS;
-		elavator.set(output);
-
+		motionMagicControl.withPosition(setpointElevator * -1);
+		elavator.setControl(motionMagicControl);
 	}
 
 	/**
@@ -168,8 +188,8 @@ public class Elevator extends SubsystemBase {
 
 			// In the Idle state, the elevator rests at the bottom of the robot
 			case IDLE:
-				setSetpoint(0.1);
-				setElevatorPosition();
+					setElevatorPosition();
+					
 				break;
 
 			// In the Manual state, the elevator is controlled directly by the operator
