@@ -202,8 +202,8 @@ public class Claw extends SubsystemBase {
       // In the passive state, the claw will not intake, and will deactivate the intake. 
       //  This will be used when the claw has a gamepiece
       case PASSIVE:
-        setWheelSpeed(-.1);
-
+        setWheelSpeed(-.08);
+        
 
         break;
     }

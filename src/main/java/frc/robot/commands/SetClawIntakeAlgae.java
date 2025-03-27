@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Claw.ClawState;
+import frc.robot.subsystems.Wrist.WristState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class SetClawIntakeAlgae extends Command {
@@ -35,10 +36,15 @@ public class SetClawIntakeAlgae extends Command {
   @Override
   public void end(boolean interrupted) {
     if (!RobotContainer.claw.hasGamepiece()) {
+
       RobotContainer.claw.setState(ClawState.PASSIVE);
+      RobotContainer.wrist.setState(WristState.PASSIVE);
+
+      
   }
     else {
       RobotContainer.claw.setState(ClawState.PASSIVE);
+      RobotContainer.wrist.setState(WristState.PASSIVE);
     }
 
     if (RobotContainer.operatorPad.rightTrigger().getAsBoolean());

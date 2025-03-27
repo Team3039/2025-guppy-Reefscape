@@ -46,14 +46,15 @@ public class Elevator extends SubsystemBase {
 			TunerConstants.Elevator.ELEVATOR_KD);
 
 
-	private MotionMagicVoltage motionMagicControl = new MotionMagicVoltage(0);
+	private MotionMagicVoltage motionMagicControl = new MotionMagicVoltage(.0);
 
 	private MotionMagicConfigs motionMagicConfigs = new MotionMagicConfigs();
 
 	{
 		// Set Motion Magic parameters
-		motionMagicConfigs.MotionMagicCruiseVelocity =  5; // Adjust as needed
-		motionMagicConfigs.MotionMagicAcceleration =  10;   // Adjust as needed
+
+		motionMagicConfigs.MotionMagicCruiseVelocity =  80; // Adjust as needed
+		motionMagicConfigs.MotionMagicAcceleration =  80;   // Adjust as needed
 
 		// Configure PID slot for Motion Magic
 		Slot0Configs slot0Configs = new Slot0Configs();
@@ -126,17 +127,36 @@ public class Elevator extends SubsystemBase {
 	 * <p>
 	 * This result is the percent output that will be assigned to the elevator
 	 */
-	// public void setElevatorPosition() {
-	// 	double output = 0;
-	// 	output = MathUtil.clamp(controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator * -1),
-	// 			-.20, .20) +
-	// 			TunerConstants.Elevator.ELEVATOR_KS;
-	// 	elavator.set(output);
+
 
 	public void setElevatorPosition() {
-		motionMagicControl.withPosition(setpointElevator * -1)
-			.withFeedForward(TunerConstants.Elevator.ELEVATOR_KS);
-		elavator.setControl(motionMagicControl);
+		double output = 0;
+
+
+if(elavator.getPosition().getValueAsDouble() < 8){
+		output = MathUtil.clamp(controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator * -1),
+				-.15, .15) +
+				TunerConstants.Elevator.ELEVATOR_KS;
+}
+
+if(elavator.getPosition().getValueAsDouble() > 8){
+	output = MathUtil.clamp(controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator * -1),
+			-.25, .25) +
+			TunerConstants.Elevator.ELEVATOR_KS;
+}
+
+
+		elavator.set(output);
+
+	// public void setElevatorPosition() {
+
+	// 	// Ensure motionMagicControl is properly initialized
+	// 	motionMagicControl = new MotionMagicVoltage(.2)
+	// 		.withPosition(setpointElevator * -1)
+	// 		.withFeedForward(TunerConstants.Elevator.ELEVATOR_KS);
+
+	// 	// Ensure the motor controller is set to Motion Magic control
+	// 	elavator.setControl(motionMagicControl);
 	}
 
 	/**

@@ -215,6 +215,9 @@ public class Wrist extends SubsystemBase {
         break;
         
       case PASSIVE:
+
+      setSetpoint(225);
+      
         break;
 
       // In the position state, the wrist is controlled by the setpoint

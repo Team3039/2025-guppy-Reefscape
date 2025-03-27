@@ -30,7 +30,7 @@ public class TunerConstants {
     // The steer motor uses any SwerveModule.SteerRequestType control request with the
     // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
     private static final Slot0Configs steerGains = new Slot0Configs()
-        .withKP(25).withKI(0).withKD(.5)
+        .withKP(100).withKI(0).withKD(.5)
         .withKS(.10).withKV(1.91).withKA(0)
         .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
     // When using closed-loop control, the drive motor uses the control
@@ -381,7 +381,7 @@ TalonFX m_talonFX = new TalonFX(15); // Replace '1' with the appropriate CAN ID 
         public static final double ELEVATOR_KP = .20;   //.060
         public static final double ELEVATOR_KI = 0;
         public static final double ELEVATOR_KD = 0;
-        public static final double ELEVATOR_KS = -.10;    //-0.035
+        public static final double ELEVATOR_KS = -.06;    //-0.035
         public static final double ELEVATOR_KG = 0;
         public static final double ELEVATOR_KV = 0;
         public static final double ELEVATOR_MAX_VEL = .4;
