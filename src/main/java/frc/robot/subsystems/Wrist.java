@@ -132,10 +132,10 @@ public class Wrist extends SubsystemBase {
     Math.cos(Math.toRadians(getWristPosition() + TunerConstants.Wrist.WRIST_COG_OFFSET )) * TunerConstants.Wrist.Coral_WRIST_KG +
     TunerConstants.Wrist.Coral_WRIST_KS;
 
-    if(getWristPosition() > 51 && output < 0 ) output = 0 ;
+    if(getWristPosition() > 245 && output < 0 ) output = 0 ;
 
     
-    if(getWristPosition() < -10 && output > 0 ) output = 0 ;
+    if(getWristPosition() < 190 && output > 0 ) output = 0 ;
 
     wrist.set(output) ;
 
@@ -205,19 +205,20 @@ public class Wrist extends SubsystemBase {
       
       // In the idle state, the wrist rests within the robot
       case IDLE:
-        // setSetpoint(50);
+        setSetpoint(242);
          setWristPosition();
         break;
 
       // In the manual state, the wrist is controlled directly by the operator
       case MANUAL:
-        // setWristPercent(RobotContainer.operatorPad.getRightY() * 0.4);
+        setWristPercent(RobotContainer.operatorPad.getRightY() * 0.3);
         break;
         
       case PASSIVE:
         break;
 
       // In the position state, the wrist is controlled by the setpoint
+      
       case POSITION:
          setWristPosition();
         break;

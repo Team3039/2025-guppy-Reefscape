@@ -27,7 +27,8 @@ public class Claw extends SubsystemBase {
     PASSIVE,
     CORAL,
     ALGAE,
-    RELEASE
+    RELEASE,
+    RELEASEA
   }
 
   // Create a variable to store the current state of the claw
@@ -98,6 +99,8 @@ public class Claw extends SubsystemBase {
     claw.set(speed);
   }
 
+  
+
   /** 
    * Check to see whether the intake has either gamepiece
    * 
@@ -127,9 +130,10 @@ public class Claw extends SubsystemBase {
   public void periodic() {
     // SmartDashboard.putNumber("CanRange Distance Detected", branchCANRange.getDistance().getValueAsDouble());
     SmartDashboard.putNumber("Claw Current", claw.getSupplyCurrent().getValueAsDouble());
-    SmartDashboard.putString("Claw State", String.valueOf(getState()));
+    SmartDashboard.putString("Claw Status", String.valueOf(claw.getSupplyCurrent().getValueAsDouble()));
     SmartDashboard.putBoolean("Has Coral", isCoralIn());
     
+
 
     // SmartDashboard.putBoolean("Aligned With Branch", isBranchDetected());
 
@@ -151,35 +155,46 @@ public class Claw extends SubsystemBase {
         hasCoral = false;
         break;
 
+
+
+
+
       // In the coral state, the claw will spin in reverse to intake coral,
       //  deactivating if the coralCANRange detects an object
       case CORAL:
         if (isCoralIn() ) {
-          Timer.delay(.1);
+          Timer.delay(.2);
           setWheelSpeed(0);
           hasCoral = true;
-        }
-        else if (!hasGamepiece()) {
-          setWheelSpeed(-0.4);
-        }
-        break;
-
-      // In the algae state, the claw will spin forwards to intake algae, 
-      //  deactivating if the current exceeds 10 amps
-      case ALGAE:
-        if (claw.getSupplyCurrent().getValueAsDouble() > 6) {
-          setWheelSpeed(.05);
-          hasAlgae = true;
         }
         else if (!hasGamepiece()) {
           setWheelSpeed(0.3);
         }
         break;
 
+      // In the algae state, the claw will spin forwards to intake algae, 
+      //  deactivating if the current exceeds 10 amps
+      case ALGAE:
+        if (claw.getSupplyCurrent().getValueAsDouble() > 16) {
+          setWheelSpeed(-.0);
+          hasAlgae = true;
+        }
+        else if (!hasGamepiece()) {
+          setWheelSpeed(-0.4);
+        }
+        break;
+
       // In the release state, the claw will spin forwards to release the gamepiece
       //  and will release the deactivation lock
       case RELEASE:
-        setWheelSpeed(-0.45);
+        setWheelSpeed(0.45);
+        hasAlgae = false;
+        hasCoral = false;
+        break;
+
+
+        case RELEASEA:
+        setWheelSpeed(0.25);
         hasAlgae = false;
         hasCoral = false;
         break;
@@ -187,7 +202,9 @@ public class Claw extends SubsystemBase {
       // In the passive state, the claw will not intake, and will deactivate the intake. 
       //  This will be used when the claw has a gamepiece
       case PASSIVE:
-        setWheelSpeed(0);
+        setWheelSpeed(-.1);
+
+
         break;
     }
   

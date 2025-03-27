@@ -50,10 +50,10 @@ public class Elevator extends SubsystemBase {
 		// Create a talonfx configurator.
 		TalonFXConfiguration config = new TalonFXConfiguration();
 
-		config.CurrentLimits.SupplyCurrentLimit = 10;
+		config.CurrentLimits.SupplyCurrentLimit = 20;
 		config.CurrentLimits.SupplyCurrentLimitEnable = true;
 
-		config.CurrentLimits.StatorCurrentLimit = 70;
+		config.CurrentLimits.StatorCurrentLimit = 120;
 		config.CurrentLimits.StatorCurrentLimitEnable = true;
 
 		// Soft Limits
@@ -168,7 +168,7 @@ public class Elevator extends SubsystemBase {
 
 			// In the Idle state, the elevator rests at the bottom of the robot
 			case IDLE:
-				// setSetpoint(0.1);
+				setSetpoint(0.1);
 				setElevatorPosition();
 				break;
 

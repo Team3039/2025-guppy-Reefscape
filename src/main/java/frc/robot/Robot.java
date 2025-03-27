@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-// import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
@@ -29,12 +29,19 @@ public class Robot extends TimedRobot {
 
   private final boolean kUseLimelight = true;
 
+  UsbCamera usbCamera;
 
-  CvSource outputStream;
+    
     
 
+  CvSource outputStream;
 
   public Robot() {
+
+
+    usbCamera = CameraServer.startAutomaticCapture();
+    usbCamera.setResolution(640, 480);
+    usbCamera.setFPS(60);
 
 
     m_robotContainer = new RobotContainer();

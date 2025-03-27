@@ -21,8 +21,8 @@ public class ScoreCoralL2 extends SequentialCommandGroup {
 
 
     addCommands(
-      new ActuateWristToSetpoint(15, 5),
-      new ActuateElevatorToSetpoint( 10, 3)
+      new ActuateWristToSetpoint(220, 5),
+      new ActuateElevatorToSetpoint( 11, 3)
     );
   }
 }

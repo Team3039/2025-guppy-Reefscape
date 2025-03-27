@@ -5,17 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Claw.ClawState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class SetClawIntakeAlgae extends Command {
+public class SetClawSpitAlgae extends Command {
 
-    public final static CommandXboxController operatorPad = new CommandXboxController(1);
-
-
-  public SetClawIntakeAlgae() {
+  public SetClawSpitAlgae() {
     addRequirements(RobotContainer.claw);
   }
 
@@ -23,7 +19,7 @@ public class SetClawIntakeAlgae extends Command {
   @Override
   public void initialize() {
     if (!RobotContainer.claw.hasGamepiece()) {
-      RobotContainer.claw.setState(ClawState.ALGAE);
+      RobotContainer.claw.setState(ClawState.RELEASEA);
     }
   }
 
@@ -35,17 +31,12 @@ public class SetClawIntakeAlgae extends Command {
   @Override
   public void end(boolean interrupted) {
     if (!RobotContainer.claw.hasGamepiece()) {
-      RobotContainer.claw.setState(ClawState.PASSIVE);
-  }
+      RobotContainer.claw.setState(ClawState.IDLE);
+    }
     else {
       RobotContainer.claw.setState(ClawState.PASSIVE);
     }
-
-    if (RobotContainer.operatorPad.rightTrigger().getAsBoolean());
-
   }
-
-
 
   // Returns true when the command should end.
   @Override

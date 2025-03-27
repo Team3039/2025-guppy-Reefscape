@@ -34,7 +34,7 @@ public class SetClawIntakeCoral extends Command {
       RobotContainer.claw.setState(ClawState.IDLE);
     }
     else {
-      RobotContainer.claw.setState(ClawState.PASSIVE);
+      RobotContainer.claw.setState(ClawState.IDLE);
     }
   }
 

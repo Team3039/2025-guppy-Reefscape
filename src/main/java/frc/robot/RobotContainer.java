@@ -41,6 +41,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.SetClawIntakeAlgae;
 import frc.robot.commands.SetClawIntakeCoral;
 import frc.robot.commands.SetClawRelease;
+import frc.robot.commands.SetClawSpitAlgae;
 import frc.robot.commands.SetClimbManualOverride;
 import frc.robot.commands.SetElevatorManualOverride;
 import frc.robot.commands.SetWristManualOverride;
@@ -58,7 +59,7 @@ import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Limelight;
+// import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Wrist;
 
 
@@ -86,7 +87,7 @@ public RobotContainer() {
     NamedCommands.registerCommand("Tuha", new SetClawRelease());
     //                                  (Release)
 
-    
+
      autoChooser = AutoBuilder.buildAutoChooser(); //Auto chooser
     SmartDashboard.putData("Auto Mode", autoChooser);
 
@@ -147,7 +148,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
     public static final Wrist wrist = new Wrist();
     public static final Claw claw = new Claw();
     public static final Climb climb = new Climb();
-    public static final Limelight limelight = new Limelight(drivetrain);
+    // public static final Limelight limelight = new Limelight(drivetrain);
 
 
     /* Path follower */
@@ -177,9 +178,9 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
       
 
-        driverR2.whileTrue(limelight.rightBranchPathfinding());
+        // driverR2.whileTrue(limelight.rightBranchPathfinding());
         
-        driverL2.whileTrue(limelight.leftBranchDriveTo());
+        // driverL2.whileTrue(limelight.leftBranchDriveTo());
 
         driverX.whileTrue(drivetrain.applyRequest(() -> brake));
     
@@ -210,25 +211,26 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
     //My controls 
 
         // // Overrides
-        operatorPad.rightStick().toggleOnTrue(new SetElevatorManualOverride());
-        operatorPad.leftStick().toggleOnTrue(new SetWristManualOverride());
+        // operatorPad.rightStick().toggleOnTrue(new SetElevatorManualOverride());
+        // operatorPad.leftStick().toggleOnTrue(new SetWristManualOverride());
         
         // intake and release
         operatorPad.a().whileTrue(new SetClawIntakeCoral());
         operatorPad.b().whileTrue(new SetClawRelease());
         operatorPad.leftTrigger().whileTrue(new SetClawIntakeAlgae());
+        // operatorPad.rightTrigger().whileTrue(new SetClawSpitAlgae());
 
         //clear algae
-        // operatorPad.x().whileTrue(new RemoveAlgaeL2());
-        // operatorPad.y().whileTrue(new RemoveAlgaeL3());
-        // operatorPad.rightBumper().onTrue(new ScoreAlgaeProcessor());
+        operatorPad.x().whileTrue(new RemoveAlgaeL2());
+        operatorPad.y().whileTrue(new RemoveAlgaeL3());
+        operatorPad.rightBumper().onTrue(new ScoreAlgaeProcessor());
         
         
         // Scoring Coral
-    //     operatorPad.povDown().onTrue(new ScoreCoralTrough());
-    //     operatorPad.povLeft().onTrue(new ScoreCoralL2());
-    //     operatorPad.povRight().onTrue(new ScoreCoralL3());
-    //         operatorPad.povUp().onTrue(new ScoreCoralL4());
+        operatorPad.povDown().onTrue(new ScoreCoralTrough());
+        operatorPad.povLeft().onTrue(new ScoreCoralL2());
+        operatorPad.povRight().onTrue(new ScoreCoralL3());
+        operatorPad.povUp().onTrue(new ScoreCoralL4());
     }
 
     public Command getAutonomousCommand() {

@@ -15,13 +15,30 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.generated.TunerConstants;
+import com.ctre.phoenix.sensors.CANCoder;
 // import edu.wpi.first.cameraserver.CameraServer;
 // import edu.wpi.first.cscore.UsbCamera;
 
+
+
+
+
 public class Climb extends SubsystemBase {
+
+// Declare a CANCoder instance
+private final CANCoder wcpIsTheBest = new CANCoder(18); 
+
+public void logEncoderValue() {
+  double encoderValue = wcpIsTheBest.getAbsolutePosition();
+  SmartDashboard.putNumber("ThroughBore Encoder Value", encoderValue);
+}
+
+
+
 
   PowerDistribution PDH = new PowerDistribution(1, ModuleType.kRev);
 
+ 
   // Create the possible states of the climb
   public enum ClimbState {
     DISABLED,
