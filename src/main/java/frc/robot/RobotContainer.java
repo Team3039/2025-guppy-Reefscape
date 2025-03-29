@@ -174,6 +174,14 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
                     .withRotationalRate(driverPad.interpolatedRightXAxis() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
+        // drivetrain.setDefaultCommand(
+        //     // Drivetrain will execute this command periodically
+        //     drivetrain.applyRequest(() ->
+        //     drive.withVelocityX(-operatorPad.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+        //         .withVelocityY(-operatorPad.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+        //         .withRotationalRate(operatorPad.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+        //     )
+        // );
 
 
       

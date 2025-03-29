@@ -4,9 +4,10 @@
   "holonomicMode": true,
   "pathFolders": [
     "BLUE PATHFINDING",
+    "Dumb",
     "RED PATHFINDING",
-    "The ball graber",
     "The Pipe man",
+    "The ball graber",
     "test paths",
     "the good pipe layer"
   ],

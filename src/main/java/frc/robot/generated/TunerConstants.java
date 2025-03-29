@@ -30,13 +30,13 @@ public class TunerConstants {
     // The steer motor uses any SwerveModule.SteerRequestType control request with the
     // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
     private static final Slot0Configs steerGains = new Slot0Configs()
-        .withKP(100).withKI(0).withKD(.5)
+        .withKP(100).withKI(0).withKD(0.1)
         .withKS(.10).withKV(1.91).withKA(0)
         .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
     // When using closed-loop control, the drive motor uses the control
     // output type specified by SwerveModuleConstants.DriveMotorClosedLoopOutput
     private static final Slot0Configs driveGains = new Slot0Configs()
-        .withKP(0.025).withKI(0).withKD(0)
+        .withKP(0.05).withKI(0).withKD(0)
         .withKS(0).withKV(0.124);
 
     // The closed-loop output type to use for the steer motors;
@@ -88,9 +88,9 @@ public class TunerConstants {
     // This may need to be tuned to your individual robot
     private static final double kCoupleRatio = 3.8181818181818183;
 
-    private static final double kDriveGearRatio = 7.363636363636365;
-    private static final double kSteerGearRatio = 15.42857142857143;
-    private static final Distance kWheelRadius = Inches.of(2.167);
+    private static final double kDriveGearRatio = 5.357142857142857;
+    private static final double kSteerGearRatio = 18.75;
+    private static final Distance kWheelRadius = Inches.of(1.5);
 
     private static final boolean kInvertLeftSide = false;
     private static final boolean kInvertRightSide = true;
@@ -236,7 +236,7 @@ private static final Distance kBackRightYPos = Inches.of(-11);
     public static CommandSwerveDrivetrain createDrivetrain() {
         return new CommandSwerveDrivetrain(
             DrivetrainConstants, 
-            1000, new SwerveModuleConstants[] {FrontLeft, FrontRight, BackLeft, BackRight}
+            0, new SwerveModuleConstants[] {FrontLeft, FrontRight, BackLeft, BackRight}
         );
     }
 
