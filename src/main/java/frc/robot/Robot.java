@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -26,6 +28,7 @@ public class Robot extends TimedRobot {
 
 
   private final RobotContainer m_robotContainer;
+    public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   private final boolean kUseLimelight = true;
 
@@ -43,8 +46,8 @@ public class Robot extends TimedRobot {
     usbCamera.setResolution(640, 480);
     usbCamera.setFPS(60);
 
-
     m_robotContainer = new RobotContainer();
+   
 
     Pathfinding.setPathfinder(new LocalADStar());
     
@@ -56,17 +59,17 @@ public class Robot extends TimedRobot {
     //   double headingDeg = driveState.Pose.getRotation().getDegrees();
     //   double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
 
-//This not working is a crime.
+// This not working is a crime.
 
-  //     LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0, 0, 0, 0, 0);
-  //     var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+      // LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0, 0, 0, 0, 0);
+      // var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
 
 
       
-  //     if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
-  //       m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
-  //       }
-  //     }
+      // if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
+      //   m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
+      //   }
+      // }
 
 
 
@@ -77,26 +80,26 @@ public class Robot extends TimedRobot {
 
 
 
-    // NetworkTableInstance.getDefault().getTable("limelight").getEntry("limelight").getDoubleArray(new double[6]);
-    // CommandScheduler.getInstance().run();
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("limelight").getDoubleArray(new double[6]);
+    CommandScheduler.getInstance().run();
 
     
-    // if (kUseLimelight) {
-    //   var driveState = m_robotContainer.drivetrain.getState();
-    //   double headingDeg = driveState.Pose.getRotation().getDegrees();
-    //   double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
+    if (kUseLimelight) {
+      var driveState = m_robotContainer.drivetrain.getState();
+      double headingDeg = driveState.Pose.getRotation().getDegrees();
+      double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
 
 //This not working is a crime.
 
-      // LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0, 0, 0, 0, 0);
-      // var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-      // if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
-      //   m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
+      LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0, 0, 0, 0, 0);
+      var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+      if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
+        m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
 
-      // }
+      }
 
       
-    // }
+    }
 
     
     
@@ -120,6 +123,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
 
+    drivetrain.runOnce(() -> drivetrain.seedFieldCentric());
 
      m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -140,7 +144,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    // RobotContainer.elevator.setState(ElevatorState.IDLE);
+    RobotContainer.elevator.setState(frc.robot.subsystems.Elevator.ElevatorState.IDLE);
 
   }
 
