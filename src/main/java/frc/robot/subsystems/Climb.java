@@ -4,7 +4,11 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.units.measure.Angle;
 // import edu.wpi.first.wpilibj.Servo;
 // import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -26,11 +30,15 @@ import com.ctre.phoenix.sensors.CANCoder;
 public class Climb extends SubsystemBase {
 
 // Declare a CANCoder instance
-private final CANCoder wcpIsTheBest = new CANCoder(18); 
+
+private final CANcoder wcpIsTheBest = new CANcoder(18);
 
 public void logEncoderValue() {
-  double encoderValue = wcpIsTheBest.getAbsolutePosition();
-  SmartDashboard.putNumber("ThroughBore Encoder Value", encoderValue);
+
+  StatusSignal<Angle> encoderValue = wcpIsTheBest.getAbsolutePosition();
+
+  SmartDashboard.putNumber("Climb Encoder Value", encoderValue.getValueAsDouble());
+
 }
 
 
