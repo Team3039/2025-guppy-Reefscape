@@ -33,14 +33,6 @@ public class Climb extends SubsystemBase {
 
 private final CANcoder wcpIsTheBest = new CANcoder(18);
 
-public void logEncoderValue() {
-
-  StatusSignal<Angle> encoderValue = wcpIsTheBest.getAbsolutePosition();
-
-  SmartDashboard.putNumber("Climb Encoder Value", encoderValue.getValueAsDouble());
-
-}
-
 
 
 
@@ -81,14 +73,33 @@ public void logEncoderValue() {
     climbState = state;
   }
 
+  public double getClimbPosition() {
+    return wcpIsTheBest.getAbsolutePosition().getValueAsDouble();
+  }
+
   @Override
   public void periodic() {
 
+    if (RobotContainer.climb.getClimbPosition() <= -0.17 && RobotContainer.climb.getClimbPosition() >= -0.16) {
+      System.out.println("Hey I should stop");
+  
+      RobotContainer.climb.setState(ClimbState.DISABLED);
+    }
+
+    StatusSignal<Angle> encoderValue = wcpIsTheBest.getAbsolutePosition();
+
+
+    SmartDashboard.putNumber("Climb Encoder Value", getClimbPosition());
+
+
     SmartDashboard.putString("climbState", String.valueOf(getState()));
+
+
+    
+
 
     // Climb State Machine
     switch (climbState) {
-
       // In the disabled state, the climb is disabled
       case DISABLED:
         climb.disable();
@@ -97,10 +108,14 @@ public void logEncoderValue() {
         break;
       case CLIMBING:
 
+      if (RobotContainer.climb.getClimbPosition() <= -0.17 && RobotContainer.climb.getClimbPosition() >= -0.16) {
+        System.out.println("Hey I should stop");
     
+        RobotContainer.climb.setState(ClimbState.DISABLED);
+      }
 
         if (RobotContainer.driverR1.getAsBoolean()) {
-          climb.set(0.5);
+          climb.set(0.6);
         } else if (RobotContainer.PitPad.rightBumper().getAsBoolean()) {
           climb.set(-.4);
         } 
@@ -109,7 +124,13 @@ public void logEncoderValue() {
         }
         else {
           climb.set(0);
-
+          
+            if (RobotContainer.climb.getClimbPosition() <= -0.17 && RobotContainer.climb.getClimbPosition() >= -0.16) {
+              System.out.println("Hey I should stop");
+          
+              RobotContainer.climb.setState(ClimbState.DISABLED);
+            }
+          
       }
       break;
     }

@@ -48,6 +48,7 @@ import frc.robot.commands.SetWristManualOverride;
 import frc.robot.commands.AutoCommands.CoralintakeAuto;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL3;
+import frc.robot.commands.ElevatorRoutines.ScoreAlgaeBarge;
 import frc.robot.commands.ElevatorRoutines.ScoreAlgaeProcessor;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL2;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL3;
@@ -93,6 +94,7 @@ public RobotContainer() {
 
         
     configureBindings();
+    
 }
     
 public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepad(0); 
@@ -231,7 +233,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         //clear algae
         operatorPad.x().whileTrue(new RemoveAlgaeL2());
         operatorPad.y().whileTrue(new RemoveAlgaeL3());
-        operatorPad.rightBumper().onTrue(new ScoreAlgaeProcessor());
+        operatorPad.rightBumper().onTrue(new ScoreAlgaeBarge());
         
         
         // Scoring Coral

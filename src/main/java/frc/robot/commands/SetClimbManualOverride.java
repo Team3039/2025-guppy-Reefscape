@@ -18,6 +18,13 @@ public class SetClimbManualOverride extends Command {
   /** Creates a new SetElevatorManualOverride. */
   public SetClimbManualOverride() {
     addRequirements(RobotContainer.climb);
+
+    if (RobotContainer.climb.getClimbPosition() >= 0.47) {
+            
+      System.out.println("Hey I should stop");
+
+      RobotContainer.climb.setState(ClimbState.DISABLED);
+    }
   }
 
   // Called when the command is initially scheduled.
@@ -29,9 +36,23 @@ public class SetClimbManualOverride extends Command {
 
   }
 
+
+  public void periodic() {
+    if (RobotContainer.climb.getClimbPosition() <= 0.47) {
+            
+      System.out.println("Hey I should stop");
+
+      RobotContainer.climb.setState(ClimbState.DISABLED);
+    }
+  }
+
+
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -39,7 +60,10 @@ public class SetClimbManualOverride extends Command {
     RobotContainer.climb.setState(ClimbState.DISABLED);
     RobotContainer.wrist.setState(WristState.IDLE);
 
-  }
+   
+    }
+
+  
 
   // Returns true when the command should end.
   @Override
