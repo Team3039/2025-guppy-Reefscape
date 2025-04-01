@@ -358,8 +358,8 @@ TalonFX m_talonFX = new TalonFX(15); // Replace '1' with the appropriate CAN ID 
     //    Other Constants
     
     public static final class Wrist {
-        public static final double WRIST_KP = 0.007;
-        public static final double Coral_WRIST_KP = 0.0015;
+        public static final double WRIST_KP = 0.0065;
+        public static final double Coral_WRIST_KP = 0.0005;
         public static final double WRIST_KI = 0;
         public static final double WRIST_KD = 0.0000;
         public static final double WRIST_KS = 0;
@@ -378,7 +378,7 @@ TalonFX m_talonFX = new TalonFX(15); // Replace '1' with the appropriate CAN ID 
     }
 
     public static final class Elevator {
-        public static final double ELEVATOR_KP = .20;   //.060
+        public static final double ELEVATOR_KP = .13;   //.060
         public static final double ELEVATOR_KI = 0;
         public static final double ELEVATOR_KD = 0;
         public static final double ELEVATOR_KS = -.06;    //-0.035

@@ -144,7 +144,7 @@ public class Claw extends SubsystemBase {
 
     // If the robot is ready to score a coral, rumble the driver controller to indicate this
     if (isBranchDetected() && Elevator.getSetpoint() > 8 && hasCoral) {
-      RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 100);
+      RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 10);
     }
     else {
       RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 0); 
@@ -168,7 +168,7 @@ public class Claw extends SubsystemBase {
       //  deactivating if the coralCANRange detects an object
       case CORAL:
         if (isCoralIn() ) {
-          Timer.delay(.2);
+          Timer.delay(.21);
           setWheelSpeed(0);
           hasCoral = true;
         }
@@ -180,7 +180,7 @@ public class Claw extends SubsystemBase {
       // In the algae state, the claw will spin forwards to intake algae, 
       //  deactivating if the current exceeds 10 amps
       case ALGAE:
-        if (claw.getSupplyCurrent().getValueAsDouble() > 16) {
+        if (claw.getSupplyCurrent().getValueAsDouble() > 17) {
           setWheelSpeed(-.0);
           hasAlgae = true;
         }

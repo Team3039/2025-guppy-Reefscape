@@ -41,71 +41,8 @@ public class InterpolatedPS4Gamepad extends PS4Controller {
         if (Math.abs(this.getLeftX()) <= 0.03)
             return 0.0;
 
-          
-           
-
-
-            if (RobotContainer.elevator.getElevatorPosition() > 9 ) {
-
-                return ((Math.sin(this.getLeftX())) * .40);
-    
-    
-            }
-
-
-            if (RobotContainer.elevator.getElevatorPosition() > 10 ) {
-
-                return ((Math.sin(this.getLeftX())) * .35);
-    
-    
-            }
-
-            if (RobotContainer.elevator.getElevatorPosition() > 15 ) {
-
-                return ((Math.sin(this.getLeftX())) * .30);
-    
-    
-            }
-
-
-
-            if (RobotContainer.elevator.getElevatorPosition() > 20 ) {
-
-                return ((Math.sin(this.getLeftX())) * .25);
-    
-    
-            }
-
-
-            if (RobotContainer.elevator.getElevatorPosition() > 25 ) {
-
-                return ((Math.sin(this.getLeftX())) * .20);
-    
-    
-            }
-            if (RobotContainer.elevator.getElevatorPosition() > 30 ) {
-
-                return ((Math.sin(this.getLeftX())) * .15);
-    
-    
-            }
-
-            if (RobotContainer.elevator.getElevatorPosition() > 35 ) {
-
-                return ((Math.sin(this.getLeftX())) * .10);
-    
-    
-            }
-
-            if (RobotContainer.elevator.getElevatorPosition() > 40 ) {
-
-                return ((Math.sin(this.getLeftX())) * .05);
-    
-    
-            }
-
             
-        return ((Math.sin(this.getLeftX())) * .6);
+        return ((Math.sin(this.getLeftX())) * .5);
     }
 
     // ps4 user 

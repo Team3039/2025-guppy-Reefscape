@@ -80,13 +80,20 @@ private final CANcoder wcpIsTheBest = new CANcoder(18);
   @Override
   public void periodic() {
 
-    if (RobotContainer.climb.getClimbPosition() <= -0.17 && RobotContainer.climb.getClimbPosition() >= -0.16) {
-      System.out.println("Hey I should stop");
+    if (RobotContainer.climb.getClimbPosition() >= 0 && RobotContainer.climb.getClimbPosition() <= 0.1) {
+      System.out.println("water bucket rellease");
+  
+      PDH.setSwitchableChannel(true);
+
+    }
+
+    if (RobotContainer.climb.getClimbPosition() >= -0.20 && RobotContainer.climb.getClimbPosition() <= -0.19) {
+      System.out.println("hey me to");
   
       RobotContainer.climb.setState(ClimbState.DISABLED);
     }
 
-    StatusSignal<Angle> encoderValue = wcpIsTheBest.getAbsolutePosition();
+    // StatusSignal<Angle> encoderValue = wcpIsTheBest.getAbsolutePosition();
 
 
     SmartDashboard.putNumber("Climb Encoder Value", getClimbPosition());
@@ -103,19 +110,20 @@ private final CANcoder wcpIsTheBest = new CANcoder(18);
       // In the disabled state, the climb is disabled
       case DISABLED:
         climb.disable();
+
+        if (RobotContainer.PitPad.x().getAsBoolean()) {
+          climb.set(-.4);
+        } 
+
         PDH.setSwitchableChannel(false);
 
         break;
       case CLIMBING:
 
-      if (RobotContainer.climb.getClimbPosition() <= -0.17 && RobotContainer.climb.getClimbPosition() >= -0.16) {
-        System.out.println("Hey I should stop");
-    
-        RobotContainer.climb.setState(ClimbState.DISABLED);
-      }
+     
 
         if (RobotContainer.driverR1.getAsBoolean()) {
-          climb.set(0.6);
+          climb.set(0.8);
         } else if (RobotContainer.PitPad.rightBumper().getAsBoolean()) {
           climb.set(-.4);
         } 
@@ -125,12 +133,7 @@ private final CANcoder wcpIsTheBest = new CANcoder(18);
         else {
           climb.set(0);
           
-            if (RobotContainer.climb.getClimbPosition() <= -0.17 && RobotContainer.climb.getClimbPosition() >= -0.16) {
-              System.out.println("Hey I should stop");
-          
-              RobotContainer.climb.setState(ClimbState.DISABLED);
-            }
-          
+            
       }
       break;
     }
