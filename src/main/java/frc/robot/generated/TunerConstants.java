@@ -358,18 +358,17 @@ TalonFX m_talonFX = new TalonFX(15); // Replace '1' with the appropriate CAN ID 
     //    Other Constants
     
     public static final class Wrist {
-        public static final double WRIST_KP = 0.009;
-        public static final double Coral_WRIST_KP = 0.0005;
+        public static final double WRIST_KP = 0.07;
+        public static final double Coral_WRIST_KP = 0.001;
         public static final double WRIST_KI = 0;
         public static final double WRIST_KD = 0.0000;
-        public static final double WRIST_KS = 0;
+        public static final double WRIST_KS = 0.002;
         public static final double WRIST_KG = 0;
-        public static final double Coral_WRIST_KS = 0.025;
+        public static final double Coral_WRIST_KS = 0.0;
         public static final double Coral_WRIST_KG = 0.00;
         public static final double WRIST_KV = 0;
         public static final double WRIST_MAX_VEL = .0;
         public static final double WRIST_MAX_ACCEL = .00;
-
         public static final double WRIST_OFFSET = 0;
         public static final double WRIST_COG_OFFSET = 0;
 

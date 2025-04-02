@@ -142,8 +142,6 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    RobotContainer.elevator.setState(frc.robot.subsystems.Elevator.ElevatorState.IDLE);
-
   }
 
   @Override

@@ -104,7 +104,7 @@ public class Wrist extends SubsystemBase {
    */
   public void setWristPosition() {
     double output = 0;
-    output = MathUtil.clamp(controller.calculate(getWristPosition(), setpointWrist), -.04, .8);
+    output = MathUtil.clamp(controller.calculate(getWristPosition(), setpointWrist), -.2, .2);
     setWristPercent(output*-1);
   }
 
@@ -132,10 +132,10 @@ public class Wrist extends SubsystemBase {
     Math.cos(Math.toRadians(getWristPosition() + TunerConstants.Wrist.WRIST_COG_OFFSET )) * TunerConstants.Wrist.Coral_WRIST_KG +
     TunerConstants.Wrist.Coral_WRIST_KS;
 
-    if(getWristPosition() > 245 && output < 0 ) output = 0 ;
+    if(getWristPosition() > 300 && output < 0)  output = 0 ;
 
     
-    if(getWristPosition() < 190 && output > 0 ) output = 0 ;
+    if(getWristPosition() < 240 && output > 0)  output = 0 ;
 
     wrist.set(output) ;
 
@@ -181,12 +181,14 @@ public class Wrist extends SubsystemBase {
     return (wristEncoder.get() * 360) + TunerConstants.Wrist.WRIST_OFFSET;
   }
 
+
   /**
    * Check if the wrist is at the setpoint within a given tolerance
    * heres the thing
    * @param tolerance the tolerance to check if the wrist is at the setpoint
    * @return true if the wrist is at the setpoint within the tolerance, false otherwise
    */
+
 	public boolean isAtSetpoint(double tolerance) {
 		return Math.abs((setpointWrist - getWristPosition())) <= tolerance;
 	}
@@ -205,7 +207,7 @@ public class Wrist extends SubsystemBase {
       
       // In the idle state, the wrist rests within the robot
       case IDLE:
-        setSetpoint(242);
+        setSetpoint(260);
          setWristPosition();
         break;
 
@@ -215,8 +217,6 @@ public class Wrist extends SubsystemBase {
         break;
         
       case PASSIVE:
-
-      setSetpoint(225);
       
         break;
 

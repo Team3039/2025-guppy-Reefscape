@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.294914772727273,
-        "y": 2.32484375
+        "x": 5.128631756756756,
+        "y": 2.5822635135135137
       },
       "prevControl": {
-        "x": 6.042799734488971,
-        "y": 1.5069231873443054
+        "x": 5.876516718518454,
+        "y": 1.7643429508578192
       },
       "nextControl": null,
       "isLocked": false,
@@ -37,10 +37,10 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.6484375000000016,
+      "minWaypointRelativePos": 0.5008680555555579,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 1.0,
+        "maxVelocity": 0.75,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -61,7 +61,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 119.95360816780139
+    "rotation": 120.11373315098244
   },
   "reversed": false,
   "folder": "the good pipe layer",

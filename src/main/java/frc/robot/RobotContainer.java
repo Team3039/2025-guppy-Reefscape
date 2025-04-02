@@ -225,7 +225,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
         // // Overrides
         // operatorPad.rightStick().toggleOnTrue(new SetElevatorManualOverride());
-        // operatorPad.leftStick().toggleOnTrue(new SetWristManualOverride());
+        operatorPad.leftStick().toggleOnTrue(new SetWristManualOverride());
         
         // intake and release
         operatorPad.a().whileTrue(new SetClawIntakeCoral());
@@ -235,19 +235,20 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
 
         //clear algae
-        operatorPad.x().whileTrue(new RemoveAlgaeL2());
-        operatorPad.y().whileTrue(new RemoveAlgaeL3());
-        operatorPad.rightBumper().onTrue(new ScoreAlgaeProcessor());
-        
-        
+        // operatorPad.x().whileTrue(new RemoveAlgaeL2());
+        // operatorPad.y().whileTrue(new RemoveAlgaeL3());
+        // operatorPad.rightBumper().onTrue(new ScoreAlgaeProcessor());
+
+
         // Scoring Coral
         operatorPad.povDown().onTrue(new ScoreCoralTrough());
         operatorPad.povLeft().onTrue(new ScoreCoralL2());
-        operatorPad.povRight().onTrue(new ScoreCoralL3());
-        operatorPad.povUp().onTrue(new ScoreCoralL4());
+    //     operatorPad.povRight().onTrue(new ScoreCoralL3());
+    //     operatorPad.povUp().onTrue(new ScoreCoralL4());
     }
 
     public Command getAutonomousCommand() {
         return autoChooser.getSelected();
     }
 }
+
