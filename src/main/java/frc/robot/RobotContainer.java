@@ -231,12 +231,13 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         operatorPad.a().whileTrue(new SetClawIntakeCoral());
         operatorPad.b().whileTrue(new SetClawRelease());
         operatorPad.leftTrigger().whileTrue(new SetClawIntakeAlgae());
-        // operatorPad.rightTrigger().whileTrue(new SetClawSpitAlgae());
+
+
 
         //clear algae
         operatorPad.x().whileTrue(new RemoveAlgaeL2());
         operatorPad.y().whileTrue(new RemoveAlgaeL3());
-        operatorPad.rightBumper().onTrue(new ScoreAlgaeBarge());
+        operatorPad.rightBumper().onTrue(new ScoreAlgaeProcessor());
         
         
         // Scoring Coral

@@ -104,7 +104,7 @@ public class Wrist extends SubsystemBase {
    */
   public void setWristPosition() {
     double output = 0;
-    output = MathUtil.clamp(controller.calculate(getWristPosition(), setpointWrist), -.05, .6);
+    output = MathUtil.clamp(controller.calculate(getWristPosition(), setpointWrist), -.04, .8);
     setWristPercent(output*-1);
   }
 

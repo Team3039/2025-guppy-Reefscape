@@ -62,13 +62,8 @@ public class Claw extends SubsystemBase {
     // Apply the configurator to the claw motor
     claw.getConfigurator().apply(clawConfig);
 
-    // Create a CANrange configurator
-    CANrangeConfiguration canRangeConfig = new CANrangeConfiguration();
-
-    canRangeConfig.ProximityParams.ProximityThreshold = 0.08;
-    canRangeConfig.ProximityParams.ProximityHysteresis = 0.02;
-
   }
+    // Create a CANrange configurator
 
   /**
    * Get the current state of the claw
@@ -123,8 +118,9 @@ public class Claw extends SubsystemBase {
    * @return true if the claw is aligned with the branch, false otherwise
    */
   public boolean isBranchDetected() {
-    return branchCANRange.getDistance().getValueAsDouble() < 0.5 && branchCANRange.getDistance().getValueAsDouble()  >.1 ;
+    return branchCANRange.getDistance().getValueAsDouble() >= .1 && branchCANRange.getDistance().getValueAsDouble()  <=.3 ;
   }
+
 
 
 
@@ -143,7 +139,7 @@ public class Claw extends SubsystemBase {
     SmartDashboard.putBoolean("Aligned With Branch", isBranchDetected());
 
     // If the robot is ready to score a coral, rumble the driver controller to indicate this
-    if (isBranchDetected() && Elevator.getSetpoint() > 8 && hasCoral) {
+    if (isBranchDetected() && Elevator.getSetpoint() > 8) {
       RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 10);
     }
     else {
@@ -168,7 +164,7 @@ public class Claw extends SubsystemBase {
       //  deactivating if the coralCANRange detects an object
       case CORAL:
         if (isCoralIn() ) {
-          Timer.delay(.21);
+          Timer.delay(.26);
           setWheelSpeed(0);
           hasCoral = true;
         }
@@ -180,7 +176,7 @@ public class Claw extends SubsystemBase {
       // In the algae state, the claw will spin forwards to intake algae, 
       //  deactivating if the current exceeds 10 amps
       case ALGAE:
-        if (claw.getSupplyCurrent().getValueAsDouble() > 17) {
+        if (claw.getSupplyCurrent().getValueAsDouble() > 20) {
           setWheelSpeed(-.0);
           hasAlgae = true;
         }
@@ -207,7 +203,7 @@ public class Claw extends SubsystemBase {
       // In the passive state, the claw will not intake, and will deactivate the intake. 
       //  This will be used when the claw has a gamepiece
       case PASSIVE:
-        setWheelSpeed(-.08);
+        setWheelSpeed(-.2);
         
 
         break;

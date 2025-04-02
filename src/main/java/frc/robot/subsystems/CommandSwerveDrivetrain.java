@@ -17,6 +17,8 @@ import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
 // import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.N1;
@@ -25,11 +27,13 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 // import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-
+import frc.robot.LimelightHelpers;
+import frc.robot.LimelightHelpers.PoseEstimate;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -41,6 +45,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
+
+        public LimelightHelpers.PoseEstimate[] cameraPoses = new LimelightHelpers.PoseEstimate[2];
+
+    public PoseEstimate cameraPose;
 
     /* Blue alliance sees forward as 180 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.k180deg;
@@ -129,7 +137,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @param drivetrainConstants   Drivetrain-wide constants for the swerve drive
      * @param modules               Constants for each specific module
      */
-    public CommandSwerveDrivetrain(
+        public CommandSwerveDrivetrain(
         SwerveDrivetrainConstants drivetrainConstants,
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
@@ -153,6 +161,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      *                                CAN FD, and 100 Hz on CAN 2.0.
      * @param modules                 Constants for each specific module
      */
+
+    // //If(1==1){ the world is flat }
+
+
     public CommandSwerveDrivetrain(
         SwerveDrivetrainConstants drivetrainConstants,
         double odometryUpdateFrequency,
@@ -168,6 +180,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     /**
      * Constructs a CTRE SwerveDrivetrain using the specified constants.
      * <p>
+     * 
+     * 
+     * 
      * This constructs the underlying hardware devices, so users should not construct
      * the devices themselves. If they need the devices, they can access them through
      * getters in the classes.
@@ -212,9 +227,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 ),
                 new PPHolonomicDriveController(
                     // PID constants for translation
-                    new PIDConstants(10, 0, 0),
+                    new PIDConstants(2, 0, 0),
                     // PID constants for rotation
-                    new PIDConstants(7, 0, 0)
+                    new PIDConstants(2, 0, 0)
                 ),
                 config,
                 // Assume the path needs to be flipped for Red vs Blue, this is normally the case
@@ -225,6 +240,95 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", ex.getStackTrace());
         }
     }
+
+
+    
+    // // Define the cameraPoses array and other required objects
+    // private CameraPose[] cameraPoses = new CameraPose[2];
+    // private Gyro gyro = new Gyro(); // Replace with your actual Gyro class
+    // private PoseEstimator m_poseEstimator = new PoseEstimator(); // Replace with your actual PoseEstimator class
+
+    // // Define the grabPose method
+    // private CameraPose grabPose(String cameraName) {
+    //     // Replace with your actual implementation for grabbing a camera pose
+    //     return new CameraPose();
+    // }
+
+    // public void updateCameraPose() {
+    //     boolean doRejectUpdate = false;
+    //     int bestCamera;
+    //     double leftAmbiguity = 0;
+    //     double rightAmbiguity = 0;
+    //     cameraPoses[0] = grabPose("limelight-left");
+    //    cameraPoses[1] = grabPose("limelight-right");
+
+    //     if (cameraPoses[0] == null && cameraPoses[1] == null) {
+    //         bestCamera = -1;
+    //     } else if (cameraPoses[0] == null) {
+    //         bestCamera = 1;
+    //     } else if (cameraPoses[1] == null) {
+    //         bestCamera = 0;
+    //     } else {
+    //         if (cameraPoses[0].tagCount > 0) {
+    //             leftAmbiguity = cameraPoses[0].rawFiducials[0].ambiguity;
+    //         }
+    //         if (cameraPoses[1].tagCount > 0) {
+    //             rightAmbiguity = cameraPoses[1].rawFiducials[0].ambiguity;
+    //         }
+    //         if (leftAmbiguity < rightAmbiguity) {
+    //             bestCamera = 0;
+    //         } else {
+    //             bestCamera = 1;
+    //         }
+    //     }
+    //     if (bestCamera == -1) {
+    //         doRejectUpdate = true;
+    //     }else {
+    //         if(cameraPoses[bestCamera].tagCount<1){
+    //             doRejectUpdate=true;
+    //         }
+    //     }
+        
+    //     // for (int i = 0; i < 2; i++) {
+
+    //     // doRejectUpdate = false;
+    //     // if (cameraPoses[i] != null) {
+    //     // if (cameraPoses[i].tagCount == 0) {
+    //     // doRejectUpdate = true;
+    //     // }
+    //     // if (cameraPoses[i].pose.getX() < 0) {
+    //     // doRejectUpdate = true;
+    //     // }
+    //     // if (cameraPoses[i].pose.getY() > 7.6) {
+    //     // doRejectUpdate = true;
+    //     // }
+    //     // } else {
+    //     // doRejectUpdate = true;
+    //     // }
+    //     /// SmartDashboard.putNumber("estimated yaw",
+    //     // m_poseEstimator.getEstimatedPosition().getRotation().getDegrees();
+    //     if (gyro.getAngularVelocityZWorld().getValueAsDouble() > 360) // if our angular velocity is greater
+    //     {
+    //         doRejectUpdate = true;
+    //     }
+    //     SmartDashboard.putBoolean("RejectUpdate", doRejectUpdate);
+    //     if (!doRejectUpdate) {
+    //         SmartDashboard.putNumber("bestcamera",bestCamera);
+    //         SmartDashboard.putNumberArray("CameraPose", new double[] { cameraPoses[bestCamera].pose.getTranslation().getX(), cameraPoses[bestCamera].pose.getTranslation().getY(),
+    //             cameraPoses[bestCamera].pose.getRotation().getRadians() });
+    //         m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999));
+    //         m_poseEstimator.addVisionMeasurement(
+    //                 cameraPoses[bestCamera].pose,
+    //                 cameraPoses[bestCamera].timestampSeconds);
+    //         // resetOdometry(m_poseEstimator.getEstimatedPosition());
+    //         // swerveOdometry.resetPosition(getGyroRotation2D(), getModulePositions(),
+    //         // m_poseEstimator.getEstimatedPosition());
+    //     }
+
+    // }
+
+
+
 
     /**
      * Returns a command that applies the specified control request to this swerve drivetrain.
@@ -302,9 +406,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @param timestampSeconds The timestamp of the vision measurement in seconds.
     //  */
     // @Override
-    // public void addVisionMeasurement(Pose2d visionRobotPoseMeters, double timestampSeconds) {
-    //     super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds));
-    // }
+    public void addVisionMeasurement(Pose2d visionRobotPoseMeters, double timestampSeconds) {
+        super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds));
+    }
 
     /**
      * Adds a vision measurement to the Kalman Filter. This will correct the odometry pose estimate
@@ -320,11 +424,58 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      *     in the form [x, y, theta]ᵀ, with units in meters and radians.
      */
     // @Override
-    // public void addVisionMeasurement(
-    //     Pose2d visionRobotPoseMeters,
-    //     double timestampSeconds,
-    //     Matrix<N3, N1> visionMeasurementStdDevs
-    // ) {
-    //     super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds), visionMeasurementStdDevs);
-    // }
+    public void addVisionMeasurement(
+        Pose2d visionRobotPoseMeters,
+        double timestampSeconds,
+        Matrix<N3, N1> visionMeasurementStdDevs
+    ) {
+        super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds), visionMeasurementStdDevs);
+    }
+
+
+
+
+public void updateOdometryFromLimelight(String limelightName) {
+    // Grab the pose from the specified Limelight
+    CameraPose cameraPose = grabPose("limelightName");
+
+    // Check if the pose is valid
+    if (cameraPose != null && cameraPose.tagCount > 0) {
+        // Update the odometry with the vision measurement
+        addVisionMeasurement(
+            cameraPose.pose,
+            cameraPose.timestampSeconds,
+            VecBuilder.fill(0.5, 0.5, Math.toRadians(10)) // Example standard deviations
+        );
+
+        // Log the updated pose for debugging
+        SmartDashboard.putNumberArray("UpdatedOdometryPose", new double[] {
+            cameraPose.pose.getTranslation().getX(),
+            cameraPose.pose.getTranslation().getY(),
+            cameraPose.pose.getRotation().getDegrees()
+        });
+    } else {
+        SmartDashboard.putString("LimelightStatus", "No valid pose from " + "limelight");
+    }
+}
+
+private CameraPose grabPose(String cameraName) {
+    // Example implementation for grabbing a camera pose
+    // Replace this with actual logic to fetch the pose from the camera
+    return new CameraPose(new Pose2d(), 1, Utils.getCurrentTimeSeconds());
+}
+
+// Define the CameraPose class
+private static class CameraPose {
+    public Pose2d pose;
+    public int tagCount;
+    public double timestampSeconds;
+
+    public CameraPose(Pose2d pose, int tagCount, double timestampSeconds) {
+        this.pose = pose;
+        this.tagCount = tagCount;
+        this.timestampSeconds = timestampSeconds;
+    }
+} 
+
 }

@@ -138,13 +138,13 @@ public class Elevator extends SubsystemBase {
 
 		if(elavator.getPosition().getValueAsDouble() < 8){
 			output = MathUtil.clamp(controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator * -1),
-					-.18, .20) +
+					-.18, .25) +
 					TunerConstants.Elevator.ELEVATOR_KS;
 	}
 	
 	if(elavator.getPosition().getValueAsDouble() > 8){
 		output = MathUtil.clamp(controller.calculate(elavator.getPosition().getValueAsDouble(), setpointElevator * -1),
-				-.15, .20) +
+				-.15, .25) +
 				TunerConstants.Elevator.ELEVATOR_KS;
 	}
 

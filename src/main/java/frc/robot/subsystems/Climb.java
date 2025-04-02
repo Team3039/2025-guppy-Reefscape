@@ -87,13 +87,13 @@ private final CANcoder wcpIsTheBest = new CANcoder(18);
 
     }
 
-    if (RobotContainer.climb.getClimbPosition() >= -0.37 && RobotContainer.climb.getClimbPosition() <= -0.36) {
+    if (RobotContainer.climb.getClimbPosition() >= -0.36 && RobotContainer.climb.getClimbPosition() <= -0.35) {
       System.out.println("hey me to");
   
       RobotContainer.climb.setState(ClimbState.DISABLED);
     }
 
-    // StatusSignal<Angle> encoderValue = wcpIsTheBest.getAbsolutePosition();
+    StatusSignal<Angle> encoderValue = wcpIsTheBest.getAbsolutePosition();
 
 
     SmartDashboard.putNumber("Climb Encoder Value", getClimbPosition());

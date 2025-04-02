@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.136570945945945,
-        "y": 1.2778716216216208
+        "x": 6.341931818181817,
+        "y": 3.870440340909091
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.482432432432431,
-        "y": 0.7442567567567553
+        "x": 6.590661957941697,
+        "y": 3.8956061426056476
       },
       "isLocked": false,
       "linkedName": "dumb1"
     },
     {
       "anchor": {
-        "x": 5.879645270270271,
-        "y": 1.317398648648649
+        "x": 6.630658783783783,
+        "y": 3.870440340909091
       },
       "prevControl": {
-        "x": 5.4547297297297295,
-        "y": 1.9498310810810802
+        "x": 6.353969594594595,
+        "y": 3.8767736486486477
       },
       "nextControl": null,
       "isLocked": false,
@@ -35,7 +35,7 @@
       "minWaypointRelativePos": 0,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 1.0,
+        "maxVelocity": 0.5,
         "maxAcceleration": 0.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -56,7 +56,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -58.8911911714549
+    "rotation": -179.6734258611528
   },
   "reversed": false,
   "folder": "Dumb",
