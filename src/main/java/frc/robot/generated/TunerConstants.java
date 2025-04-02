@@ -378,7 +378,7 @@ TalonFX m_talonFX = new TalonFX(15); // Replace '1' with the appropriate CAN ID 
     }
 
     public static final class Elevator {
-        public static final double ELEVATOR_KP = .25;   //.060
+        public static final double ELEVATOR_KP = .30;   //.060
         public static final double ELEVATOR_KI = 0;
         public static final double ELEVATOR_KD = 0;
         public static final double ELEVATOR_KS = -.06;    //-0.035

@@ -80,14 +80,14 @@ private final CANcoder wcpIsTheBest = new CANcoder(18);
   @Override
   public void periodic() {
 
-    if (RobotContainer.climb.getClimbPosition() >= 0 && RobotContainer.climb.getClimbPosition() <= 0.1) {
+    if (RobotContainer.climb.getClimbPosition() >= -.14 && RobotContainer.climb.getClimbPosition() <= -.13) {
       System.out.println("water bucket rellease");
   
       PDH.setSwitchableChannel(true);
 
     }
 
-    if (RobotContainer.climb.getClimbPosition() >= -0.20 && RobotContainer.climb.getClimbPosition() <= -0.19) {
+    if (RobotContainer.climb.getClimbPosition() >= -0.37 && RobotContainer.climb.getClimbPosition() <= -0.36) {
       System.out.println("hey me to");
   
       RobotContainer.climb.setState(ClimbState.DISABLED);
@@ -127,9 +127,7 @@ private final CANcoder wcpIsTheBest = new CANcoder(18);
         } else if (RobotContainer.PitPad.rightBumper().getAsBoolean()) {
           climb.set(-.4);
         } 
-        else if(RobotContainer.driverL1.getAsBoolean()) {
-          PDH.setSwitchableChannel(true);
-        }
+        else if(RobotContainer.driverL1.getAsBoolean()) {}
         else {
           climb.set(0);
           

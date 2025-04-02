@@ -91,8 +91,8 @@ public class Limelight extends SubsystemBase {
                   drivetrain.addVisionMeasurement(
                       botpose,
                       Timer.getFPGATimestamp()
-                          - (results.targetingResults.targetX / 1000.0)
-                          - (results.targetingResults.targetY / 1000.0));
+                          - (results.targetingResults.targetX )
+                          - (results.targetingResults.targetY ) );
                 } else {
                   fieldError++;
                   SmartDashboard.putNumber("Field Error", fieldError);

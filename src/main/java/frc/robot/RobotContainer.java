@@ -196,10 +196,13 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
     
         driverOptions.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
+
+        driverShare.toggleOnTrue(new SetClimbManualOverride());
+
         // drivetrain.registerTelemetry(logger::telemeterize); // Commented out as Logger does not have telemeterize method
 
 
-        // driverShare.toggleOnTrue(new SetClimbManualOverride());
+        driverShare.toggleOnTrue(new SetClimbManualOverride());
 
         
         
