@@ -105,7 +105,7 @@ public class Wrist extends SubsystemBase {
   public void setWristPosition() {
     double output = 0;
     output = MathUtil.clamp(controller.calculate(getWristPosition(), setpointWrist), -.2, .2);
-    setWristPercent(output*-1);
+    setWristPercent(output * 1);
   }
 
   /**
@@ -134,6 +134,7 @@ public class Wrist extends SubsystemBase {
 
     if(getWristPosition() > 300 && output < 0)  output = 0 ;
 
+// change the way these < > point if need be
     
     if(getWristPosition() < 240 && output > 0)  output = 0 ;
 
