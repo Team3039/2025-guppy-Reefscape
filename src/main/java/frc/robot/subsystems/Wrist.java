@@ -104,7 +104,7 @@ public class Wrist extends SubsystemBase {
    */
   public void setWristPosition() {
     double output = 0;
-    output = MathUtil.clamp(controller.calculate(getWristPosition(), setpointWrist), -.2, .2);
+    output = MathUtil.clamp(controller.calculate(getWristPosition(), setpointWrist), -.2, .3);
     setWristPercent(output * 1);
   }
 
@@ -129,16 +129,22 @@ public class Wrist extends SubsystemBase {
 
 
     output = percent +
-    Math.cos(Math.toRadians(getWristPosition() + TunerConstants.Wrist.WRIST_COG_OFFSET )) * TunerConstants.Wrist.Coral_WRIST_KG +
+    Math.cos(Math.toRadians(getWristPosition())) * TunerConstants.Wrist.Coral_WRIST_KG +
     TunerConstants.Wrist.Coral_WRIST_KS;
 
-    if(getWristPosition() > 300 && output < 0)  output = 0 ;
+    if (getWristPosition() > 300 && output > 0)  {
+      output = 0 ;
+ }
+else if (getWristPosition() < 240 && output < 0)  { 
+      output = 0 ;
+ }
+else {
+ wrist.set(output) ;
+}
 
 // change the way these < > point if need be
     
-    if(getWristPosition() < 240 && output > 0)  output = 0 ;
-
-    wrist.set(output) ;
+    
 
 
 // if(RobotContainer.claw.hasCoral)
@@ -179,7 +185,7 @@ public class Wrist extends SubsystemBase {
    * @return the current angle of the wrist in degrees
    */
   public double getWristPosition() {
-    return (wristEncoder.get() * 360) + TunerConstants.Wrist.WRIST_OFFSET;
+    return (wristEncoder.get() * 360);
   }
 
 

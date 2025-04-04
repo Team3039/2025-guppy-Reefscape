@@ -164,7 +164,7 @@ public class Claw extends SubsystemBase {
       //  deactivating if the coralCANRange detects an object
       case CORAL:
         if (isCoralIn() ) {
-          Timer.delay(.26);
+          Timer.delay(.25);
           setWheelSpeed(0);
           hasCoral = true;
         }
@@ -181,14 +181,14 @@ public class Claw extends SubsystemBase {
           hasAlgae = true;
         }
         else if (!hasGamepiece()) {
-          setWheelSpeed(-0.4);
+          setWheelSpeed(-0.6);
         }
         break;
 
       // In the release state, the claw will spin forwards to release the gamepiece
       //  and will release the deactivation lock
       case RELEASE:
-        setWheelSpeed(0.45);
+        setWheelSpeed(0.5);
         hasAlgae = false;
         hasCoral = false;
         break;
@@ -203,7 +203,7 @@ public class Claw extends SubsystemBase {
       // In the passive state, the claw will not intake, and will deactivate the intake. 
       //  This will be used when the claw has a gamepiece
       case PASSIVE:
-        setWheelSpeed(-.2);
+        setWheelSpeed(-.3);
         
 
         break;
