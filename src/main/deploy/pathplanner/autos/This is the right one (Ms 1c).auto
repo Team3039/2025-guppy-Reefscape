@@ -11,16 +11,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Dumb 1"
-                }
-              }
-            ]
+            "pathName": "Dumb 1"
           }
         },
         {
@@ -46,6 +39,12 @@
           "type": "path",
           "data": {
             "pathName": "Dumb 2"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.0
           }
         },
         {

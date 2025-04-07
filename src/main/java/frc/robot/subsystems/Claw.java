@@ -118,7 +118,7 @@ public class Claw extends SubsystemBase {
    * @return true if the claw is aligned with the branch, false otherwise
    */
   public boolean isBranchDetected() {
-    return branchCANRange.getDistance().getValueAsDouble() >= .1 && branchCANRange.getDistance().getValueAsDouble()  <=.3 ;
+    return branchCANRange.getDistance().getValueAsDouble() >= .2 && branchCANRange.getDistance().getValueAsDouble()  <=.3 ;
   }
 
 
@@ -140,7 +140,7 @@ public class Claw extends SubsystemBase {
 
     // If the robot is ready to score a coral, rumble the driver controller to indicate this
     if (isBranchDetected() && Elevator.getSetpoint() > 8) {
-      RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 10);
+      RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 5);
     }
     else {
       RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 0); 
@@ -164,7 +164,7 @@ public class Claw extends SubsystemBase {
       //  deactivating if the coralCANRange detects an object
       case CORAL:
         if (isCoralIn() ) {
-          Timer.delay(.25);
+          Timer.delay(.20);
           setWheelSpeed(0);
           hasCoral = true;
         }
@@ -188,7 +188,7 @@ public class Claw extends SubsystemBase {
       // In the release state, the claw will spin forwards to release the gamepiece
       //  and will release the deactivation lock
       case RELEASE:
-        setWheelSpeed(0.5);
+        setWheelSpeed(0.3);
         hasAlgae = false;
         hasCoral = false;
         break;

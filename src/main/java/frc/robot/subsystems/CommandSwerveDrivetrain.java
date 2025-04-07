@@ -405,7 +405,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @param visionRobotPoseMeters The pose of the robot as measured by the vision camera.
      * @param timestampSeconds The timestamp of the vision measurement in seconds.
     //  */
-    // @Override
+    @Override
     public void addVisionMeasurement(Pose2d visionRobotPoseMeters, double timestampSeconds) {
         super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds));
     }
@@ -423,7 +423,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @param visionMeasurementStdDevs Standard deviations of the vision pose measurement
      *     in the form [x, y, theta]ᵀ, with units in meters and radians.
      */
-    // @Override
+    @Override
     public void addVisionMeasurement(
         Pose2d visionRobotPoseMeters,
         double timestampSeconds,
@@ -437,7 +437,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
 public void updateOdometryFromLimelight(String limelightName) {
     // Grab the pose from the specified Limelight
-    CameraPose cameraPose = grabPose("limelightName");
+    CameraPose cameraPose = grabPose("limelight");
 
     // Check if the pose is valid
     if (cameraPose != null && cameraPose.tagCount > 0) {
@@ -448,7 +448,7 @@ public void updateOdometryFromLimelight(String limelightName) {
             VecBuilder.fill(0.5, 0.5, Math.toRadians(10)) // Example standard deviations
         );
 
-        // Log the updated pose for debugging
+        // Log the updated pose for if shit goes wrong
         SmartDashboard.putNumberArray("UpdatedOdometryPose", new double[] {
             cameraPose.pose.getTranslation().getX(),
             cameraPose.pose.getTranslation().getY(),
@@ -459,9 +459,7 @@ public void updateOdometryFromLimelight(String limelightName) {
     }
 }
 
-private CameraPose grabPose(String cameraName) {
-    // Example implementation for grabbing a camera pose
-    // Replace this with actual logic to fetch the pose from the camera
+private CameraPose grabPose(String cameraName) { 
     return new CameraPose(new Pose2d(), 1, Utils.getCurrentTimeSeconds());
 }
 

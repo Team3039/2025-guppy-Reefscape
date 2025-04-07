@@ -27,9 +27,9 @@ import frc.robot.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.robot.LimelightHelpers.LimelightTargetingResults;
 
 public class Limelight extends SubsystemBase {
-    private SwerveDrivePoseEstimator m_poseEstimator;
-    CommandSwerveDrivetrain drivetrain;
-    Alliance alliance;
+    // private SwerveDrivePoseEstimator m_poseEstimator;
+    // CommandSwerveDrivetrain drivetrain;
+    // Alliance alliance;
 
      private static final RectanglePoseArea field =
         new RectanglePoseArea(new Translation2d(0.0, 0.0), new Translation2d(16.54, 8.02));
@@ -44,21 +44,21 @@ public class Limelight extends SubsystemBase {
             this.topRight = topRight;
         }
 
-        public boolean isPoseWithinArea(Pose2d pose) {
-            double x = pose.getX();
-            double y = pose.getY();
-            return x >= bottomLeft.getX() && x <= topRight.getX()
-                && y >= bottomLeft.getY() && y <= topRight.getY();
-        }
-    }
+    //     public boolean isPoseWithinArea(Pose2d pose) {
+    //         double x = pose.getX();
+    //         double y = pose.getY();
+    //         return x >= bottomLeft.getX() && x <= topRight.getX()
+    //             && y >= bottomLeft.getY() && y <= topRight.getY();
+    //     }
+    // }
 
 
-    private String ll = "limelight";
-    private Boolean enable = true;
-    private Boolean trust = false;
-    private int fieldError = 0;
-    private int distanceError = 0;
-    private Pose2d botpose;
+    // private String ll = "limelight";
+    // private Boolean enable = true;
+    // private Boolean trust = false;
+    // private int fieldError = 0;
+    // private int distanceError = 0;
+    // private Pose2d botpose;
     
     private PathConstraints constraints = new PathConstraints(
 
@@ -75,42 +75,42 @@ public class Limelight extends SubsystemBase {
     
 
     /** Creates a new Limelight. */
-    public Limelight(CommandSwerveDrivetrain drivetrain) {
-        this.drivetrain = drivetrain;
-        SmartDashboard.putNumber("Field Error", fieldError);
-        SmartDashboard.putNumber("Limelight Error", distanceError);
-            }
+    // public Limelight(CommandSwerveDrivetrain drivetrain) {
+    //     this.drivetrain = drivetrain;
+    //     SmartDashboard.putNumber("Field Error", fieldError);
+    //     SmartDashboard.putNumber("Limelight Error", distanceError);
+    //         }
 
-             @Override
-          public void periodic() {
-            if (enable) {
-              LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults(ll);
-              if (results.targetingResults.validTarget) {
-                botpose = LimelightHelpers.getBotPose2d_wpiBlue(ll);
-                if (field.isPoseWithinArea(botpose)) {
-                  drivetrain.addVisionMeasurement(
-                      botpose,
-                      Timer.getFPGATimestamp()
-                          - (results.targetingResults.targetX )
-                          - (results.targetingResults.targetY ) );
-                } else {
-                  fieldError++;
-                  SmartDashboard.putNumber("Field Error", fieldError);
-                }
-              }
-            }
-          }
+    //          @Override
+    //       public void periodic() {
+    //         if (enable) {
+    //           LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults(ll);
+    //           if (results.targetingResults.validTarget) {
+    //             botpose = LimelightHelpers.getBotPose2d_wpiBlue(ll);
+    //             if (field.isPoseWithinArea(botpose)) {
+    //               drivetrain.addVisionMeasurement(
+    //                   botpose,
+    //                   Timer.getFPGATimestamp()
+    //                       - (results.targetingResults.targetX )
+    //                       - (results.targetingResults.targetY ) );
+    //             } else {
+    //               fieldError++;
+    //               SmartDashboard.putNumber("Field Error", fieldError);
+    //             }
+    //           }
+    //         }
+    //       }
 
-            public void setAlliance(Alliance alliance) {  this.alliance = alliance;
-    }
+    //         public void setAlliance(Alliance alliance) {  this.alliance = alliance;
+    // }
 
-    public void useLimelight(boolean enable) {
-        this.enable = enable;
-    }
+    // public void useLimelight(boolean enable) {
+    //     this.enable = enable;
+    // }
 
-    public void trustLL(boolean trust) {
-        this.trust = trust;
-    }
+    // public void trustLL(boolean trust) {
+    //     this.trust = trust;
+    // }
 
     public Command leftBranchDriveTo() {
         PathPlannerPath leftPath = null;
@@ -252,8 +252,9 @@ public class Limelight extends SubsystemBase {
 
     }
 
-    public Command rightBranchPathfinding() {
-        // B
+    public Command rightBranchPathfinding() {      // B
+        // Example usage to ensure the method is called locally
+        System.out.println("rightBranchPathfinding method called.");
         // L
         // J
         // H
@@ -403,5 +404,9 @@ public class Limelight extends SubsystemBase {
         };
 
     }
+}
+
+    
 
 }
+

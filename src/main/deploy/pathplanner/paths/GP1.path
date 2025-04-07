@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.128631756756756,
-        "y": 2.5822635135135137
+        "x": 5.089104729729729,
+        "y": 2.6613175675675667
       },
       "prevControl": {
-        "x": 5.876516718518454,
-        "y": 1.7643429508578192
+        "x": 5.836989691491427,
+        "y": 1.8433970049118722
       },
       "nextControl": null,
       "isLocked": false,
@@ -37,7 +37,7 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.5008680555555579,
+      "minWaypointRelativePos": 0.0,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 0.75,
@@ -61,13 +61,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 120.11373315098244
+    "rotation": 119.56035446468063
   },
   "reversed": false,
   "folder": "the good pipe layer",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -179.0906195508009
+    "rotation": -179.46949868332624
   },
   "useDefaultConstraints": true
 }

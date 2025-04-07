@@ -121,9 +121,9 @@ private final CANcoder wcpIsTheBest = new CANcoder(18);
       case CLIMBING:
 
      
-
+      
         if (RobotContainer.driverR1.getAsBoolean()) {
-          climb.set(0.8);
+          climb.set(.8);
         } else if (RobotContainer.PitPad.rightBumper().getAsBoolean()) {
           climb.set(-.4);
         } 
@@ -137,6 +137,7 @@ private final CANcoder wcpIsTheBest = new CANcoder(18);
     }
   }
 }
+
 
 /*
  * 

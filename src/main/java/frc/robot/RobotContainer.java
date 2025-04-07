@@ -46,6 +46,8 @@ import frc.robot.commands.SetClimbManualOverride;
 import frc.robot.commands.SetElevatorManualOverride;
 import frc.robot.commands.SetWristManualOverride;
 import frc.robot.commands.AutoCommands.CoralintakeAuto;
+import frc.robot.commands.PathFinding.rightBranchPathfinding;
+// import frc.robot.commands.PathFinding.rightBranchPathfinding;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL3;
 import frc.robot.commands.ElevatorRoutines.ScoreAlgaeBarge;
@@ -60,7 +62,7 @@ import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
-// import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Wrist;
 
 
@@ -150,7 +152,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
     public static final Wrist wrist = new Wrist();
     public static final Claw claw = new Claw();
     public static final Climb climb = new Climb();
-    // public static final Limelight limelight = new Limelight(drivetrain);
+    public static final Limelight limelight = new Limelight();
 
 
     /* Path follower */
@@ -188,9 +190,9 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
       
 
-        // driverR2.whileTrue(limelight.rightBranchPathfinding());
+        driverR2.whileTrue(rightBranchPathfinding());
         
-        // driverL2.whileTrue(limelight.leftBranchDriveTo());
+        driverL2.whileTrue(limelight.leftBranchDriveTo());
 
         driverX.whileTrue(drivetrain.applyRequest(() -> brake));
     
@@ -234,7 +236,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         //clear algae
         operatorPad.x().whileTrue(new RemoveAlgaeL2());
         operatorPad.y().whileTrue(new RemoveAlgaeL3());
-        operatorPad.rightBumper().onTrue(new ScoreAlgaeProcessor());
+        // operatorPad.rightBumper().onTrue(new ScoreAlgaeBarge());
 
 
         // Scoring Coral

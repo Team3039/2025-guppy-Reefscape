@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.264864864864865,
-        "y": 1.1098817567567574
+        "x": 1.1759290540540541,
+        "y": 1.060472972972973
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6557030698725084,
-        "y": 1.4424610777060751
+        "x": 1.5667672590616974,
+        "y": 1.3930522939222907
       },
       "isLocked": false,
       "linkedName": "GP2"
@@ -62,7 +62,7 @@
   "folder": "the good pipe layer",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 54.03948280335516
+    "rotation": 51.75357403553094
   },
   "useDefaultConstraints": true
 }

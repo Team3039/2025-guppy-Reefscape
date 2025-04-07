@@ -17,9 +17,9 @@ public class ScoreAlgaeBarge extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ActuateWristToSetpoint(220, 5),
-      new ActuateElevatorToSetpoint(45.5, 2),
-      new ActuateWristToSetpoint(230, 5)
+      new ActuateWristToSetpoint(284, 5),
+      new ActuateElevatorToSetpoint(46, 2),
+      new ActuateWristToSetpoint(270, 5)
 
     );
   }
