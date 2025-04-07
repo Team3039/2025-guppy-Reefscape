@@ -31,18 +31,18 @@ public class Limelight extends SubsystemBase {
     // CommandSwerveDrivetrain drivetrain;
     // Alliance alliance;
 
-     private static final RectanglePoseArea field =
-        new RectanglePoseArea(new Translation2d(0.0, 0.0), new Translation2d(16.54, 8.02));
+    //  private static final RectanglePoseArea field =
+    //     new RectanglePoseArea(new Translation2d(0.0, 0.0), new Translation2d(16.54, 8.02));
 
-    // Define the RectanglePoseArea class
-    private static class RectanglePoseArea {
-        private final Translation2d bottomLeft;
-        private final Translation2d topRight;
+    // // Define the RectanglePoseArea class
+    // private static class RectanglePoseArea {
+    //     private final Translation2d bottomLeft;
+    //     private final Translation2d topRight;
 
-        public RectanglePoseArea(Translation2d bottomLeft, Translation2d topRight) {
-            this.bottomLeft = bottomLeft;
-            this.topRight = topRight;
-        }
+        // public RectanglePoseArea(Translation2d bottomLeft, Translation2d topRight) {
+        //     this.bottomLeft = bottomLeft;
+        //     this.topRight = topRight;
+        // }
 
     //     public boolean isPoseWithinArea(Pose2d pose) {
     //         double x = pose.getX();
@@ -101,7 +101,7 @@ public class Limelight extends SubsystemBase {
     //         }
     //       }
 
-    //         public void setAlliance(Alliance alliance) {  this.alliance = alliance;
+            // public void setAlliance(Alliance alliance) {  this.alliance = alliance;
     // }
 
     // public void useLimelight(boolean enable) {
@@ -252,8 +252,8 @@ public class Limelight extends SubsystemBase {
 
     }
 
-    public Command rightBranchPathfinding() {      // B
-        // Example usage to ensure the method is called locally
+    public Command rightBranchPathfinding() {      
+
         System.out.println("rightBranchPathfinding method called.");
         // L
         // J
@@ -404,11 +404,5 @@ public class Limelight extends SubsystemBase {
         };
 
     }
-}
-
-  
-
-    
-
 }
 
