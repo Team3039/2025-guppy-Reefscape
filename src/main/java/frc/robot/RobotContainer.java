@@ -190,7 +190,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
       
 
-        driverR2.whileTrue(rightBranchPathfinding());
+        driverR2.whileTrue(limelight.rightBranchPathfinding());
         
         driverL2.whileTrue(limelight.leftBranchDriveTo());
 
