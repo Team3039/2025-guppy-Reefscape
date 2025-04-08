@@ -441,7 +441,7 @@ public void updateOdometryFromLimelight(String limelightName) {
 
     // Check if the pose is valid
     if (cameraPose != null && cameraPose.tagCount > 0) {
-        // Update the odometry with the vision measurement
+        // Update the odometry with the dumb ahh limelight
         addVisionMeasurement(
             cameraPose.pose,
             cameraPose.timestampSeconds,
@@ -460,7 +460,7 @@ public void updateOdometryFromLimelight(String limelightName) {
 }
 
 private CameraPose grabPose(String cameraName) { 
-    return new CameraPose(new Pose2d(), 1, Utils.getCurrentTimeSeconds());
+    return new CameraPose(new Pose2d(), 2, Utils.getCurrentTimeSeconds());
 }
 
 // Define the CameraPose class
