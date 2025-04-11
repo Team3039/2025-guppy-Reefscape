@@ -181,7 +181,7 @@ public class Claw extends SubsystemBase {
           hasAlgae = true;
         }
         else if (!hasGamepiece()) {
-          setWheelSpeed(-0.6);
+          setWheelSpeed(-0.2);
         }
         break;
 

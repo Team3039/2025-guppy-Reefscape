@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3005067567567563,
-        "y": 1.179054054054053
+        "x": 4.219510135135136,
+        "y": 0.9814189189189176
       },
       "isLocked": false,
       "linkedName": "GP2"
@@ -37,7 +37,7 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.0,
+      "minWaypointRelativePos": 0.40190972222222293,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 1.0,
@@ -61,7 +61,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 120.46554491945989
+    "rotation": 122.51751061504552
   },
   "reversed": false,
   "folder": "the good pipe layer",

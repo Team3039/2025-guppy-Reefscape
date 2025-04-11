@@ -17,7 +17,6 @@ import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 // import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -57,6 +56,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean m_hasAppliedOperatorPerspective = false;
     private final SwerveRequest.ApplyRobotSpeeds m_pathApplyRobotSpeeds = new SwerveRequest.ApplyRobotSpeeds();
+
+    // Declare currentPose as a Pose2d object
 
     // /* Swerve requests to apply during SysId characterization */
     // private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
@@ -177,6 +178,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         configureAutoBuilder();
     }
 
+    
+
+    
     /**
      * Constructs a CTRE SwerveDrivetrain using the specified constants.
      * <p>
@@ -235,7 +239,14 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 // Assume the path needs to be flipped for Red vs Blue, this is normally the case
                 () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
                 this // Subsystem for requirements
+
+                
+
             );
+
+
+            
+
         } catch (Exception ex) {
             DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", ex.getStackTrace());
         }
@@ -259,37 +270,37 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     //     int bestCamera;
     //     double leftAmbiguity = 0;
     //     double rightAmbiguity = 0;
-    //     cameraPoses[0] = grabPose("limelight-left");
-    //    cameraPoses[1] = grabPose("limelight-right");
+    //     cameraPoses[0] = grabPose("limelight");
+    // //    cameraPoses[1] = grabPose("limelight-right");
 
-    //     if (cameraPoses[0] == null && cameraPoses[1] == null) {
-    //         bestCamera = -1;
-    //     } else if (cameraPoses[0] == null) {
-    //         bestCamera = 1;
-    //     } else if (cameraPoses[1] == null) {
-    //         bestCamera = 0;
-    //     } else {
-    //         if (cameraPoses[0].tagCount > 0) {
-    //             leftAmbiguity = cameraPoses[0].rawFiducials[0].ambiguity;
-    //         }
-    //         if (cameraPoses[1].tagCount > 0) {
-    //             rightAmbiguity = cameraPoses[1].rawFiducials[0].ambiguity;
-    //         }
-    //         if (leftAmbiguity < rightAmbiguity) {
-    //             bestCamera = 0;
-    //         } else {
-    //             bestCamera = 1;
-    //         }
-    //     }
-    //     if (bestCamera == -1) {
-    //         doRejectUpdate = true;
-    //     }else {
-    //         if(cameraPoses[bestCamera].tagCount<1){
-    //             doRejectUpdate=true;
-    //         }
-    //     }
+    // //     if (cameraPoses[0] == null && cameraPoses[1] == null) {
+    // //         bestCamera = -1;
+    // //     } else if (cameraPoses[0] == null) {
+    // //         bestCamera = 1;
+    // //     } else if (cameraPoses[1] == null) {
+    // //         bestCamera = 0;
+    // //     } else {
+    // //         if (cameraPoses[0].tagCount > 0) {
+    // //             leftAmbiguity = cameraPoses[0].rawFiducials[0].ambiguity;
+    // //         }
+    // //         if (cameraPoses[1].tagCount > 0) {
+    // //             rightAmbiguity = cameraPoses[1].rawFiducials[0].ambiguity;
+    // //         }
+    // //         if (leftAmbiguity < rightAmbiguity) {
+    // //             bestCamera = 0;
+    // //         } else {
+    // //             bestCamera = 1;
+    // //         }
+    // //     }
+    // //     if (bestCamera == -1) {
+    // //         doRejectUpdate = true;
+    // //     }else {
+    // //         if(cameraPoses[bestCamera].tagCount<1){
+    // //             doRejectUpdate=true;
+    // //         }
+    // //     }
         
-    //     // for (int i = 0; i < 2; i++) {
+    // //     // for (int i = 0; i < 2; i++) {
 
     //     // doRejectUpdate = false;
     //     // if (cameraPoses[i] != null) {
@@ -364,7 +375,17 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     @Override
     public void periodic() {
+        
+
+
+        Pose2d currentPose = getState().Pose; // Get the current pose from the drivetrain state
+        SmartDashboard.putNumber("Swerve Odometry X", currentPose.getX());
+        SmartDashboard.putNumber("Swerve Odometry Y", currentPose.getY());
+        SmartDashboard.putNumber("Swerve Odometry Rotation (Degrees)", currentPose.getRotation().getDegrees());
+
+
         /*
+
          * Periodically try to apply the operator perspective.
          * If we haven't applied the operator perspective before, then we should apply it regardless of DS state.
          * This allows us to correct the perspective in case the robot code restarts mid-match.
@@ -406,8 +427,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @param timestampSeconds The timestamp of the vision measurement in seconds.
     //  */
     @Override
-    public void addVisionMeasurement(Pose2d visionRobotPoseMeters, double timestampSeconds) {
-        super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds));
+    public void addVisionMeasurement(Pose2d currentPose, double timestampSeconds) {
+        super.addVisionMeasurement(currentPose, Utils.fpgaToCurrentTime(timestampSeconds));
     }
 
     /**
@@ -425,55 +446,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      */
     @Override
     public void addVisionMeasurement(
-        Pose2d visionRobotPoseMeters,
+        Pose2d currentPose,
         double timestampSeconds,
         Matrix<N3, N1> visionMeasurementStdDevs
     ) {
-        super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds), visionMeasurementStdDevs);
+        super.addVisionMeasurement(currentPose, Utils.fpgaToCurrentTime(timestampSeconds), visionMeasurementStdDevs);
     }
-
-
-
-
-public void updateOdometryFromLimelight(String limelightName) {
-    // Grab the pose from the specified Limelight
-    CameraPose cameraPose = grabPose("limelight");
-
-    // Check if the pose is valid
-    if (cameraPose != null && cameraPose.tagCount > 0) {
-        // Update the odometry with the dumb ahh limelight
-        addVisionMeasurement(
-            cameraPose.pose,
-            cameraPose.timestampSeconds,
-            VecBuilder.fill(0.5, 0.5, Math.toRadians(10)) // Example standard deviations
-        );
-
-        // Log the updated pose for if shit goes wrong
-        SmartDashboard.putNumberArray("UpdatedOdometryPose", new double[] {
-            cameraPose.pose.getTranslation().getX(),
-            cameraPose.pose.getTranslation().getY(),
-            cameraPose.pose.getRotation().getDegrees()
-        });
-    } else {
-        SmartDashboard.putString("LimelightStatus", "No valid pose from " + "limelight");
-    }
-}
-
-private CameraPose grabPose(String cameraName) { 
-    return new CameraPose(new Pose2d(), 2, Utils.getCurrentTimeSeconds());
-}
-
-// Define the CameraPose class
-private static class CameraPose {
-    public Pose2d pose;
-    public int tagCount;
-    public double timestampSeconds;
-
-    public CameraPose(Pose2d pose, int tagCount, double timestampSeconds) {
-        this.pose = pose;
-        this.tagCount = tagCount;
-        this.timestampSeconds = timestampSeconds;
-    }
-} 
-
 }

@@ -19,7 +19,7 @@ public class ScoreCoralTrough extends SequentialCommandGroup {
     addCommands(
       new ActuateWristToSetpoint(290, 15),
        new ActuateElevatorToSetpoint(.10, 1),
-      new ActuateWristToSetpoint(250, 5)
+      new ActuateWristToSetpoint(258, 5)
 
       
     );

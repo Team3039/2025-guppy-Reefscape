@@ -46,7 +46,6 @@ import frc.robot.commands.SetClimbManualOverride;
 import frc.robot.commands.SetElevatorManualOverride;
 import frc.robot.commands.SetWristManualOverride;
 import frc.robot.commands.AutoCommands.CoralintakeAuto;
-import frc.robot.commands.PathFinding.rightBranchPathfinding;
 // import frc.robot.commands.PathFinding.rightBranchPathfinding;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL3;
@@ -86,8 +85,8 @@ public RobotContainer() {
     NamedCommands.registerCommand("set Wrist/Elevator down", new ScoreCoralTrough());
 
     //itake and spit coral             (intake)
-    NamedCommands.registerCommand("hwak", new CoralintakeAuto());
-    NamedCommands.registerCommand("Tuha", new SetClawRelease());
+    NamedCommands.registerCommand("LoveCrushingLoaf", new CoralintakeAuto());
+    NamedCommands.registerCommand("WaterBucketRelease", new SetClawRelease());
     //                                  (Release)
 
 
@@ -190,11 +189,16 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
       
 
-        driverR2.whileTrue(limelight.rightBranchPathfinding());
+        // driverR2.whileTrue(limelight.rightBranchPathfinding());
         
-        driverL2.whileTrue(limelight.leftBranchDriveTo());
+        // driverL2.whileTrue(limelight.leftBranchDriveTo());
 
-        driverX.whileTrue(drivetrain.applyRequest(() -> brake));
+        // driverX.onTrue(new ScoreCoralTrough());
+        // driverCircle.onTrue(new ScoreCoralL3());
+
+        // driverSquare.whileTrue(new SetClawIntakeCoral());
+        // driverTriangle.whileTrue(new SetClawRelease());
+
     
         driverOptions.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
@@ -238,6 +242,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         operatorPad.y().whileTrue(new RemoveAlgaeL3());
         // operatorPad.rightBumper().onTrue(new ScoreAlgaeBarge());
 
+        
 
         // Scoring Coral
         operatorPad.povDown().onTrue(new ScoreCoralTrough());

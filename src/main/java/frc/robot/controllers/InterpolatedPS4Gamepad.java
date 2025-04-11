@@ -25,14 +25,6 @@ public class InterpolatedPS4Gamepad extends PS4Controller {
     }
 
     public double interpolatedLeftYAxis() {
-        if (Math.abs(this.getLeftY()) <= 0.03)
-            return 0.0;
-        if (RobotContainer.elevator.getElevatorPosition() > 7 ) {
-
-            return ((Math.sin(this.getLeftY())) * .3);
-
-
-        }
         
         return ((Math.sin(this.getLeftY())) * 1.2);
     }
