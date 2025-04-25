@@ -2,94 +2,106 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.LimelightHelpers;
-import frc.robot.generated.TunerConstants.WonderOnOverToConstants;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
 
-public class WonderOnOverTo extends Command {
-  private PIDController xController, yController, rotController;
-  private boolean isRightScore;
-  private Timer dontSeeTagTimer, stopTimer;
-  private CommandSwerveDrivetrain drivebase;
-  private double tagID = -1;
+//This is a way to get the robot to align with the reef and score a piece of coral. 
+//It uses the Limelight camera to detect the tag and align with it. The robot will drive towards the tag until it
+//is in the correct position to score. If the tag is not detected the robot will just stop.
 
-  public WonderOnOverTo(boolean isRightScore, CommandSwerveDrivetrain drivebase) {
-    xController = new PIDController(WonderOnOverToConstants.X_REEF_ALIGNMENT_P, 0.0, 0);  // up down movement
-    yController = new PIDController(WonderOnOverToConstants.Y_REEF_ALIGNMENT_P, 0.0, 0);  // side side movement
-    rotController = new PIDController(WonderOnOverToConstants.ROT_REEF_ALIGNMENT_P, 0, 0);  // where the robot is facing
-    this.isRightScore = isRightScore;
-    this.drivebase = drivebase;
-    addRequirements(drivebase);
-  }
+//This does use mega tag 1 so there needs to be a tag being seen by the camera for this to work so thats bad.
+// So best case this is not used I just made this as a lil practice for the limelight.
 
-  @Override
-  public void initialize() {
-    this.stopTimer = new Timer();
-    this.stopTimer.start();
-    this.dontSeeTagTimer = new Timer();
-    this.dontSeeTagTimer.start();
+// If pathplaner thing does not work I may end up doing the thing p-ry does.
 
-    rotController.setSetpoint(WonderOnOverToConstants.ROT_SETPOINT_REEF_ALIGNMENT);
-    rotController.setTolerance(WonderOnOverToConstants.ROT_TOLERANCE_REEF_ALIGNMENT);
 
-    xController.setSetpoint(WonderOnOverToConstants.X_SETPOINT_REEF_ALIGNMENT);
-    xController.setTolerance(WonderOnOverToConstants.X_TOLERANCE_REEF_ALIGNMENT);
+// package frc.robot.commands;
 
-    yController.setSetpoint(isRightScore ? WonderOnOverToConstants.Y_SETPOINT_REEF_ALIGNMENT : -WonderOnOverToConstants.Y_SETPOINT_REEF_ALIGNMENT);
-    yController.setTolerance(WonderOnOverToConstants.Y_TOLERANCE_REEF_ALIGNMENT);
+// import edu.wpi.first.math.controller.PIDController;
+// import edu.wpi.first.math.geometry.Translation2d;
+// import edu.wpi.first.wpilibj.Timer;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj2.command.Command;
+// import frc.robot.LimelightHelpers;
+// import frc.robot.generated.TunerConstants.WonderOnOverToConstants;
+// import frc.robot.subsystems.CommandSwerveDrivetrain;
 
-    tagID = LimelightHelpers.getFiducialID("limelight");
-  }
+// public class WonderOnOverTo extends Command {
+//   private PIDController xController, yController, rotController;
+//   private boolean isRightScore;
+//   private Timer dontSeeTagTimer, stopTimer;
+//   private CommandSwerveDrivetrain drivebase;
+//   private double tagID = -1;
 
-  @Override
-  public void execute() {
-    if (LimelightHelpers.getTV("limelight") && LimelightHelpers.getFiducialID("limelight") == tagID) {
-      this.dontSeeTagTimer.reset();
+//   public WonderOnOverTo(boolean isRightScore, CommandSwerveDrivetrain drivebase) {
+//     xController = new PIDController(WonderOnOverToConstants.X_REEF_ALIGNMENT_P, 0.0, 0);  // up down movement
+//     yController = new PIDController(WonderOnOverToConstants.Y_REEF_ALIGNMENT_P, 0.0, 0);  // side side movement
+//     rotController = new PIDController(WonderOnOverToConstants.ROT_REEF_ALIGNMENT_P, 0, 0);  // where the robot is facing
+//     this.isRightScore = isRightScore;
+//     this.drivebase = drivebase;
+//     addRequirements(drivebase);
+//   }
 
-      double[] postions = LimelightHelpers.getBotPose_TargetSpace("limelight");
+//   @Override
+//   public void initialize() {
+//     this.stopTimer = new Timer();
+//     this.stopTimer.start();
+//     this.dontSeeTagTimer = new Timer();
+//     this.dontSeeTagTimer.start();
 
-      SmartDashboard.putNumber("X pose", postions[2]);
+//     rotController.setSetpoint(WonderOnOverToConstants.ROT_SETPOINT_REEF_ALIGNMENT);
+//     rotController.setTolerance(WonderOnOverToConstants.ROT_TOLERANCE_REEF_ALIGNMENT);
 
-      double xSpeed = xController.calculate(postions[2]);
-      SmartDashboard.putNumber("Xspeeeeeeeeeeeed", xSpeed);
-      double ySpeed = -yController.calculate(postions[0]);
-      double rotValue = -rotController.calculate(postions[4]);
+//     xController.setSetpoint(WonderOnOverToConstants.X_SETPOINT_REEF_ALIGNMENT);
+//     xController.setTolerance(WonderOnOverToConstants.X_TOLERANCE_REEF_ALIGNMENT);
 
-      drivebase.drive(new Translation2d(xSpeed, ySpeed), rotValue, false);
+//     yController.setSetpoint(isRightScore ? WonderOnOverToConstants.Y_SETPOINT_REEF_ALIGNMENT : -WonderOnOverToConstants.Y_SETPOINT_REEF_ALIGNMENT);
+//     yController.setTolerance(WonderOnOverToConstants.Y_TOLERANCE_REEF_ALIGNMENT);
 
-      if (!rotController.atSetpoint() ||
+//     tagID = LimelightHelpers.getFiducialID("limelight");
+//   }
 
-          !yController.atSetpoint() ||
+//   @Override
+//   public void execute() {
+//     if (LimelightHelpers.getTV("limelight") && LimelightHelpers.getFiducialID("limelight") == tagID) {
+//       this.dontSeeTagTimer.reset();
 
-          !xController.atSetpoint()) {
-        stopTimer.reset();
-      }
-    } else {
-      drivebase.drive(new Translation2d(), 0, false);
-    }
+//       double[] postions = LimelightHelpers.getBotPose_TargetSpace("limelight");
 
-    SmartDashboard.putNumber("poseValidTimer", stopTimer.get());
-  }
+//       SmartDashboard.putNumber("X pose", postions[2]);
 
-  @Override
-  public void end(boolean interrupted) {
-    drivebase.drive(new Translation2d(), 0, false);
-  }
+//       double xSpeed = xController.calculate(postions[2]);
+//       SmartDashboard.putNumber("Xspeeeeeeeeeeeed", xSpeed);
+//       double ySpeed = -yController.calculate(postions[0]);
+//       double rotValue = -rotController.calculate(postions[4]);
 
-  @Override
-  public boolean isFinished() {
+//       drivebase.drive(new Translation2d(xSpeed, ySpeed), rotValue, false);
 
-    // Requires the robot to stay in the correct position for 0.3 seconds as long as it gets a tag in the camera
+//       if (!rotController.atSetpoint() ||
 
-    return this.dontSeeTagTimer.hasElapsed(WonderOnOverToConstants.DONT_SEE_TAG_WAIT_TIME) ||
+//           !yController.atSetpoint() ||
 
-        stopTimer.hasElapsed(WonderOnOverToConstants.POSE_VALIDATION_TIME);
-  }
-}
+//           !xController.atSetpoint()) {
+//         stopTimer.reset();
+//       }
+//     } else {
+//       drivebase.drive(new Translation2d(), 0, false);
+//     }
+
+//     SmartDashboard.putNumber("poseValidTimer", stopTimer.get());
+//   }
+
+//   @Override
+//   public void end(boolean interrupted) {
+//     drivebase.drive(new Translation2d(), 0, false);
+//   }
+
+//   @Override
+//   public boolean isFinished() {
+
+//     // Requires the robot to stay in the correct position for 0.3 seconds as long as it gets a tag in the camera
+
+//     return this.dontSeeTagTimer.hasElapsed(WonderOnOverToConstants.DONT_SEE_TAG_WAIT_TIME) ||
+
+//         stopTimer.hasElapsed(WonderOnOverToConstants.POSE_VALIDATION_TIME);
+//   }
+// }

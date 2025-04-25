@@ -81,19 +81,19 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @return True if the drivetrain matches the given state, false otherwise.
      */
     
-    public boolean drive (Translation2d translation, double rotation, boolean fieldRelative) {
-        // Compare the current state of the drivetrain with the given parameters
-        Pose2d currentPose = getPose();
-        Rotation2d currentRotation = currentPose.getRotation();
+    // public boolean drive (Translation2d translation, double rotation, boolean fieldRelative) {
+    //     // Compare the current state of the drivetrain with the given parameters
+    //     Pose2d currentPose = getPose();
+    //     Rotation2d currentRotation = currentPose.getRotation();
 
-        boolean translationMatches = currentPose.getTranslation().equals(translation);
-        boolean rotationMatches = Math.abs(currentRotation.getRadians() - rotation) < 1e-3; // Allow small tolerance
-        boolean fieldRelativeMatches = fieldRelative == m_hasAppliedOperatorPerspective;
+    //     boolean translationMatches = currentPose.getTranslation().equals(translation);
+    //     boolean rotationMatches = Math.abs(currentRotation.getRadians() - rotation) < 1e-3; // Allow small tolerance
+    //     boolean fieldRelativeMatches = fieldRelative == m_hasAppliedOperatorPerspective;
 
-        return translationMatches && rotationMatches && fieldRelativeMatches;
-    }
+    //     return translationMatches && rotationMatches && fieldRelativeMatches;
+    // }
     
-    private boolean m_hasAppliedOperatorPerspective = false;
+    // private boolean m_hasAppliedOperatorPerspective = false;
 
     /** Swerve request to apply during robot-centric path following */
     private final SwerveRequest.ApplyRobotSpeeds m_pathApplyRobotSpeeds = new SwerveRequest.ApplyRobotSpeeds();
@@ -185,8 +185,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         try {
             var config = RobotConfig.fromGUISettings();
             AutoBuilder.configure(
-                    () ->  getPose(),/// getState().Pose, // Supplier of current robot pose
-                    this::resetPose, // Consumer for seeding pose against auto
+                  () ->  getPose(),/// getState().Pose, // Supplier of current robot pose
+                  this::resetPose, // Consumer for seeding pose against auto
                     () -> getState().Speeds, // Supplier of current robot speeds
                     // Consumer of ChassisSpeeds and feedforwards to drive the robot
                     (speeds, feedforwards) -> setControl(
@@ -264,7 +264,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
                 doRejectUpdate=true; 
 
-                Timer.delay(.3);
             }
         }
         
@@ -309,6 +308,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putNumberArray("BotPose",
                 new double[] { botPose2d.getTranslation().getX(), botPose2d.getTranslation().getY(),
                         botPose2d.getRotation().getRadians() });
+
         /*
          * This allows us to correct the perspective in case the robot code restarts
          * mid-match.
