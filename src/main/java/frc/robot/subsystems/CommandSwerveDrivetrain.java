@@ -18,6 +18,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -25,6 +26,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -52,7 +54,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public LimelightHelpers.PoseEstimate[] cameraPoses = new LimelightHelpers.PoseEstimate[2];
 
 
-    
+
     public Pigeon2 gyro;
     // public SwerveDriveOdometry swerveOdometry;
     public PoseEstimate cameraPose;
@@ -78,19 +80,20 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @param fieldRelative Whether the movement is field-relative.
      * @return True if the drivetrain matches the given state, false otherwise.
      */
-    // public boolean drive (Translation2d translation, double rotation, boolean fieldRelative) {
-    //     // Compare the current state of the drivetrain with the given parameters
-    //     Pose2d currentPose = getPose();
-    //     Rotation2d currentRotation = currentPose.getRotation();
-
-    //     boolean translationMatches = currentPose.getTranslation().equals(translation);
-    //     boolean rotationMatches = Math.abs(currentRotation.getRadians() - rotation) < 1e-3; // Allow small tolerance
-    //     boolean fieldRelativeMatches = fieldRelative == m_hasAppliedOperatorPerspective;
-
-    //     return translationMatches && rotationMatches && fieldRelativeMatches;
-    // }
     
-    // private boolean m_hasAppliedOperatorPerspective = false;
+    public boolean drive (Translation2d translation, double rotation, boolean fieldRelative) {
+        // Compare the current state of the drivetrain with the given parameters
+        Pose2d currentPose = getPose();
+        Rotation2d currentRotation = currentPose.getRotation();
+
+        boolean translationMatches = currentPose.getTranslation().equals(translation);
+        boolean rotationMatches = Math.abs(currentRotation.getRadians() - rotation) < 1e-3; // Allow small tolerance
+        boolean fieldRelativeMatches = fieldRelative == m_hasAppliedOperatorPerspective;
+
+        return translationMatches && rotationMatches && fieldRelativeMatches;
+    }
+    
+    private boolean m_hasAppliedOperatorPerspective = false;
 
     /** Swerve request to apply during robot-centric path following */
     private final SwerveRequest.ApplyRobotSpeeds m_pathApplyRobotSpeeds = new SwerveRequest.ApplyRobotSpeeds();
@@ -258,7 +261,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         
         {
             if(cameraPoses[bestCamera].tagCount<1){
-                doRejectUpdate=true;
+
+                doRejectUpdate=true; 
+
+                Timer.delay(.3);
             }
         }
         
@@ -271,6 +277,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             doRejectUpdate = true;
         }
         SmartDashboard.putBoolean("RejectUpdate", doRejectUpdate);
+
         if (!doRejectUpdate) {
             SmartDashboard.putNumber("bestcamera",bestCamera);
             SmartDashboard.putNumberArray("CameraPose", new double[] { cameraPoses[bestCamera].pose.getTranslation().getX(), cameraPoses[bestCamera].pose.getTranslation().getY(),
