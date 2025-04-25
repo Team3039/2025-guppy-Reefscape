@@ -240,10 +240,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public void updateCameraPose() {
         boolean doRejectUpdate = false;
         int bestCamera;
-        double CamConfidence = 0;
          cameraPoses[0] = grabPose("limelight");
         {
-            if ( CamConfidence == 0 ) {
+            if ( cameraPoses[0].tagCount == 1 ) {
 
                 bestCamera = 0;
             } 
@@ -251,6 +250,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             else {
                 bestCamera = -1;
             }
+            
         }
 
         if (bestCamera == -1) {
@@ -260,9 +260,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         else
         
         {
-            if(cameraPoses[bestCamera].tagCount<1){
+            if(cameraPoses[0] != null){
 
-                doRejectUpdate=true; 
+                doRejectUpdate=false; 
 
             }
         }
