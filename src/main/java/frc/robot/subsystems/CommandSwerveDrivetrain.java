@@ -250,7 +250,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             else {
                 bestCamera = -1;
             }
-            
+
         }
 
         if (bestCamera == -1) {

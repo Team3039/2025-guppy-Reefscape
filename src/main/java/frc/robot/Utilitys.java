@@ -30,28 +30,28 @@ public class Utilitys {
     public static LimelightHelpers.PoseEstimate mt2;
     public LimelightHelpers.PoseEstimate leftPose;
     public LimelightHelpers.PoseEstimate rightPose;
-    public LimelightHelpers.PoseEstimate[] cameraPoses = new LimelightHelpers.PoseEstimate[0];
+    public LimelightHelpers.PoseEstimate[] cameraPoses = new LimelightHelpers.PoseEstimate[2];
     public SwerveDrivePoseEstimator m_poseEstimator;
 
-    // public static Pose2d shiftPoseLeft(Pose2d originalPose, double forwardInches, double rightInches) {
-    //     // Get current pose components
-    //     double x = originalPose.getX();
-    //     double y = originalPose.getY();
-    //     Rotation2d theta = originalPose.getRotation();
-    //     Rotation2d invTheta = theta.fromRadians(theta.getRadians() + Math.PI);
+    public static Pose2d shiftPoseLeft(Pose2d originalPose, double forwardInches, double rightInches) {
+        // Get current pose components
+        double x = originalPose.getX();
+        double y = originalPose.getY();
+        Rotation2d theta = originalPose.getRotation();
+        Rotation2d invTheta = theta.fromRadians(theta.getRadians() + Math.PI);
 
-    //     // Compute new coordinates
-    //     // Convert inches to meters (WPILib uses meters)
-    //     double forwardMeters = Units.inchesToMeters(forwardInches);
-    //     double rightMeters = Units.inchesToMeters(rightInches);
+        // Compute new coordinates
+        // Convert inches to meters (WPILib uses meters)
+        double forwardMeters = Units.inchesToMeters(forwardInches);
+        double rightMeters = Units.inchesToMeters(rightInches);
 
-    //     // Calculate new position  shift target to it's right
-    //     double xNew = x + forwardMeters * Math.cos(theta.getRadians()) + rightMeters * Math.sin(theta.getRadians());
-    //     double yNew = y + forwardMeters * Math.sin(theta.getRadians()) - rightMeters * Math.cos(theta.getRadians());
+        // Calculate new position  shift target to it's right
+        double xNew = x + forwardMeters * Math.cos(theta.getRadians()) + rightMeters * Math.sin(theta.getRadians());
+        double yNew = y + forwardMeters * Math.sin(theta.getRadians()) - rightMeters * Math.cos(theta.getRadians());
 
-    //     // Return the new pose with the same orientation
-    //     return new Pose2d(xNew, yNew, invTheta);
-    // }
+        // Return the new pose with the same orientation
+        return new Pose2d(xNew, yNew, invTheta);
+    }
 
     public static Pose2d shiftPoseRight(Pose2d originalPose, double forwardInches, double leftInches) {
         // Get current pose components
@@ -71,6 +71,7 @@ public class Utilitys {
         // Return the new pose with the same orientation
         return new Pose2d(xNew, yNew, invTheta);
     }
+
     
 
     // PathPlannerPath path = PathPlannerPath.fromPathFile("Alpha",true);
@@ -86,11 +87,14 @@ public class Utilitys {
 
     public static Pose2d getAprilTagPose(int tagID) {
         try {
+            // Load the official FRC AprilTag field layout (2024 example)
+            // AprilTagFieldLayout fieldLayout =
+            // AprilTagFields.k2025Reefscape.loadAprilTagLayoutField();
 
             // Get the tag pose
             Optional<Pose2d> tagPose = TunerConstants.fieldLayout.getTagPose(tagID).map(pose3d -> pose3d.toPose2d());
 
-            return tagPose.orElse(null); // return the pose if found, otherwise null
+            return tagPose.orElse(null); // Return the pose if found, otherwise null
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -155,6 +159,38 @@ public class Utilitys {
         }
     }
 
+    public static int grabTagID() {
+        double leftDist, rightDist;
+        double shiftDirection;
+        int[] tagIds = new int[2];
+        boolean validTarget = false;
+        int tagId = 0;
+
+        LimelightHelpers.LimelightResults resultsRight = LimelightHelpers.getLatestResults("limelight");
+        SmartDashboard.putNumber("right: ", resultsRight.botpose_avgdist);
+        SmartDashboard.putBoolean("valid", resultsRight.valid);
+
+       
+        if (resultsRight.valid) {
+            rightDist = resultsRight.botpose_avgdist;
+
+            tagIds[1] = (int) resultsRight.targets_Fiducials[0].fiducialID;
+            validTarget = true;
+        } else {
+            rightDist = 999999;
+        }
+
+        if (validTarget) {
+            tagId = tagIds[1];
+            SmartDashboard.putString("Camera", "right");
+        }
+        return tagId;
+    }
+
+
+
+
+
 
     public Rotation2d getGyroYaw(Pigeon2 gyro) {
         SmartDashboard.putNumber("yaw", gyro.getYaw().getValueAsDouble());
@@ -172,4 +208,26 @@ public class Utilitys {
 
     }
 
+    // public static void addLimelightVisionMeasurements(String camera) {
+
+    // //
+    // LimelightHelpers.SetRobotOrientation("limelight-left",getGyroYaw().getDegrees(),
+    // // 0, 0, 0, 0, 0);
+    // var driveState = RobotContainer.drivetrain.getState();
+    // double headingDeg = driveState.Pose.getRotation().getDegrees();
+    // double omegaRps =
+    // Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
+    // LimelightHelpers.SetRobotOrientation(camera, headingDeg, 0, 0, 0, 0, 0);
+    // mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(camera);
+
+    // if (mt2 != null && mt2.tagCount > 0 ) { // distance was 2
+    // RobotContainer.drivetrain.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7,
+    // 9999999));
+    // RobotContainer.drivetrain.addVisionMeasurement(mt2.pose,
+    // Utils.fpgaToCurrentTime(mt2.timestampSeconds));
+    // RobotContainer.drivetrain.swerveOdometry.resetPosition(RobotContainer.drivetrain.getGyroYaw(),RobotContainer.drivetrain.getModulePositions(),
+    // RobotContainer.drivetrain.m_poseEstimator.getEstimatedPosition());
+
+    // }
+    // }
 }

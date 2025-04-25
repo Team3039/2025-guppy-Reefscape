@@ -442,8 +442,7 @@ TalonFX m_talonFX = new TalonFX(15); // Replace '1' with the appropriate CAN ID 
 
     public static final double wheelCircumference = Units.inchesToMeters(4*Math.PI); 
 
-    public static AprilTagFieldLayout fieldLayout =
-            AprilTagFields.k2025ReefscapeWelded.loadAprilTagLayoutField();
+    public static AprilTagFieldLayout fieldLayout = AprilTagFields.k2025ReefscapeWelded.loadAprilTagLayoutField();
 
 }
 
