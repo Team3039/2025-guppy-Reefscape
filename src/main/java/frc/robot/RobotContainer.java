@@ -177,6 +177,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
             .withRotationalRate(driverPad.interpolatedRightXAxis() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
+        
         // drivetrain.setDefaultCommand(
         //     // Drivetrain will execute this command periodically
         //     drivetrain.applyRequest(() ->
@@ -189,9 +190,9 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
       
 
-        // driverR2.whileTrue(limelight.rightBranchPathfinding());
-        
-        // driverL2.whileTrue(limelight.leftBranchDriveTo());
+        driverR2.whileTrue(limelight.rightBranchPathfinding());
+
+        driverL2.whileTrue(limelight.leftBranchPathFinding());
 
         // driverX.onTrue(new ScoreCoralTrough());
         // driverCircle.onTrue(new ScoreCoralL3());
@@ -208,7 +209,6 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         // drivetrain.registerTelemetry(logger::telemeterize); // Commented out as Logger does not have telemeterize method
 
 
-        driverShare.toggleOnTrue(new SetClimbManualOverride());
 
 
 

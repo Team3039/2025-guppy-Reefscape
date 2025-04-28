@@ -1,4 +1,3 @@
-
 package frc.robot.subsystems;
 
 import java.io.IOException;
@@ -8,7 +7,16 @@ import org.json.simple.parser.ParseException;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
+// import com.pathplanner.lib.util.FileVersionException;
 
+// import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+// import edu.wpi.first.math.geometry.Pose2d;
+// import edu.wpi.first.math.geometry.Translation2d;
+// import edu.wpi.first.math.geometry.Translation3d;
+// import edu.wpi.first.math.geometry.Translation2d;
+// import edu.wpi.first.wpilibj.DriverStation.Alliance;
+// import edu.wpi.first.wpilibj.Timer;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import edu.wpi.first.math.numbers.N3;
@@ -18,6 +26,15 @@ import frc.robot.LimelightHelpers.LimelightTarget_Fiducial;
 // import frc.robot.LimelightHelpers.LimelightTargetingResults;
 
 public class Limelight extends SubsystemBase {
+    
+
+
+    // private String ll = "limelight";
+    // private Boolean enable = true;
+    // private Boolean trust = false;
+    // private int fieldError = 0;
+    // private int distanceError = 0;
+    // private Pose2d botpose;
     
     private PathConstraints constraints = new PathConstraints(
 
@@ -33,7 +50,11 @@ public class Limelight extends SubsystemBase {
 
     
 
-    public Command leftBranchDriveTo() {
+    public Command leftBranchPathFinding() {
+
+        System.out.println("leftBranchPathFinding method called.");
+
+
         PathPlannerPath leftPath = null;
 
         double aprilTagID = LimelightHelpers.getFiducialID("limelight");
@@ -327,4 +348,3 @@ public class Limelight extends SubsystemBase {
     }
 
 }
-

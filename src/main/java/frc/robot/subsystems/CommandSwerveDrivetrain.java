@@ -33,7 +33,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.LimelightHelpers;
 import frc.robot.LimelightHelpers.PoseEstimate;
 //import com.ctre.phoenix6.SignalLogger;
-import frc.robot.Utilitys;
+
 import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
@@ -56,13 +56,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
 
     public Pigeon2 gyro;
-    // public SwerveDriveOdometry swerveOdometry;
+
     public PoseEstimate cameraPose;
-    // public Pose2d botPose = new Pose2d();
+
     public Pose2d botPose2d = new Pose2d();
     public Pose3d botPose3d = new Pose3d();
     public PoseEstimate best = new PoseEstimate();
-    public Utilitys utils = new Utilitys();
+
     // private final SwerveModule[] swerveModules = new SwerveModule[] { new
     // SwerveModule(0, 1), new SwerveModule(2, 3),
     // new SwerveModule(4, 5), new SwerveModule(6, 7) };
@@ -81,19 +81,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @return True if the drivetrain matches the given state, false otherwise.
      */
     
-    // public boolean drive (Translation2d translation, double rotation, boolean fieldRelative) {
-    //     // Compare the current state of the drivetrain with the given parameters
-    //     Pose2d currentPose = getPose();
-    //     Rotation2d currentRotation = currentPose.getRotation();
-
-    //     boolean translationMatches = currentPose.getTranslation().equals(translation);
-    //     boolean rotationMatches = Math.abs(currentRotation.getRadians() - rotation) < 1e-3; // Allow small tolerance
-    //     boolean fieldRelativeMatches = fieldRelative == m_hasAppliedOperatorPerspective;
-
-    //     return translationMatches && rotationMatches && fieldRelativeMatches;
-    // }
-    
-    // private boolean m_hasAppliedOperatorPerspective = false;
+     
 
     /** Swerve request to apply during robot-centric path following */
     private final SwerveRequest.ApplyRobotSpeeds m_pathApplyRobotSpeeds = new SwerveRequest.ApplyRobotSpeeds();
@@ -312,16 +300,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
          * This ensures driving behavior doesn't change until an explicit disable event
          * occurs during testing.
          */
-        // if (!m_hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
-        // DriverStation.getAlliance().ifPresent(allianceColor -> {
-        // setOperatsorPerspectiveForward(
-        // allianceColor == Alliance.Red
-        // ? kRedAlliancePerspectiveRotation
-        // : kBlueAlliancePerspectiveRotation
-        // );
-        // m_hasAppliedOperatorPerspective = true;
-        // });
-        // }
+        
+         
 
     }
 
