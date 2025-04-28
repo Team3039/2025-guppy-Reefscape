@@ -8,16 +8,7 @@ import org.json.simple.parser.ParseException;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
-// import com.pathplanner.lib.util.FileVersionException;
 
-// import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-// import edu.wpi.first.math.geometry.Pose2d;
-// import edu.wpi.first.math.geometry.Translation2d;
-// import edu.wpi.first.math.geometry.Translation3d;
-// import edu.wpi.first.math.geometry.Translation2d;
-// import edu.wpi.first.wpilibj.DriverStation.Alliance;
-// import edu.wpi.first.wpilibj.Timer;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import edu.wpi.first.math.numbers.N3;
@@ -27,38 +18,6 @@ import frc.robot.LimelightHelpers.LimelightTarget_Fiducial;
 // import frc.robot.LimelightHelpers.LimelightTargetingResults;
 
 public class Limelight extends SubsystemBase {
-    // private SwerveDrivePoseEstimator m_poseEstimator;
-    // CommandSwerveDrivetrain drivetrain;
-    // Alliance alliance;
-
-    //  private static final RectanglePoseArea field =
-    //     new RectanglePoseArea(new Translation2d(0.0, 0.0), new Translation2d(16.54, 8.02));
-
-    // // Define the RectanglePoseArea class
-    // private static class RectanglePoseArea {
-    //     private final Translation2d bottomLeft;
-    //     private final Translation2d topRight;
-
-        // public RectanglePoseArea(Translation2d bottomLeft, Translation2d topRight) {
-        //     this.bottomLeft = bottomLeft;
-        //     this.topRight = topRight;
-        // }
-
-    //     public boolean isPoseWithinArea(Pose2d pose) {
-    //         double x = pose.getX();
-    //         double y = pose.getY();
-    //         return x >= bottomLeft.getX() && x <= topRight.getX()
-    //             && y >= bottomLeft.getY() && y <= topRight.getY();
-    //     }
-    // }
-
-
-    // private String ll = "limelight";
-    // private Boolean enable = true;
-    // private Boolean trust = false;
-    // private int fieldError = 0;
-    // private int distanceError = 0;
-    // private Pose2d botpose;
     
     private PathConstraints constraints = new PathConstraints(
 
@@ -73,44 +32,6 @@ public class Limelight extends SubsystemBase {
     );
 
     
-
-    /** Creates a new Limelight. */
-    // public Limelight(CommandSwerveDrivetrain drivetrain) {
-    //     this.drivetrain = drivetrain;
-    //     SmartDashboard.putNumber("Field Error", fieldError);
-    //     SmartDashboard.putNumber("Limelight Error", distanceError);
-    //         }
-
-    //          @Override
-    //       public void periodic() {
-    //         if (enable) {
-    //           LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults(ll);
-    //           if (results.targetingResults.validTarget) {
-    //             botpose = LimelightHelpers.getBotPose2d_wpiBlue(ll);
-    //             if (field.isPoseWithinArea(botpose)) {
-    //               drivetrain.addVisionMeasurement(
-    //                   botpose,
-    //                   Timer.getFPGATimestamp()
-    //                       - (results.targetingResults.targetX )
-    //                       - (results.targetingResults.targetY ) );
-    //             } else {
-    //               fieldError++;
-    //               SmartDashboard.putNumber("Field Error", fieldError);
-    //             }
-    //           }
-    //         }
-    //       }
-
-            // public void setAlliance(Alliance alliance) {  this.alliance = alliance;
-    // }
-
-    // public void useLimelight(boolean enable) {
-    //     this.enable = enable;
-    // }
-
-    // public void trustLL(boolean trust) {
-    //     this.trust = trust;
-    // }
 
     public Command leftBranchDriveTo() {
         PathPlannerPath leftPath = null;

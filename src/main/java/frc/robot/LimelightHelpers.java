@@ -1584,4 +1584,14 @@ public class LimelightHelpers {
 
         return results;
     }
+
+    public static PoseEstimate getBotPoseEstimate_MultiTag(String camera, int i) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getBotPoseEstimate_MultiTag'");
+    }
+
+    public static PoseEstimate getBotPoseEstimate_megaTAg1(String camera) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getBotPoseEstimate_megaTAg1'");
+    }
 }

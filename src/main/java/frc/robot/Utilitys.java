@@ -159,75 +159,49 @@ public class Utilitys {
         }
     }
 
-    public static int grabTagID() {
-        double leftDist, rightDist;
-        double shiftDirection;
-        int[] tagIds = new int[2];
-        boolean validTarget = false;
-        int tagId = 0;
-
-        LimelightHelpers.LimelightResults resultsRight = LimelightHelpers.getLatestResults("limelight");
-        SmartDashboard.putNumber("right: ", resultsRight.botpose_avgdist);
-        SmartDashboard.putBoolean("valid", resultsRight.valid);
-
-       
-        if (resultsRight.valid) {
-            rightDist = resultsRight.botpose_avgdist;
-
-            tagIds[1] = (int) resultsRight.targets_Fiducials[0].fiducialID;
-            validTarget = true;
-        } else {
-            rightDist = 999999;
-        }
-
-        if (validTarget) {
-            tagId = tagIds[1];
-            SmartDashboard.putString("Camera", "right");
-        }
-        return tagId;
-    }
-
-
-
-
-
 
     public Rotation2d getGyroYaw(Pigeon2 gyro) {
         SmartDashboard.putNumber("yaw", gyro.getYaw().getValueAsDouble());
+        
         return Rotation2d.fromDegrees(gyro.getYaw().getValueAsDouble());
     }
 
-    public PoseEstimate grabPose(String camera) {
-        LimelightHelpers.SetRobotOrientation(camera, RobotContainer.drivetrain.gyro.getYaw().getValueAsDouble(), 0, 0,
-                0, 0, 0);
-        // LimelightHelpers.SetRobotOrientation("limelight-left",getGyroYaw().getDegrees(),
-        // 0, 0, 0, 0, 0);
 
-        mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(camera);
-        return mt2;
+public PoseEstimate grabPose(String camera) {
 
-    }
+   
+ LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+      
+ 
+      boolean doRejectUpdate = false;
+      
+          if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
+            {
+              if(mt1.rawFiducials[0].ambiguity > .7)
+              {
+                doRejectUpdate = true;
+        }
+        if(mt1.rawFiducials[0].distToCamera > 3)
+        {
+          doRejectUpdate = true;
+        }
+      }
+      if(mt1.tagCount == 0)
+      {
+        doRejectUpdate = true;
+      }
 
-    // public static void addLimelightVisionMeasurements(String camera) {
+      if(!doRejectUpdate)
+      {
+        m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
+        m_poseEstimator.addVisionMeasurement(
+            mt1.pose,
+            mt1.timestampSeconds);
+      }
+          return mt1;
+  }
 
-    // //
-    // LimelightHelpers.SetRobotOrientation("limelight-left",getGyroYaw().getDegrees(),
-    // // 0, 0, 0, 0, 0);
-    // var driveState = RobotContainer.drivetrain.getState();
-    // double headingDeg = driveState.Pose.getRotation().getDegrees();
-    // double omegaRps =
-    // Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
-    // LimelightHelpers.SetRobotOrientation(camera, headingDeg, 0, 0, 0, 0, 0);
-    // mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(camera);
-
-    // if (mt2 != null && mt2.tagCount > 0 ) { // distance was 2
-    // RobotContainer.drivetrain.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7,
-    // 9999999));
-    // RobotContainer.drivetrain.addVisionMeasurement(mt2.pose,
-    // Utils.fpgaToCurrentTime(mt2.timestampSeconds));
-    // RobotContainer.drivetrain.swerveOdometry.resetPosition(RobotContainer.drivetrain.getGyroYaw(),RobotContainer.drivetrain.getModulePositions(),
-    // RobotContainer.drivetrain.m_poseEstimator.getEstimatedPosition());
-
-    // }
-    // }
 }
+
+
+

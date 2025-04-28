@@ -124,13 +124,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         getModule(2).getDriveMotor().setPosition(0);
         getModule(3).getDriveMotor().setPosition(0);
 
-       // botPose2d = new Pose2d();
-
-        // swerveOdometry = new SwerveDriveOdometry(getKinematics(),
-        // kBlueAlliancePerspectiveRotation, getModulePositions());
-        // if (Utils.isSimulation()) {
-        // startSimThread();
-        // }
+    
 
         m_poseEstimator = new SwerveDrivePoseEstimator(TunerConstants.swerveKinematics, getGyroRotation2D(),
                 getModulePositions(), getPose(), VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0.5)),
@@ -297,6 +291,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     @Override
     public void periodic() {
+        
 
         m_poseEstimator.update(getGyroRotation2D(), getModulePositions());
         botPose2d = m_poseEstimator.getEstimatedPosition();
@@ -399,15 +394,40 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return Rotation2d.fromDegrees(getCompassHeading());//gyro.getYaw().getValueAsDouble());
     }
 
-    public PoseEstimate grabPose(String camera) {
-        LimelightHelpers.SetRobotOrientation(camera, gyro.getYaw().getValueAsDouble(), 0, 0, 0, 0, 0);
-        // LimelightHelpers.SetRobotOrientation("limelight-left",getGyroYaw().getDegrees(),
-        // 0, 0, 0, 0, 0);
+   
+public PoseEstimate grabPose(String camera) {
 
-        mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(camera);
-        return mt2;
+   
+ LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+      
+ 
+      boolean doRejectUpdate = false;
+      
+          if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
+            {
+              if(mt1.rawFiducials[0].ambiguity > .7)
+              {
+                doRejectUpdate = true;
+        }
+        if(mt1.rawFiducials[0].distToCamera > 3)
+        {
+          doRejectUpdate = true;
+        }
+      }
+      if(mt1.tagCount == 0)
+      {
+        doRejectUpdate = true;
+      }
 
-    }
+      if(!doRejectUpdate)
+      {
+        m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
+        m_poseEstimator.addVisionMeasurement(
+            mt1.pose,
+            mt1.timestampSeconds);
+      }
+          return mt1;
+  }
 
     /**
      * Adds a vision measurement to the Kalman Filter. This will correct the
