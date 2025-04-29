@@ -20,37 +20,23 @@ import frc.robot.controllers.InterpolatedPS4Gamepad;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class LeftBranchPathFinding extends Command {
-  /** Creates a new LeftBranchPathFinding. */
+
+
+    private PathPlannerPath leftPath = null;
+
   public LeftBranchPathFinding() {
 
-   
-
-
-        
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
 
- PathConstraints constraints = new PathConstraints(
-
-            .5,
-
-            .5,
-
-            .5,
-
-            .5
-
-    );
-
 
 // 17 18 19 20 21 22
         // c a k I g e
         double aprilTagID = LimelightHelpers.getFiducialID("limelight");
 
-        PathPlannerPath leftPath = null;
 
         // Blue paths
         switch ((int) aprilTagID) {
@@ -95,7 +81,6 @@ public class LeftBranchPathFinding extends Command {
                   e.printStackTrace();
               }
 
-               System.out.println("Hey I work");
               break;
 
           case 22:
@@ -104,8 +89,6 @@ public class LeftBranchPathFinding extends Command {
               } catch (IOException | ParseException e) {
                   e.printStackTrace();
               }
-
-               System.out.println("Hey Im a dumb ass");
 
               break;
 
@@ -165,45 +148,63 @@ public class LeftBranchPathFinding extends Command {
               // handle other cases
               break;
       }
-if (leftPath != null) {          
-        
-            
-
-            Command leftBranchDriveTo = AutoBuilder.pathfindThenFollowPath(leftPath, constraints);
-
-            leftBranchDriveTo.schedule();  
-
-        }
-
   }
 
-  
   @Override
   public void execute() {
-  }
+    
+    
+        PathConstraints constraints = new PathConstraints(
+    
+                .5,
+    
+                .5,
+    
+                .5,
+    
+                .5
+    
+        );
+    
+
+if (leftPath != null) {
+
+
+    Command followRightPath = AutoBuilder.pathfindThenFollowPath( leftPath, constraints);
+
+    followRightPath.schedule();
+    
+    
+}
+
+}
+
     
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
 
+//     final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepad(0); 
 
-    final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepad(0); 
-
-    final JoystickButton driverL2 = new JoystickButton(driverPad, PS4Controller.Button.kL2.value);
+//     final JoystickButton driverL2 = new JoystickButton(driverPad, PS4Controller.Button.kL2.value);
 
 
-if (driverL2.getAsBoolean()) {
-    interrupted = false;
-}
+// if (driverL2.getAsBoolean()) {
+//     interrupted = false;
 
-else {
-    interrupted = true;}
+// }
+
+// else {
+//     interrupted = true;}
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+        
     
+
     return false;
   }
 }
