@@ -8,19 +8,19 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.462668918918919,
-        "y": 3.847128378378378
+        "x": 6.452787162162162,
+        "y": 3.9459459459459456
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.49231418918919,
+        "x": 6.185979729729729,
         "y": 3.8767736486486477
       },
       "prevControl": {
-        "x": 6.808530405405406,
+        "x": 6.502195945945945,
         "y": 3.8767736486486477
       },
       "nextControl": null,
@@ -62,7 +62,7 @@
   "folder": "BLUE PATHFINDING",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -178.19126067750798
+    "rotation": -178.45184230102208
   },
   "useDefaultConstraints": true
 }

@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 6.462668918918919,
+        "x": 6.403378378378378,
         "y": 4.015118243243243
       },
       "prevControl": {
-        "x": 6.749530405405405,
+        "x": 6.690239864864865,
         "y": 4.0081081081081065
       },
       "nextControl": null,
@@ -56,7 +56,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -179.32227075588045
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "BLUE PATHFINDING",

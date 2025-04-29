@@ -46,6 +46,7 @@ import frc.robot.commands.SetClawSpitAlgae;
 import frc.robot.commands.SetClimbManualOverride;
 import frc.robot.commands.SetElevatorManualOverride;
 import frc.robot.commands.SetWristManualOverride;
+import frc.robot.commands.StopPathFinding;
 import frc.robot.commands.AutoCommands.CoralintakeAuto;
 // import frc.robot.commands.PathFinding.rightBranchPathfinding;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
@@ -62,7 +63,7 @@ import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Limelight;
+import frc.robot.commands.AutoCommands.*;
 import frc.robot.subsystems.Wrist;
 
 
@@ -152,7 +153,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
     public static final Wrist wrist = new Wrist();
     public static final Claw claw = new Claw();
     public static final Climb climb = new Climb();
-    public static final Limelight limelight = new Limelight();
+    // public static final Limelight limelight = new Limelight();
 
 
     /* Path follower */
@@ -191,11 +192,12 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
       
 
-        driverR2.whileTrue (new InstantCommand(() -> limelight.rightBranchPathfinding()));
+        driverR2.whileTrue (new RightBranchPathfinding());
 
-        driverL2.whileTrue (new InstantCommand(() -> limelight.leftBranchPathFinding()));
 
-        // driverX.onTrue(new ScoreCoralTrough());
+        driverL2.whileTrue (new LeftBranchPathFinding());
+
+        // driverX. onTrue (new StopPathFinding()); 
         // driverCircle.onTrue(new ScoreCoralL3());
 
         // driverSquare.whileTrue(new SetClawIntakeCoral());
