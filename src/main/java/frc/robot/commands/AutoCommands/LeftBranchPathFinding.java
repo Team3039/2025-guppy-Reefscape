@@ -200,10 +200,6 @@ else {
     interrupted = true;}
   }
 
-
-
-
-
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

@@ -203,9 +203,9 @@ public class RightBranchPathfinding extends Command {
   @Override
   public void end(boolean interrupted) {
 
-final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepad(0); 
+    final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepad(0); 
 
-final JoystickButton driverR2 = new JoystickButton(driverPad, PS4Controller.Button.kL2.value);
+    final JoystickButton driverR2 = new JoystickButton(driverPad, PS4Controller.Button.kL2.value);
 
 
 if (driverR2.getAsBoolean()) {
@@ -215,6 +215,7 @@ if (driverR2.getAsBoolean()) {
 else {
     interrupted = true;}
 
+    
   }
 
 
