@@ -50,7 +50,7 @@ public class Limelight extends SubsystemBase {
 
     
 
-    public Command leftBranchPathFinding() {
+    public Void leftBranchPathFinding() {
 
         System.out.println("leftBranchPathFinding method called.");
 
@@ -183,18 +183,17 @@ public class Limelight extends SubsystemBase {
 
             Command leftBranchDriveTo = AutoBuilder.pathfindThenFollowPath(leftPath, constraints);
 
-            AutoBuilder.followPath(leftPath).schedule();
+            leftBranchDriveTo.schedule();
             
         
-            return leftBranchDriveTo;
+            return null;
 
         }
-        return new Command() {
-        };
+        return null;
 
     }
 
-    public Command rightBranchPathfinding() {      
+    public Void rightBranchPathfinding() {      
 
         System.out.println("rightBranchPathfinding method called.");
         // L
@@ -335,15 +334,15 @@ public class Limelight extends SubsystemBase {
 
             Command followRightPath = AutoBuilder.pathfindThenFollowPath(path, constraints);
 
-            AutoBuilder.followPath(path).schedule();
+            followRightPath.schedule();
             
-            return followRightPath;
+            
+            return null;
         }
 
 
 
-        return new Command() {
-        };
+        return null;
 
     }
 

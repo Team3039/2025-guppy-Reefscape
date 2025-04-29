@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -177,7 +178,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
             .withRotationalRate(driverPad.interpolatedRightXAxis() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
-        
+
         // drivetrain.setDefaultCommand(
         //     // Drivetrain will execute this command periodically
         //     drivetrain.applyRequest(() ->
@@ -190,9 +191,9 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
       
 
-        driverR2.whileTrue(limelight.rightBranchPathfinding());
+        driverR2.whileTrue (new InstantCommand(() -> limelight.rightBranchPathfinding()));
 
-        driverL2.whileTrue(limelight.leftBranchPathFinding());
+        driverL2.whileTrue (new InstantCommand(() -> limelight.leftBranchPathFinding()));
 
         // driverX.onTrue(new ScoreCoralTrough());
         // driverCircle.onTrue(new ScoreCoralL3());
