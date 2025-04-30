@@ -47,7 +47,6 @@ import frc.robot.commands.SetClimbManualOverride;
 import frc.robot.commands.SetElevatorManualOverride;
 import frc.robot.commands.SetWristManualOverride;
 import frc.robot.commands.StopPathFinding;
-import frc.robot.commands.AutoCommands.CoralintakeAuto;
 // import frc.robot.commands.PathFinding.rightBranchPathfinding;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL3;
@@ -192,10 +191,11 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
       
 
-        driverR2.whileTrue (new RightBranchPathfinding());
+        driverR2.onTrue (new RightBranchPathfinding());
 
 
-        driverL2.whileTrue (new LeftBranchPathFinding());
+        driverL2.onTrue (new LeftBranchPathFinding());
+
 
         // driverX. onTrue (new StopPathFinding()); 
         // driverCircle.onTrue(new ScoreCoralL3());

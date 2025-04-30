@@ -177,7 +177,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                                     .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())),
                     new PPHolonomicDriveController(
                             // PID constants for translation
-                            new PIDConstants(2., 0, 0),// was 0.5  //was 0.7
+                            new PIDConstants(1.5, 0, 0),// was 0.5  //was 0.7
                             // kP10
                             // PID constants for rotation
                             new PIDConstants(2, 0, 0)),// was 2.0
@@ -274,13 +274,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         }
 
     }
-
+   
     
 
     @Override
     public void periodic() {
         
-
         m_poseEstimator.update(getGyroRotation2D(), getModulePositions());
         botPose2d = m_poseEstimator.getEstimatedPosition();
         //SmartDashboard.putNumber("Rotation2D",getGyroRotation2D().getDegrees());
