@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -45,7 +46,7 @@ import frc.robot.commands.SetClawSpitAlgae;
 import frc.robot.commands.SetClimbManualOverride;
 import frc.robot.commands.SetElevatorManualOverride;
 import frc.robot.commands.SetWristManualOverride;
-import frc.robot.commands.AutoCommands.CoralintakeAuto;
+import frc.robot.commands.StopPathFinding;
 // import frc.robot.commands.PathFinding.rightBranchPathfinding;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL3;
@@ -61,7 +62,7 @@ import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Limelight;
+import frc.robot.commands.AutoCommands.*;
 import frc.robot.subsystems.Wrist;
 
 
@@ -151,7 +152,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
     public static final Wrist wrist = new Wrist();
     public static final Claw claw = new Claw();
     public static final Climb climb = new Climb();
-    public static final Limelight limelight = new Limelight();
+    // public static final Limelight limelight = new Limelight();
 
 
     /* Path follower */
@@ -172,11 +173,12 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-driverPad.interpolatedLeftYAxis() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-driverPad.interpolatedLeftXAxis() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(driverPad.interpolatedRightXAxis() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+            drive.withVelocityX(-driverPad.interpolatedLeftYAxis() * MaxSpeed) // Drive forward with negative Y (forward)
+            .withVelocityY(-driverPad.interpolatedLeftXAxis() * MaxSpeed) // Drive left with negative X (left)
+            .withRotationalRate(driverPad.interpolatedRightXAxis() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
+
         // drivetrain.setDefaultCommand(
         //     // Drivetrain will execute this command periodically
         //     drivetrain.applyRequest(() ->
@@ -189,11 +191,13 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
       
 
-        // driverR2.whileTrue(limelight.rightBranchPathfinding());
-        
-        // driverL2.whileTrue(limelight.leftBranchDriveTo());
+        driverR2.onTrue (new RightBranchPathfinding());
 
-        // driverX.onTrue(new ScoreCoralTrough());
+
+        driverL2.onTrue (new LeftBranchPathFinding());
+
+
+        // driverX. onTrue (new StopPathFinding()); 
         // driverCircle.onTrue(new ScoreCoralL3());
 
         // driverSquare.whileTrue(new SetClawIntakeCoral());
@@ -208,7 +212,6 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         // drivetrain.registerTelemetry(logger::telemeterize); // Commented out as Logger does not have telemeterize method
 
 
-        driverShare.toggleOnTrue(new SetClimbManualOverride());
 
 
 

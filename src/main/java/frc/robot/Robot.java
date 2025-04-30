@@ -54,27 +54,7 @@ public class Robot extends TimedRobot {
     outputStream = CameraServer.putVideo("Rectangle", 640, 480);
     outputStream = CameraServer.putVideo("limelight", 1280, 700);}
 
-    // if (kUseLimelight) {
-    //   var driveState = m_robotContainer.drivetrain.getState();
-    //   double headingDeg = driveState.Pose.getRotation().getDegrees();
-    //   double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
-
-// This not working is a crime.
-
-      // LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0, 0, 0, 0, 0);
-      // var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-
-
-      
-      // if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
-      //   m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
-      //   }
-      // }
-
-
-
-  // }
-
+    
   @Override
   public void robotPeriodic() {
 

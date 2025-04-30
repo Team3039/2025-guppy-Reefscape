@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.869763513513513,
-        "y": 3.870440340909091
+        "x": 3.953,
+        "y": 5.318
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.6198264517894385,
-        "y": 3.8648309579897138
+        "x": 3.703062938275925,
+        "y": 5.312390617080624
       },
       "isLocked": false,
       "linkedName": "dumb1"
@@ -62,7 +62,7 @@
   "folder": "Dumb",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 178.61314523161948
   },
   "useDefaultConstraints": true
 }

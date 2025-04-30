@@ -7,13 +7,10 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.TimestampedDoubleArray;
-import frc.robot.LimelightHelpers.LimelightResults;
-import frc.robot.LimelightHelpers.PoseEstimate;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.kinematics.Odometry;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -25,7 +22,6 @@ import java.net.URL;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -363,7 +359,7 @@ public class LimelightHelpers {
     /**
      * Limelight Results object, parsed from a Limelight's JSON results output.
      */
-    public static class LimelightTargetingResults {
+    public static class LimelightResults {
         
         public String error;
         
@@ -451,7 +447,7 @@ public class LimelightHelpers {
         @JsonProperty("Barcode")
         public LimelightTarget_Barcode[] targets_Barcode;
 
-        public void LimelightResults() {
+        public LimelightResults() {
             botpose = new double[6];
             botpose_wpired = new double[6];
             botpose_wpiblue = new double[6];
@@ -466,11 +462,6 @@ public class LimelightHelpers {
 
 
     }
-
-
-   
-
-
 
     /**
      * Represents a Limelight Raw Fiducial result from Limelight's NetworkTables output.
@@ -580,38 +571,6 @@ public class LimelightHelpers {
         }
 
     }
-
-
-    public static class LimelightResults {
-        @JsonProperty("Results")
-        public Results targetingResults;
-
-        public double latency_jsonParse; // Added field
-
-        public String error; // Added field to store error messages
-
-        public LimelightResults() {
-            targetingResults = new Results();
-        }
-    }
-
-    /**
-     * Represents the targeting results from the Limelight.
-     */
-    public static class Results {
-        // Define fields and methods for the Results class as needed.
-        public boolean validTarget;
-        public double targetX;
-        public double targetY;
-        public Object targets_Fiducials;
-
-        public Results() {
-            validTarget = false;
-            targetX = 0.0;
-            targetY = 0.0;
-        }
-    }
-
 
     private static ObjectMapper mapper;
 
@@ -823,11 +782,6 @@ public class LimelightHelpers {
     
         return rawDetections;
     }
-
-
-    
-
-
 
     /**
      * Prints detailed information about a PoseEstimate to standard output.
@@ -1280,7 +1234,7 @@ public class LimelightHelpers {
      * @return
      */
     public static PoseEstimate getBotPoseEstimate_wpiBlue(String limelightName) {
-        return getBotPoseEstimate(limelightName, "botpose_wpiblue", true);
+        return getBotPoseEstimate(limelightName, "botpose_wpiblue", false);
     }
 
     /**
@@ -1315,7 +1269,7 @@ public class LimelightHelpers {
      * @return
      */
     public static PoseEstimate getBotPoseEstimate_wpiRed(String limelightName) {
-        return getBotPoseEstimate(limelightName, "botpose_wpired", true);
+        return getBotPoseEstimate(limelightName, "botpose_wpired", false);
     }
 
     /**
@@ -1629,16 +1583,15 @@ public class LimelightHelpers {
         }
 
         return results;
+    }
 
+    public static PoseEstimate getBotPoseEstimate_MultiTag(String camera, int i) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getBotPoseEstimate_MultiTag'");
+    }
 
-     }
-        public static void setPipeline(String limelightName, int pipeline) {
-      
-          // Implementation for setting the pipeline
-      
-        }
-      
-public static void updateSmartDashboard() {
-    SmartDashboard.putNumberArray("cam to target", getCameraPose_TargetSpace("limelight"));
-}
+    public static PoseEstimate getBotPoseEstimate_megaTAg1(String camera) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getBotPoseEstimate_megaTAg1'");
+    }
 }
