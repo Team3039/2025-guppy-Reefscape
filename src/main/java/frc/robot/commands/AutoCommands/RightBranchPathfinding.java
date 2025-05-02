@@ -17,6 +17,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.DriveFeedforwards;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -34,7 +35,9 @@ import com.pathplanner.lib.events.EventScheduler;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class RightBranchPathfinding extends Command {
     
-   
+   private final PIDController distanceController = new PIDController(0.0269, 0., 0.0013);
+  private final PIDController lateralController = new PIDController(0.01, 0., 0.0003);
+  private final PIDController thetaController = new PIDController(0.25, 0., 0.0);
 
     private Pose2d Targetpose = null;
 
@@ -167,11 +170,9 @@ public class RightBranchPathfinding extends Command {
         Command followRightPath = AutoBuilder.pathfindToPose(
             Targetpose,
             constraints,
-            0.0
-    );
+            0.0 );
+            
         followRightPath.schedule();
-
-        
     }
 
 

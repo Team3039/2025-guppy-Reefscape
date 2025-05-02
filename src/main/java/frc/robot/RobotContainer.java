@@ -64,6 +64,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.commands.AutoCommands.*;
 import frc.robot.subsystems.Wrist;
+import frc.robot.Utilitys;
 
 
 public class RobotContainer {
@@ -72,6 +73,8 @@ public class RobotContainer {
 // private static final Logger logger = Logger.getLogger(RobotContainer.class.getName());
 
 private final SendableChooser<Command> autoChooser;
+public static Command driveIt;
+
 
 
 
@@ -179,45 +182,51 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
             )
         );
 
-        // drivetrain.setDefaultCommand(
-        //     // Drivetrain will execute this command periodically
-        //     drivetrain.applyRequest(() ->
-        //     drive.withVelocityX(-operatorPad.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-        //         .withVelocityY(-operatorPad.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-        //         .withRotationalRate(operatorPad.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-        //     )
-        // );
-
-
                                                                     
 
-        driverR2.whileTrue ( new WonderOnOverTo(drivetrain, false )   );
-                                                           //          ^ this says if we are pathing to the left or to the right           
+        driverR2.onTrue (new InstantCommand(() -> {
+
+            driveIt  = Utilitys.driveToIt(true);// rightTree
+
+            if (driveIt != null) {
+                    driveIt.schedule();
+
+            }
+
+    }));
+
+    driverR2.onFalse(new InstantCommand(() -> {
+
+        if (driveIt != null) {
+                driveIt.cancel();
+        }
+}));
 
 
+driverL2.onTrue (new InstantCommand(() -> {
 
-        driverL2.onTrue ( new WonderOnOverTo(drivetrain, true )  );
-                                                           //          ^ same thing but this means that we are going to the left b/c its true            
+    driveIt  = Utilitys.driveToIt(false);// rightTree
 
+    if (driveIt != null) {
+            driveIt.schedule();
 
-        // driverX. onTrue (new StopPathFinding()); 
-        // driverCircle.onTrue(new ScoreCoralL3());
+    }
 
-        // driverSquare.whileTrue(new SetClawIntakeCoral());
-        // driverTriangle.whileTrue(new SetClawRelease());
+}));
+
+driverL2.onFalse(new InstantCommand(() -> {
+
+if (driveIt != null) {
+        driveIt.cancel();
+}
+}));
+     
 
     
         driverOptions.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
 
         driverShare.toggleOnTrue(new SetClimbManualOverride());
-
-        // drivetrain.registerTelemetry(logger::telemeterize); // Commented out as Logger does not have telemeterize method
-
-
-
-
-
 
 
 

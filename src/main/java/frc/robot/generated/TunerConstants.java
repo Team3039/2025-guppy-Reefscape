@@ -39,6 +39,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
@@ -368,12 +369,7 @@ private static final double trackWidth = 0.5; // Define the trackWidth (example 
 
 
 
-TalonFX m_talonFX = new TalonFX(15); // Replace '1' with the appropriate CAN ID for your TalonFX
-{
-    if (m_talonFX != null) {
-        m_talonFX.getConfigurator().apply(talonFXConfigs);
-    }
-}
+
     
     //    Other Constants
     
@@ -420,7 +416,11 @@ TalonFX m_talonFX = new TalonFX(15); // Replace '1' with the appropriate CAN ID 
 
 // buuuuuuuuuuut if that does not work we can use this as a backup
 
-public static final double kMaxSpeed = 5.41;
+public static double leftOffset =2;
+public static double rightOffset =10;
+public static double forwardOffset = 19;
+
+public static final double kMaxSpeed = .75;
 public static final double kMaxAngularRate = kMaxSpeed * 39.37 / 20.75 * Math.PI;
 
 public static final double INCHES_TO_METERS = 0.0254;
@@ -434,12 +434,26 @@ public static final double METERS_TO_INCHES = 1.0 / 0.0254;
                                 new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
                                 new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
 
+// public static void normalizeWheelSpeeds(SwerveModuleState[] states, double maxSpeedMetersPerSecond) {
+//     double realMaxSpeed = 0.0;
+//     for (SwerveModuleState state : states) {
+//         realMaxSpeed = Math.max(realMaxSpeed, Math.abs(state.speedMetersPerSecond));
+//     }
+
+//     if (realMaxSpeed > maxSpeedMetersPerSecond) {
+//         double scale = maxSpeedMetersPerSecond / realMaxSpeed;
+//         for (int i = 0; i < states.length; i++) {
+//             states[i] = new SwerveModuleState(
+//                 states[i].speedMetersPerSecond * scale,
+//                 states[i].angle
+//             );
+//         }
+//     }
+// }
+
     public static final double wheelCircumference = Units.inchesToMeters(4*Math.PI); 
 
     public static AprilTagFieldLayout fieldLayout = AprilTagFields.k2025ReefscapeWelded.loadAprilTagLayoutField();
-
-
-
 
 
 

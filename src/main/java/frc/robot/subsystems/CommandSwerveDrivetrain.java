@@ -19,6 +19,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -34,6 +36,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.LimelightHelpers;
 import frc.robot.LimelightHelpers.PoseEstimate;
+import frc.robot.commands.AutoCommands.LeftBranchPathFinding;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
@@ -41,6 +44,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
+import frc.robot.generated.TunerConstants.WonderOnOverToConstants;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
@@ -143,6 +147,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
        
     }
 
+    
+
     /*
      * @param drivetrainConstants Drivetrain-wide constants for the swerve drive
      * 
@@ -182,7 +188,14 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      */
 
 
-     
+    PPHolonomicDriveController driveController = new PPHolonomicDriveController(
+            new PIDConstants(1.5, 0, 0), // Translation PID constants
+            new PIDConstants(2, 0, 0)   // Rotation PID constants
+        
+            
+    );
+
+   
 
 
     public void configureAutoBuilder() {
@@ -197,12 +210,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                             m_pathApplyRobotSpeeds.withSpeeds(speeds)
                                     .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
                                     .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())),
-                    new PPHolonomicDriveController(
-                            // PID constants for translation
-                            new PIDConstants(1.5, 0, 0),// was 0.5  //was 0.7
-                            // kP10
-                            // PID constants for rotation
-                            new PIDConstants(2, 0, 0)),// was 2.0
+                                    driveController,
                     config,
                     // Assume the path needs to be flipped for Red vs Blue, this is normally the
                     // case
@@ -282,21 +290,33 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putBoolean("RejectUpdate", doRejectUpdate);
 
         if (!doRejectUpdate) {
-            SmartDashboard.putNumber("bestcamera",bestCamera);
-            SmartDashboard.putNumberArray("CameraPose", new double[] { cameraPoses[bestCamera].pose.getTranslation().getX(), cameraPoses[bestCamera].pose.getTranslation().getY(),
-                cameraPoses[bestCamera].pose.getRotation().getRadians() });
+            SmartDashboard.putNumber("bestcamera", bestCamera);
+            SmartDashboard.putNumberArray("CameraPose", new double[] {
+                cameraPoses[bestCamera].pose.getTranslation().getX(),
+                cameraPoses[bestCamera].pose.getTranslation().getY(),
+                cameraPoses[bestCamera].pose.getRotation().getRadians()
+            });
             m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999));
             m_poseEstimator.addVisionMeasurement(
                     cameraPoses[bestCamera].pose,
                     cameraPoses[bestCamera].timestampSeconds);
-
-            // resetOdometry(m_poseEstimator.getEstimatedPosition());
-            // swerveOdometry.resetPosition(getGyroRotation2D(), getModulePositions(),
-            // m_poseEstimator.getEstimatedPosition());
         }
-
     }
-   
+
+    
+    // public void driveToPose(Pose2d targetPose) {
+    //     Pose2d currentPose = getPose();
+
+    //     double targetLinearSpeed = WonderOnOverToConstants.kMaxSpeed * 0.5; // 50% of max speed
+
+        
+    //     ChassisSpeeds targetSpeeds = driveController.calculate(currentPose, targetPose, targetLinearSpeed, targetPose.getRotation());
+
+        
+    //     var moduleStates = TunerConstants.swerveKinematics.toSwerveModuleStates(targetSpeeds);
+    //     TunerConstants.normalizeWheelSpeeds(moduleStates, WonderOnOverToConstants.kMaxSpeed);
+    //     getModulePositions();
+    // }
     
 
     @Override
@@ -371,71 +391,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 new Pose2d(getPose().getTranslation(), heading));
     }
 
-    public Command setAlignmentPose() {
-        
-            if (getTVLeft()) {
-            return new InstantCommand(() -> m_poseEstimator.resetPose(new Pose2d(getLLPose().getX(), getLLPose().getY(), getPigeon2().getRotation2d())));
-            }
-            else {
-              return Commands.none();
-            }
-          }
-
-       public void setAligning(boolean aligning) {
-            isAligning = aligning;
-          }
-
-
-          public boolean isAligning() {
-            return isAligning;
-          }
     
 
-    public void turnOffAutoScore() {
-        autoScore = false;
-      }
-      
-      public boolean getAutoScoreVal() {
-        return autoScore;
-      }
-
-      public double getTXLeft() {
-        return limelight.getEntry("tx").getDouble(0.);
-      }
-
-      public double getTYLeft() {
-        return limelight.getEntry("ty").getDouble(0.);
-      }
-
-      public boolean getTVLeft() {
-        return limelight.getEntry("tv").getDouble(0.) == 1.;
-      }
-
-      public double getTIDLeft() {
-        return limelight.getEntry("tid").getDouble(0);
-      }
-
-      public double getTIDRight() {
-        return limelight.getEntry("tid").getDouble(0);
-      }
-
-
-    /*
-     * public void zeroHeading() {
-     * if (Robot.isRedAlliance()) {
-     * gyro.setYaw(180);
-     * 
-     * } else {
-     * gyro.setYaw(0);
-     * 
-     * }
-     * 
-     * // gyro.setYaw(0);
-     * swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(),
-     * new Pose2d(getPose().getTranslation(), new Rotation2d()));
-     * 
-     * }
-     */
+    
 
     public double getCompassHeading() {
         SmartDashboard.putNumber("CompassHeading", Math.IEEEremainder(gyro.getYaw().getValueAsDouble(), 360));
@@ -451,8 +409,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public Pose2d getLLPose() {
         @SuppressWarnings("unused")
 		    var array = limelight.getEntry("botpose_wpiblue").getDoubleArray(new double[]{0,0,0,0,0,0});
-        // double[] result = {array[0], array[1], array[5]};
-        Pose2d pose = new Pose2d(0, 0, new Rotation2d(0));
+
+            Pose2d pose = new Pose2d(0, 0, new Rotation2d(0));
         return pose;
       }
 
@@ -469,7 +427,7 @@ public PoseEstimate grabPose(String camera) {
           if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
             {
              
-        if(mt1.rawFiducials[0].distToCamera > 1.5)
+        if(mt1.rawFiducials[0].distToCamera > 2)
         {
           doRejectUpdate = true;
         }
