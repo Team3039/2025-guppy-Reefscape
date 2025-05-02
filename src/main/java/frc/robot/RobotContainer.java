@@ -189,12 +189,15 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         // );
 
 
-      
+                                                                    
 
-        driverR2.onTrue (new RightBranchPathfinding());
+        driverR2.whileTrue ( new WonderOnOverTo(drivetrain, false )   );
+                                                           //          ^ this says if we are pathing to the left or to the right           
 
 
-        driverL2.onTrue (new LeftBranchPathFinding());
+
+        driverL2.onTrue ( new WonderOnOverTo(drivetrain, true )  );
+                                                           //          ^ same thing but this means that we are going to the left b/c its true            
 
 
         // driverX. onTrue (new StopPathFinding()); 

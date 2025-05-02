@@ -420,19 +420,12 @@ TalonFX m_talonFX = new TalonFX(15); // Replace '1' with the appropriate CAN ID 
 
 // buuuuuuuuuuut if that does not work we can use this as a backup
 
-        public static final double X_REEF_ALIGNMENT_P = 3.3;
-	public static final double Y_REEF_ALIGNMENT_P = 3.3;
-	public static final double ROT_REEF_ALIGNMENT_P = 0.058;
+public static final double kMaxSpeed = 5.41;
+public static final double kMaxAngularRate = kMaxSpeed * 39.37 / 20.75 * Math.PI;
 
-	public static final double ROT_SETPOINT_REEF_ALIGNMENT = 0;  // Which way the robot is facing
-	public static final double ROT_TOLERANCE_REEF_ALIGNMENT = 1;
-	public static final double X_SETPOINT_REEF_ALIGNMENT = -0.34;  // Vertical pose
-	public static final double X_TOLERANCE_REEF_ALIGNMENT = 0.02;
-	public static final double Y_SETPOINT_REEF_ALIGNMENT = 0.16;  // Horizontal pose
-	public static final double Y_TOLERANCE_REEF_ALIGNMENT = 0.02;
+public static final double INCHES_TO_METERS = 0.0254;
+public static final double METERS_TO_INCHES = 1.0 / 0.0254;
 
-	public static final double DONT_SEE_TAG_WAIT_TIME = 1;
-	public static final double POSE_VALIDATION_TIME = 0.3;
     }
 
     public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(

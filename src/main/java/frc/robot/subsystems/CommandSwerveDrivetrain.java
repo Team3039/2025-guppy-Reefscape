@@ -29,9 +29,14 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.LimelightHelpers;
 import frc.robot.LimelightHelpers.PoseEstimate;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+
 //import com.ctre.phoenix6.SignalLogger;
 
 import frc.robot.generated.TunerConstants;
@@ -43,15 +48,26 @@ import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
  */
 public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Subsystem {
 
+
+
+
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
+    
+    private boolean autoScore = false;
+    
+    private boolean isAligning = false;
+
+
 
     public SwerveDrivePoseEstimator m_poseEstimator;
     public LimelightHelpers.PoseEstimate mt2;
     public LimelightHelpers.PoseEstimate leftPose;
     public LimelightHelpers.PoseEstimate rightPose;
     public LimelightHelpers.PoseEstimate[] cameraPoses = new LimelightHelpers.PoseEstimate[2];
+
+    NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
 
 
 
@@ -62,6 +78,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public Pose2d botPose2d = new Pose2d();
     public Pose3d botPose3d = new Pose3d();
     public PoseEstimate best = new PoseEstimate();
+
+
 
     // private final SwerveModule[] swerveModules = new SwerveModule[] { new
     // SwerveModule(0, 1), new SwerveModule(2, 3),
@@ -162,6 +180,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      *                                  and radians
      * @param modules                   Constants for each specific module
      */
+
+
+     
+
 
     public void configureAutoBuilder() {
         try {
@@ -279,6 +301,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     @Override
     public void periodic() {
+
+
+
         
         m_poseEstimator.update(getGyroRotation2D(), getModulePositions());
         botPose2d = m_poseEstimator.getEstimatedPosition();
@@ -346,6 +371,55 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 new Pose2d(getPose().getTranslation(), heading));
     }
 
+    public Command setAlignmentPose() {
+        
+            if (getTVLeft()) {
+            return new InstantCommand(() -> m_poseEstimator.resetPose(new Pose2d(getLLPose().getX(), getLLPose().getY(), getPigeon2().getRotation2d())));
+            }
+            else {
+              return Commands.none();
+            }
+          }
+
+       public void setAligning(boolean aligning) {
+            isAligning = aligning;
+          }
+
+
+          public boolean isAligning() {
+            return isAligning;
+          }
+    
+
+    public void turnOffAutoScore() {
+        autoScore = false;
+      }
+      
+      public boolean getAutoScoreVal() {
+        return autoScore;
+      }
+
+      public double getTXLeft() {
+        return limelight.getEntry("tx").getDouble(0.);
+      }
+
+      public double getTYLeft() {
+        return limelight.getEntry("ty").getDouble(0.);
+      }
+
+      public boolean getTVLeft() {
+        return limelight.getEntry("tv").getDouble(0.) == 1.;
+      }
+
+      public double getTIDLeft() {
+        return limelight.getEntry("tid").getDouble(0);
+      }
+
+      public double getTIDRight() {
+        return limelight.getEntry("tid").getDouble(0);
+      }
+
+
     /*
      * public void zeroHeading() {
      * if (Robot.isRedAlliance()) {
@@ -372,6 +446,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putNumber("yaw", gyro.getYaw().getValueAsDouble());
         return Rotation2d.fromDegrees(getCompassHeading());//gyro.getYaw().getValueAsDouble());
     }
+
+
+    public Pose2d getLLPose() {
+        @SuppressWarnings("unused")
+		    var array = limelight.getEntry("botpose_wpiblue").getDoubleArray(new double[]{0,0,0,0,0,0});
+        // double[] result = {array[0], array[1], array[5]};
+        Pose2d pose = new Pose2d(0, 0, new Rotation2d(0));
+        return pose;
+      }
 
    
 public PoseEstimate grabPose(String camera) {
