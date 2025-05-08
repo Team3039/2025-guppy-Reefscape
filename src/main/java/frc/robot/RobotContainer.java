@@ -64,7 +64,6 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.commands.AutoCommands.*;
 import frc.robot.subsystems.Wrist;
-import frc.robot.Utilitys;
 
 
 public class RobotContainer {
@@ -73,8 +72,6 @@ public class RobotContainer {
 // private static final Logger logger = Logger.getLogger(RobotContainer.class.getName());
 
 private final SendableChooser<Command> autoChooser;
-public static Command driveIt;
-
 
 
 
@@ -182,51 +179,43 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
             )
         );
 
-                                                                    
-
-        driverR2.onTrue (new InstantCommand(() -> {
-
-            driveIt  = Utilitys.driveToIt(true);// rightTree
-
-            if (driveIt != null) {
-                    driveIt.schedule();
-
-            }
-
-    }));
-
-    driverR2.onFalse(new InstantCommand(() -> {
-
-        if (driveIt != null) {
-                driveIt.cancel();
-        }
-}));
+        // drivetrain.setDefaultCommand(
+        //     // Drivetrain will execute this command periodically
+        //     drivetrain.applyRequest(() ->
+        //     drive.withVelocityX(-operatorPad.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+        //         .withVelocityY(-operatorPad.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+        //         .withRotationalRate(operatorPad.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+        //     )
+        // );
 
 
-driverL2.onTrue (new InstantCommand(() -> {
+      
 
-    driveIt  = Utilitys.driveToIt(false);// rightTree
+        driverR2.onTrue (new RightBranchPathfinding());
 
-    if (driveIt != null) {
-            driveIt.schedule();
 
-    }
+        driverL2.onTrue (new LeftBranchPathFinding());
 
-}));
 
-driverL2.onFalse(new InstantCommand(() -> {
+        // driverSquare.onTrue (new PathFindToProcessor()); 
 
-if (driveIt != null) {
-        driveIt.cancel();
-}
-}));
-     
+        // driverCircle.onTrue(new ScoreCoralL3());
+
+        // driverSquare.whileTrue(new SetClawIntakeCoral());
+        // driverTriangle.whileTrue(new SetClawRelease());
 
     
         driverOptions.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
 
         driverShare.toggleOnTrue(new SetClimbManualOverride());
+
+        // drivetrain.registerTelemetry(logger::telemeterize); // Commented out as Logger does not have telemeterize method
+
+
+
+
+
 
 
 

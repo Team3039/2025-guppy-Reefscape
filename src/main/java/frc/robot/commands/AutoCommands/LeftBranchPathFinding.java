@@ -88,37 +88,37 @@ public class LeftBranchPathFinding extends Command {
             // Red Paths
             case 6:
             {
-                 Targetpose = POSES.REEF_D;
+                 Targetpose = POSES.REEF_K;
             }
                 break;
 
             case 7:
             {
-                 Targetpose = POSES.REEF_D;
+                 Targetpose = POSES.REEF_A;
             }
                 break;
 
             case 8:
             {
-                 Targetpose = POSES.REEF_D;
+                 Targetpose = POSES.REEF_C;
             }
                 break;
 
             case 9:
             {
-                 Targetpose = POSES.REEF_D;
+                 Targetpose = POSES.REEF_E;
             }
                 break;
 
             case 10:
             {
-                 Targetpose = POSES.REEF_D;
+                 Targetpose = POSES.REEF_G;
             }
                 break;
 
             case 11:
                  {
-                 Targetpose = POSES.REEF_D;
+                 Targetpose = POSES.REEF_I;
                
                 }
                 break;
