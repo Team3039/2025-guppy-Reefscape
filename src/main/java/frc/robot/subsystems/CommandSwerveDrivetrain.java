@@ -8,6 +8,7 @@ import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -203,7 +204,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             var config = RobotConfig.fromGUISettings();
             AutoBuilder.configure(
                   () ->  getPose(),/// getState().Pose, // Supplier of current robot pose
-                  this::resetPose, // Consumer for seeding pose against auto
+
+                  this::resetOdometry, // Consumer for seeding pose against auto
+                  
                     () -> getState().Speeds, // Supplier of current robot speeds
                     // Consumer of ChassisSpeeds and feedforwards to drive the robot
                     (speeds, feedforwards) -> setControl(
@@ -371,7 +374,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     public Pose2d getPose() {
-        //m_poseEstimator.getEstimatedPosition();
+        // m_poseEstimator.getEstimatedPosition();
         // return swerveOdometry.getPoseMeters();
         return botPose2d;
     }
@@ -385,7 +388,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     public void setHeading(Rotation2d heading) {
-
         getCompassHeading();
         m_poseEstimator.resetPosition(getGyroRotation2D(), getModulePositions(),
                 new Pose2d(getPose().getTranslation(), heading));
@@ -413,6 +415,19 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             Pose2d pose = new Pose2d(0, 0, new Rotation2d(0));
         return pose;
       }
+
+
+    
+      public class ResetOdometry extends InstantCommand {
+
+        public ResetOdometry(CommandSwerveDrivetrain drivetrain, Pose2d pose) {
+    
+            super(() -> drivetrain.resetOdometry(pose));
+    
+        }
+    
+    }
+    
 
    
 public PoseEstimate grabPose(String camera) {

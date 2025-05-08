@@ -169,7 +169,7 @@ public class RightBranchPathfinding extends Command {
         Command followRightPath = AutoBuilder.pathfindToPose(
             Targetpose,
             constraints,
-            0.0 );
+            0.01 );
             
         followRightPath.schedule();
     }
@@ -182,8 +182,6 @@ public class RightBranchPathfinding extends Command {
   @Override
   public void end(boolean interrupted) {
 
-
-    PathPlannerAuto.setCurrentTrajectory(null);
 
     
     

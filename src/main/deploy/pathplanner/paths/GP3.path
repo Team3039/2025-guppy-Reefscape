@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1759290540540541,
-        "y": 1.060472972972973
+        "x": 1.9763513513513515,
+        "y": 1.1691722972972969
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.219510135135136,
-        "y": 0.9814189189189176
+        "x": 3.2906249999999995,
+        "y": 2.0091216216216194
       },
       "isLocked": false,
       "linkedName": "GP2"
@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.5,
-      "rotationDegrees": 118.31548097244476
+      "rotationDegrees": 0.9045950337326727
     }
   ],
   "constraintZones": [

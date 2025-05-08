@@ -51,7 +51,7 @@ public class PathFindToProcessor extends Command {
 Command followRightPath = AutoBuilder.pathfindToPose(
   Targetpose,
   constraints,
-  0.0
+  0.001
 );
 followRightPath.schedule();
 

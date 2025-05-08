@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.737415540540541,
-        "y": 0.4972128378378375
+        "x": 7.589,
+        "y": 1.169
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.5836485510570135,
-        "y": 1.4720159242681143
+        "x": 6.294489864864865,
+        "y": 1.7816689189189188
       },
       "isLocked": false,
       "linkedName": null
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 5.365793918918919,
-        "y": 2.918243243243243
+        "y": 2.8688344594594595
       },
       "prevControl": {
         "x": 6.113678880680617,
-        "y": 2.1003226805875483
+        "y": 2.050913896803765
       },
       "nextControl": null,
       "isLocked": false,
@@ -41,7 +41,7 @@
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 1.0,
-        "maxAcceleration": 3.0,
+        "maxAcceleration": 1.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -61,13 +61,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 122.21092772367378
+    "rotation": 122.05737573420544
   },
   "reversed": false,
   "folder": "the good pipe layer",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -179.46949868332626
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }
