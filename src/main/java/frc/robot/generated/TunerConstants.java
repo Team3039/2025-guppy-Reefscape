@@ -49,6 +49,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.MomentOfInertia;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
@@ -458,6 +459,28 @@ public static final double METERS_TO_INCHES = 1.0 / 0.0254;
 
 
 
+    public static class constField {
+        public static Optional<Alliance> ALLIANCE = Optional.empty();
+        public static final double FIELD_LENGTH = Units.feetToMeters(57) + Units.inchesToMeters(6 + 7 / 8.0);
+        public static final double FIELD_WIDTH = Units.feetToMeters(26) + Units.inchesToMeters(5);
+    
+        /**
+         * Boolean that controls when the path will be mirrored for the red
+         * alliance. This will flip the path being followed to the red side of the
+         * field.
+         * The origin will remain on the Blue side.
+         * 
+         * @return If we are currently on Red alliance. Will return false if no alliance
+         *         is found
+         */
+        public static boolean isRedAlliance() {
+          var alliance = ALLIANCE;
+          if (alliance.isPresent()) {
+            return alliance.get() == DriverStation.Alliance.Red;
+          }
+          return false;
+        };
+         } 
 
 
 
@@ -469,9 +492,9 @@ public static final double METERS_TO_INCHES = 1.0 / 0.0254;
   public static final Pose2d REEF_B = new Pose2d(3.171, 3.863, Rotation2d.fromDegrees(0));
   public static final Pose2d REEF_C = new Pose2d(3.688, 2.968, Rotation2d.fromDegrees(60));
   public static final Pose2d REEF_D = new Pose2d(3.975, 2.803, Rotation2d.fromDegrees(60));
-  public static final Pose2d REEF_E = new Pose2d(5.001,  2.804, Rotation2d.fromDegrees(120)); 
+  public static final Pose2d REEF_E = new Pose2d(5.000,  2.790, Rotation2d.fromDegrees(120)); 
   public static final Pose2d REEF_F = new Pose2d(5.285, 2.964, Rotation2d.fromDegrees(120)); 
-  public static final Pose2d REEF_G = new Pose2d(5.805, 3.987, Rotation2d.fromDegrees(180));
+  public static final Pose2d REEF_G = new Pose2d(5.805, 3.863, Rotation2d.fromDegrees(180));
   public static final Pose2d REEF_H = new Pose2d(5.805, 4.189, Rotation2d.fromDegrees(180)); 
   public static final Pose2d REEF_I = new Pose2d(5.288, 5.083, Rotation2d.fromDegrees(-120));
   public static final Pose2d REEF_J = new Pose2d(5.002, 5.248, Rotation2d.fromDegrees(-120));
@@ -494,12 +517,76 @@ public static final double METERS_TO_INCHES = 1.0 / 0.0254;
 
   // processor poses
   public static final Pose2d PROCESSOR = new Pose2d(6, .77, Rotation2d.fromDegrees(-90));
+  
+  private static final List<Pose2d> BLUE_REEF_POSES = List.of(REEF_A, REEF_B, REEF_C, REEF_D, REEF_E,
+      REEF_F, REEF_G, REEF_H, REEF_I, REEF_J, REEF_K, REEF_L);
+  private static final List<Pose2d> RED_REEF_POSES = getRedReefPoses();
 
+  private static final Pose2d[] BLUE_POSES = new Pose2d[] { RESET_POSE, REEF_A, REEF_B, REEF_C, REEF_D, REEF_E,
+      REEF_F, REEF_G, REEF_H, REEF_I, REEF_J, REEF_K, REEF_L };
+
+  private static final Pose2d[] RED_POSES = getRedAlliancePoses();
+
+  private static final List<Pose2d> BLUE_CORAL_STATION_POSES = List.of(LEFT_CORAL_STATION_FAR,
+      LEFT_CORAL_STATION_NEAR, RIGHT_CORAL_STATION_FAR, RIGHT_CORAL_STATION_NEAR);
+  private static final List<Pose2d> RED_CORAL_STATION_POSES = getRedCoralStationPoses();
+
+  private static final Pose2d BLUE_PROCESSOR_POSE = PROCESSOR;
+  private static final Pose2d RED_PROCESSOR_POSE = getRedProcessorPose();
+
+  private static final List<Pose2d> PROCESSOR_POSES = List.of(BLUE_PROCESSOR_POSE, RED_PROCESSOR_POSE);
 
 }
 
+private static Pose2d getRedProcessorPose() {
+    Pose2d returnedPose = POSES.BLUE_PROCESSOR_POSE;
 
-     }
+    returnedPose = getRedAlliancePose(POSES.BLUE_PROCESSOR_POSE);
+
+    return returnedPose;
+  }
+
+  public static Pose2d getRedAlliancePose(Pose2d bluePose) {
+    return new Pose2d(constField.FIELD_LENGTH - (bluePose.getX()),
+    constField.FIELD_WIDTH - bluePose.getY(),
+        bluePose.getRotation().plus(Rotation2d.fromDegrees(180)));
+  }
+
+  private static Pose2d[] getRedAlliancePoses() {
+    Pose2d[] returnedPoses = new Pose2d[POSES.BLUE_POSES.length];
+
+    for (int i = 0; i < POSES.BLUE_POSES.length; i++) {
+      returnedPoses[i] = getRedAlliancePose(POSES.BLUE_POSES[i]);
+    }
+    return returnedPoses;
+  }
+
+  private static List<Pose2d> getRedReefPoses() {
+    Pose2d[] returnedPoses = new Pose2d[POSES.BLUE_REEF_POSES.size()];
+
+    for (int i = 0; i < POSES.BLUE_REEF_POSES.size(); i++) {
+      returnedPoses[i] = getRedAlliancePose(POSES.BLUE_REEF_POSES.get(i));
+    }
+
+    return List.of(returnedPoses[0], returnedPoses[1], returnedPoses[2], returnedPoses[3], returnedPoses[4],
+        returnedPoses[5], returnedPoses[6], returnedPoses[7], returnedPoses[8], returnedPoses[9], returnedPoses[10],
+        returnedPoses[11]);
+  }
+
+  private static List<Pose2d> getRedCoralStationPoses() {
+    Pose2d[] returnedPoses = new Pose2d[POSES.BLUE_CORAL_STATION_POSES.size()];
+
+    for (int i = 0; i < POSES.BLUE_CORAL_STATION_POSES.size(); i++) {
+      returnedPoses[i] = getRedAlliancePose(POSES.BLUE_CORAL_STATION_POSES.get(i));
+    }
+
+    return List.of(returnedPoses[0], returnedPoses[1], returnedPoses[2], returnedPoses[3]);
+  }
+
+}
+
+     
+
 
 
 

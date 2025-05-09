@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.controllers.InterpolatedPS4Gamepad;
 import frc.robot.generated.TunerConstants.POSES;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PathFindToProcessor extends Command {
@@ -27,33 +28,22 @@ public class PathFindToProcessor extends Command {
 
   final public JoystickButton driverSquare = new JoystickButton(driverPad, PS4Controller.Button.kL2.value);
 
+  private Command PathtoProcessor = null;
+  private Command GetItRightPal = null;
   private boolean finish = false;
+  private boolean Keeptrying = false;
+  private boolean YouDidIt = false;
 
-        
         // Called when the command is initially scheduled.
         @Override
         public void initialize() {
-          PathConstraints constraints = new PathConstraints(
-        
-          1,
-
-          .5,
-
-          1,
-
-          1
-
-  );
 
 
 
-
-Command followRightPath = AutoBuilder.pathfindToPose(
-  Targetpose,
-  constraints,
-  0.001
-);
-followRightPath.schedule();
+          
+          {
+            Targetpose = POSES.PROCESSOR;
+        }
 
 
 }
@@ -61,6 +51,65 @@ followRightPath.schedule();
           
           @Override
           public void execute() {
+        
+        
+            PathConstraints constraints = new PathConstraints(
+        
+                    1,
+        
+                    .5,
+        
+                    .5,
+        
+                    .5
+        
+            );
+
+    //         CommandSwerveDrivetrain drivetrain = LeftBranchPathFinding.drivetrain;
+
+    //         Pose2d currentPose = drivetrain.getPose();
+            
+    // double distanceError = currentPose.getTranslation().getDistance(Targetpose.getTranslation());
+
+    // if (distanceError <= 0.0254) { // 1 inch
+    //     YouDidIt = true;
+    // }
+
+    // if (YouDidIt == false) {
+    //     Keeptrying = true;
+    // }
+
+    // if (YouDidIt == true) {
+    //     Keeptrying = false;
+    //     finish = true;
+    // }
+        
+
+    if (Targetpose != null) {
+
+
+        Command PathtoProcessor = AutoBuilder.pathfindToPose(
+            Targetpose,
+            constraints,
+            0.0 );
+            
+            PathtoProcessor.schedule();
+
+    }
+
+
+    if (Keeptrying == true) {
+
+        // Command GetItRightPal = AutoBuilder.pathfindToPose(
+        //     Targetpose,
+        //     constraints,
+        //     0.0 );
+            
+        //     GetItRightPal.schedule();
+    }
+
+
+    
       
     }
 
@@ -69,6 +118,14 @@ followRightPath.schedule();
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
+//     if (PathtoProcessor != null) {
+//       PathtoProcessor.cancel();
+//   }
+
+//   if (GetItRightPal != null) {
+//     GetItRightPal.cancel();
+// }
 
 }
 
