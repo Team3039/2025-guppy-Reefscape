@@ -432,39 +432,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    
 public PoseEstimate grabPose(String camera) {
 
-   
- LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
-      
+    LimelightHelpers.SetRobotOrientation(camera, gyro.getYaw().getValueAsDouble(), 0, 0, 0, 0, 0);
+    // LimelightHelpers.SetRobotOrientation("limelight-left",getGyroYaw().getDegrees(),
+    // 0, 0, 0, 0, 0);
 
- 
-     boolean doRejectUpdate = false;
-      
-          if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
-            {
-             
-        if(mt1.rawFiducials[0].distToCamera > 2)
-        {
-          doRejectUpdate = true;
-        }
-
-         
-
-
-
-      }
-      if(mt1.tagCount == 0)
-      {
-        doRejectUpdate = true;
-      }
-
-      if(!doRejectUpdate)
-      {
-        m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
-        m_poseEstimator.addVisionMeasurement(
-            mt1.pose,
-            mt1.timestampSeconds);
-      }
-          return mt1;
+    mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(camera);
+    return mt2;
   }
 
     /**
