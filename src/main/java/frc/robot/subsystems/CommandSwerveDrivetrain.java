@@ -45,7 +45,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
-import frc.robot.generated.TunerConstants.WonderOnOverToConstants;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
@@ -293,7 +292,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putBoolean("RejectUpdate", doRejectUpdate);
 
         if (!doRejectUpdate) {
-            SmartDashboard.putNumber("bestcamera", bestCamera);
             SmartDashboard.putNumberArray("CameraPose", new double[] {
                 cameraPoses[bestCamera].pose.getTranslation().getX(),
                 cameraPoses[bestCamera].pose.getTranslation().getY(),
@@ -307,25 +305,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     
-    // public void driveToPose(Pose2d targetPose) {
-    //     Pose2d currentPose = getPose();
-
-    //     double targetLinearSpeed = WonderOnOverToConstants.kMaxSpeed * 0.5; // 50% of max speed
-
-        
-    //     ChassisSpeeds targetSpeeds = driveController.calculate(currentPose, targetPose, targetLinearSpeed, targetPose.getRotation());
-
-        
-    //     var moduleStates = TunerConstants.swerveKinematics.toSwerveModuleStates(targetSpeeds);
-    //     TunerConstants.normalizeWheelSpeeds(moduleStates, WonderOnOverToConstants.kMaxSpeed);
-    //     getModulePositions();
-    // }
     
 
     @Override
     public void periodic() {
-
-
 
         
         m_poseEstimator.update(getGyroRotation2D(), getModulePositions());
@@ -407,16 +390,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return Rotation2d.fromDegrees(getCompassHeading());//gyro.getYaw().getValueAsDouble());
     }
 
-
-    public Pose2d getLLPose() {
-        @SuppressWarnings("unused")
-		    var array = limelight.getEntry("botpose_wpiblue").getDoubleArray(new double[]{0,0,0,0,0,0});
-
-            Pose2d pose = new Pose2d(0, 0, new Rotation2d(0));
-        return pose;
-      }
-
-
     
       public class ResetOdometry extends InstantCommand {
 
@@ -432,11 +405,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    
 public PoseEstimate grabPose(String camera) {
 
-    LimelightHelpers.SetRobotOrientation(camera, gyro.getYaw().getValueAsDouble(), 0, 0, 0, 0, 0);
-    // LimelightHelpers.SetRobotOrientation("limelight-left",getGyroYaw().getDegrees(),
-    // 0, 0, 0, 0, 0);
+    LimelightHelpers.SetRobotOrientation("limelight", gyro.getYaw().getValueAsDouble(), 0, 0, 0, 0, 0);
+  
+    
 
-    mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(camera);
+    mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
     return mt2;
   }
 
