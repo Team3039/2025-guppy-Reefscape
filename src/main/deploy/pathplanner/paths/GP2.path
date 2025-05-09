@@ -3,45 +3,40 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.365793918918919,
-        "y": 2.918243243243243
+        "x": 5.285,
+        "y": 2.964
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.049577702702702,
-        "y": 0.9320101351351344
+        "x": 4.484577702702703,
+        "y": 1.1457567567567573
       },
       "isLocked": false,
       "linkedName": "GP1"
     },
     {
       "anchor": {
-        "x": 1.1759290540540541,
-        "y": 1.060472972972973
+        "x": 1.383445945945946,
+        "y": 0.9122466216216207
       },
       "prevControl": {
-        "x": 2.1873771284688743,
-        "y": 1.6414093983552291
+        "x": 3.3400337837837832,
+        "y": 0.6157939189189188
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "GP2"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 49.857623079905544
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.47309027777777707,
-      "maxWaypointRelativePos": 1.0,
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 0.7248263888888883,
       "constraints": {
         "maxVelocity": 1.0,
-        "maxAcceleration": 1.5,
+        "maxAcceleration": 1.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -53,7 +48,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 1.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -61,13 +56,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 51.75357403553094
+    "rotation": 52.53944513950935
   },
   "reversed": false,
   "folder": "the good pipe layer",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 122.21092772367378
+    "rotation": 119.99999999999999
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

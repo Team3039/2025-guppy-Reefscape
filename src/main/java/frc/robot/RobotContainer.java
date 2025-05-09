@@ -61,6 +61,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.CommandSwerveDrivetrain.ResetOdometry;
 import frc.robot.subsystems.Elevator;
 import frc.robot.commands.AutoCommands.*;
 import frc.robot.subsystems.Wrist;
@@ -78,12 +79,17 @@ private final SendableChooser<Command> autoChooser;
 public RobotContainer() {
 
 
+    // reset pose to start 
+
+    NamedCommands.registerCommand("R-P mid pipething", drivetrain.new ResetOdometry(drivetrain, new Pose2d(7.589, 1.169, Rotation2d.fromDegrees(180))));
+
 
     //Elevator commands
     NamedCommands.registerCommand("score L2", new ScoreCoralL2());
     NamedCommands.registerCommand("score L3", new ScoreCoralL3());
     NamedCommands.registerCommand("score L4", new ScoreCoralL4());
     NamedCommands.registerCommand("set Wrist/Elevator down", new ScoreCoralTrough());
+
 
     //itake and spit coral             (intake)
     NamedCommands.registerCommand("LoveCrushingLoaf", new CoralintakeAuto());
@@ -163,6 +169,13 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
    
 
     private void configureBindings() {
+
+
+
+
+
+
+    
         // Drivetrain
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
@@ -197,8 +210,9 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         driverL2.onTrue (new LeftBranchPathFinding());
 
 
-        // driverX. onTrue (new StopPathFinding()); 
-        // driverCircle.onTrue(new ScoreCoralL3());
+        driverSquare.onTrue (new PathFindToProcessor()); 
+
+        driverCircle.onTrue (drivetrain.new ResetOdometry(drivetrain, new Pose2d(3.192, 4.005, Rotation2d.fromDegrees(0))));
 
         // driverSquare.whileTrue(new SetClawIntakeCoral());
         // driverTriangle.whileTrue(new SetClawRelease());

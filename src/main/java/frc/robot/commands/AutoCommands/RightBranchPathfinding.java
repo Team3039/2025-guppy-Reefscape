@@ -17,6 +17,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.DriveFeedforwards;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -27,6 +28,7 @@ import frc.robot.LimelightHelpers;
 import frc.robot.controllers.InterpolatedPS4Gamepad;
 import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstants.POSES;
+// import miracle;
 
 import com.pathplanner.lib.events.EventScheduler;
 
@@ -34,7 +36,7 @@ import com.pathplanner.lib.events.EventScheduler;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class RightBranchPathfinding extends Command {
     
-   
+ 
 
     private Pose2d Targetpose = null;
 
@@ -98,13 +100,13 @@ public class RightBranchPathfinding extends Command {
             // Red Paths
             case 6:
             {
-                 Targetpose = POSES.REEF_D;
+                 Targetpose = POSES.REEF_L;
             }
                 break;
 
             case 7:
             {
-                 Targetpose = POSES.REEF_D;
+                 Targetpose = POSES.REEF_B;
             }
                 break;
 
@@ -116,19 +118,19 @@ public class RightBranchPathfinding extends Command {
 
             case 9:
             {
-                 Targetpose = POSES.REEF_D;
+                 Targetpose = POSES.REEF_F;
             }
                 break;
 
             case 10:
             {
-                 Targetpose = POSES.REEF_D;
+                 Targetpose = POSES.REEF_H;
             }
                 break;
 
             case 11:
                  {
-                 Targetpose = POSES.REEF_D;
+                 Targetpose = POSES.REEF_J;
                
                 }
                 break;
@@ -167,11 +169,9 @@ public class RightBranchPathfinding extends Command {
         Command followRightPath = AutoBuilder.pathfindToPose(
             Targetpose,
             constraints,
-            0.0
-    );
+            0.01 );
+            
         followRightPath.schedule();
-
-        
     }
 
 
@@ -182,8 +182,6 @@ public class RightBranchPathfinding extends Command {
   @Override
   public void end(boolean interrupted) {
 
-
-    PathPlannerAuto.setCurrentTrajectory(null);
 
     
     

@@ -39,6 +39,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
@@ -48,6 +49,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.MomentOfInertia;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
@@ -368,12 +370,7 @@ private static final double trackWidth = 0.5; // Define the trackWidth (example 
 
 
 
-TalonFX m_talonFX = new TalonFX(15); // Replace '1' with the appropriate CAN ID for your TalonFX
-{
-    if (m_talonFX != null) {
-        m_talonFX.getConfigurator().apply(talonFXConfigs);
-    }
-}
+
     
     //    Other Constants
     
@@ -420,19 +417,16 @@ TalonFX m_talonFX = new TalonFX(15); // Replace '1' with the appropriate CAN ID 
 
 // buuuuuuuuuuut if that does not work we can use this as a backup
 
-        public static final double X_REEF_ALIGNMENT_P = 3.3;
-	public static final double Y_REEF_ALIGNMENT_P = 3.3;
-	public static final double ROT_REEF_ALIGNMENT_P = 0.058;
+public static double leftOffset =2;
+public static double rightOffset =10;
+public static double forwardOffset = 19;
 
-	public static final double ROT_SETPOINT_REEF_ALIGNMENT = 0;  // Which way the robot is facing
-	public static final double ROT_TOLERANCE_REEF_ALIGNMENT = 1;
-	public static final double X_SETPOINT_REEF_ALIGNMENT = -0.34;  // Vertical pose
-	public static final double X_TOLERANCE_REEF_ALIGNMENT = 0.02;
-	public static final double Y_SETPOINT_REEF_ALIGNMENT = 0.16;  // Horizontal pose
-	public static final double Y_TOLERANCE_REEF_ALIGNMENT = 0.02;
+public static final double kMaxSpeed = .75;
+public static final double kMaxAngularRate = kMaxSpeed * 39.37 / 20.75 * Math.PI;
 
-	public static final double DONT_SEE_TAG_WAIT_TIME = 1;
-	public static final double POSE_VALIDATION_TIME = 0.3;
+public static final double INCHES_TO_METERS = 0.0254;
+public static final double METERS_TO_INCHES = 1.0 / 0.0254;
+
     }
 
     public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
@@ -441,6 +435,23 @@ TalonFX m_talonFX = new TalonFX(15); // Replace '1' with the appropriate CAN ID 
                                 new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
                                 new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
 
+// public static void normalizeWheelSpeeds(SwerveModuleState[] states, double maxSpeedMetersPerSecond) {
+//     double realMaxSpeed = 0.0;
+//     for (SwerveModuleState state : states) {
+//         realMaxSpeed = Math.max(realMaxSpeed, Math.abs(state.speedMetersPerSecond));
+//     }
+
+//     if (realMaxSpeed > maxSpeedMetersPerSecond) {
+//         double scale = maxSpeedMetersPerSecond / realMaxSpeed;
+//         for (int i = 0; i < states.length; i++) {
+//             states[i] = new SwerveModuleState(
+//                 states[i].speedMetersPerSecond * scale,
+//                 states[i].angle
+//             );
+//         }
+//     }
+// }
+
     public static final double wheelCircumference = Units.inchesToMeters(4*Math.PI); 
 
     public static AprilTagFieldLayout fieldLayout = AprilTagFields.k2025ReefscapeWelded.loadAprilTagLayoutField();
@@ -448,9 +459,28 @@ TalonFX m_talonFX = new TalonFX(15); // Replace '1' with the appropriate CAN ID 
 
 
 
-
-
-
+    public static class constField {
+        public static Optional<Alliance> ALLIANCE = Optional.empty();
+        public static final double FIELD_LENGTH = Units.feetToMeters(57) + Units.inchesToMeters(6 + 7 / 8.0);
+        public static final double FIELD_WIDTH = Units.feetToMeters(26) + Units.inchesToMeters(5);
+    
+        /**
+         * Boolean that controls when the path will be mirrored for the red
+         * alliance. This will flip the path being followed to the red side of the
+         * field.
+         * The origin will remain on the Blue side.
+         * 
+         * @return If we are currently on Red alliance. Will return false if no alliance
+         *         is found
+         */
+        public static boolean isRedAlliance() {
+          var alliance = ALLIANCE;
+          if (alliance.isPresent()) {
+            return alliance.get() == DriverStation.Alliance.Red;
+          }
+          return false;
+        };
+         } 
 
 
 
@@ -462,7 +492,7 @@ TalonFX m_talonFX = new TalonFX(15); // Replace '1' with the appropriate CAN ID 
   public static final Pose2d REEF_B = new Pose2d(3.171, 3.863, Rotation2d.fromDegrees(0));
   public static final Pose2d REEF_C = new Pose2d(3.688, 2.968, Rotation2d.fromDegrees(60));
   public static final Pose2d REEF_D = new Pose2d(3.975, 2.803, Rotation2d.fromDegrees(60));
-  public static final Pose2d REEF_E = new Pose2d(5.001,  2.804, Rotation2d.fromDegrees(120)); 
+  public static final Pose2d REEF_E = new Pose2d(5.000,  2.790, Rotation2d.fromDegrees(120)); 
   public static final Pose2d REEF_F = new Pose2d(5.285, 2.964, Rotation2d.fromDegrees(120)); 
   public static final Pose2d REEF_G = new Pose2d(5.805, 3.863, Rotation2d.fromDegrees(180));
   public static final Pose2d REEF_H = new Pose2d(5.805, 4.189, Rotation2d.fromDegrees(180)); 
@@ -487,12 +517,76 @@ TalonFX m_talonFX = new TalonFX(15); // Replace '1' with the appropriate CAN ID 
 
   // processor poses
   public static final Pose2d PROCESSOR = new Pose2d(6, .77, Rotation2d.fromDegrees(-90));
+  
+  private static final List<Pose2d> BLUE_REEF_POSES = List.of(REEF_A, REEF_B, REEF_C, REEF_D, REEF_E,
+      REEF_F, REEF_G, REEF_H, REEF_I, REEF_J, REEF_K, REEF_L);
+  private static final List<Pose2d> RED_REEF_POSES = getRedReefPoses();
 
+  private static final Pose2d[] BLUE_POSES = new Pose2d[] { RESET_POSE, REEF_A, REEF_B, REEF_C, REEF_D, REEF_E,
+      REEF_F, REEF_G, REEF_H, REEF_I, REEF_J, REEF_K, REEF_L };
+
+  private static final Pose2d[] RED_POSES = getRedAlliancePoses();
+
+  private static final List<Pose2d> BLUE_CORAL_STATION_POSES = List.of(LEFT_CORAL_STATION_FAR,
+      LEFT_CORAL_STATION_NEAR, RIGHT_CORAL_STATION_FAR, RIGHT_CORAL_STATION_NEAR);
+  private static final List<Pose2d> RED_CORAL_STATION_POSES = getRedCoralStationPoses();
+
+  private static final Pose2d BLUE_PROCESSOR_POSE = PROCESSOR;
+  private static final Pose2d RED_PROCESSOR_POSE = getRedProcessorPose();
+
+  private static final List<Pose2d> PROCESSOR_POSES = List.of(BLUE_PROCESSOR_POSE, RED_PROCESSOR_POSE);
 
 }
 
+private static Pose2d getRedProcessorPose() {
+    Pose2d returnedPose = POSES.BLUE_PROCESSOR_POSE;
 
-     }
+    returnedPose = getRedAlliancePose(POSES.BLUE_PROCESSOR_POSE);
+
+    return returnedPose;
+  }
+
+  public static Pose2d getRedAlliancePose(Pose2d bluePose) {
+    return new Pose2d(constField.FIELD_LENGTH - (bluePose.getX()),
+    constField.FIELD_WIDTH - bluePose.getY(),
+        bluePose.getRotation().plus(Rotation2d.fromDegrees(180)));
+  }
+
+  private static Pose2d[] getRedAlliancePoses() {
+    Pose2d[] returnedPoses = new Pose2d[POSES.BLUE_POSES.length];
+
+    for (int i = 0; i < POSES.BLUE_POSES.length; i++) {
+      returnedPoses[i] = getRedAlliancePose(POSES.BLUE_POSES[i]);
+    }
+    return returnedPoses;
+  }
+
+  private static List<Pose2d> getRedReefPoses() {
+    Pose2d[] returnedPoses = new Pose2d[POSES.BLUE_REEF_POSES.size()];
+
+    for (int i = 0; i < POSES.BLUE_REEF_POSES.size(); i++) {
+      returnedPoses[i] = getRedAlliancePose(POSES.BLUE_REEF_POSES.get(i));
+    }
+
+    return List.of(returnedPoses[0], returnedPoses[1], returnedPoses[2], returnedPoses[3], returnedPoses[4],
+        returnedPoses[5], returnedPoses[6], returnedPoses[7], returnedPoses[8], returnedPoses[9], returnedPoses[10],
+        returnedPoses[11]);
+  }
+
+  private static List<Pose2d> getRedCoralStationPoses() {
+    Pose2d[] returnedPoses = new Pose2d[POSES.BLUE_CORAL_STATION_POSES.size()];
+
+    for (int i = 0; i < POSES.BLUE_CORAL_STATION_POSES.size(); i++) {
+      returnedPoses[i] = getRedAlliancePose(POSES.BLUE_CORAL_STATION_POSES.get(i));
+    }
+
+    return List.of(returnedPoses[0], returnedPoses[1], returnedPoses[2], returnedPoses[3]);
+  }
+
+}
+
+     
+
 
 
 
