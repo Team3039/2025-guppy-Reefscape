@@ -117,11 +117,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         // SmartDashboard.putNumber("yaw2", gyro.getYaw().getValueAsDouble());
 
-        // getModule(0).getDriveMotor().setPosition(0);
-        // getModule(1).getDriveMotor().setPosition(0);
-        // getModule(2).getDriveMotor().setPosition(0);
-        // getModule(3).getDriveMotor().setPosition(0);
-
     
 
         m_poseEstimator = new SwerveDrivePoseEstimator(TunerConstants.swerveKinematics, getGyroRotation2D(),

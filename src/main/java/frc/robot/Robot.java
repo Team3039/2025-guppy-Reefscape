@@ -121,6 +121,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+
+    drivetrain.getModule(0).getDriveMotor().setPosition(0);
+    drivetrain.getModule(1).getDriveMotor().setPosition(0);
+    drivetrain.getModule(2).getDriveMotor().setPosition(0);
+    drivetrain.getModule(3).getDriveMotor().setPosition(0);
+
+
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
