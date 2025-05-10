@@ -55,17 +55,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
 
 
-
-    private static final double kSimLoopPeriod = 0.005; // 5 ms
-    private Notifier m_simNotifier = null;
-    private double m_lastSimTime;
-    
-    private boolean autoScore = false;
-    
-    private boolean isAligning = false;
-
-
-
     public SwerveDrivePoseEstimator m_poseEstimator;
     public LimelightHelpers.PoseEstimate mt2;
     public LimelightHelpers.PoseEstimate leftPose;
@@ -86,9 +75,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
 
 
-    // private final SwerveModule[] swerveModules = new SwerveModule[] { new
-    // SwerveModule(0, 1), new SwerveModule(2, 3),
-    // new SwerveModule(4, 5), new SwerveModule(6, 7) };
+
 
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -130,10 +117,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         // SmartDashboard.putNumber("yaw2", gyro.getYaw().getValueAsDouble());
 
-        getModule(0).getDriveMotor().setPosition(0);
-        getModule(1).getDriveMotor().setPosition(0);
-        getModule(2).getDriveMotor().setPosition(0);
-        getModule(3).getDriveMotor().setPosition(0);
+        // getModule(0).getDriveMotor().setPosition(0);
+        // getModule(1).getDriveMotor().setPosition(0);
+        // getModule(2).getDriveMotor().setPosition(0);
+        // getModule(3).getDriveMotor().setPosition(0);
 
     
 
@@ -307,19 +294,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     
-    // public void driveToPose(Pose2d targetPose) {
-    //     Pose2d currentPose = getPose();
-
-    //     double targetLinearSpeed = WonderOnOverToConstants.kMaxSpeed * 0.5; // 50% of max speed
-
-        
-    //     ChassisSpeeds targetSpeeds = driveController.calculate(currentPose, targetPose, targetLinearSpeed, targetPose.getRotation());
-
-        
-    //     var moduleStates = TunerConstants.swerveKinematics.toSwerveModuleStates(targetSpeeds);
-    //     TunerConstants.normalizeWheelSpeeds(moduleStates, WonderOnOverToConstants.kMaxSpeed);
-    //     getModulePositions();
-    // }
     
 
     @Override
