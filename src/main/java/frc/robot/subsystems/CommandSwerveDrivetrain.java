@@ -56,13 +56,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
 
 
-    private static final double kSimLoopPeriod = 0.005; // 5 ms
-    private Notifier m_simNotifier = null;
-    private double m_lastSimTime;
+    // private static final double kSimLoopPeriod = 0.005; // 5 ms
+    // private Notifier m_simNotifier = null;
+    // private double m_lastSimTime;
     
-    private boolean autoScore = false;
+    // private boolean autoScore = false;
     
-    private boolean isAligning = false;
+    // private boolean isAligning = false;
 
 
 
@@ -86,14 +86,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
 
 
-    // private final SwerveModule[] swerveModules = new SwerveModule[] { new
-    // SwerveModule(0, 1), new SwerveModule(2, 3),
-    // new SwerveModule(4, 5), new SwerveModule(6, 7) };
-
+    
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
-    private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
+    // private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
     /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
-    private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
+    // private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
     /**
      * Checks if the given translation, rotation, and field-relative flag match
      * the current state of the drivetrain.
