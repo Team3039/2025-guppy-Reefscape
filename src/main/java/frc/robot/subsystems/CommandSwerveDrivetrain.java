@@ -28,11 +28,9 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.LimelightHelpers;
@@ -52,7 +50,6 @@ import frc.robot.generated.TunerConstants.WonderOnOverToConstants;
  * Subsystem so it can easily be used in command-based projects.
  */
 public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Subsystem {
-
 
 
     public SwerveDrivePoseEstimator m_poseEstimator;
@@ -76,11 +73,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
 
 
-
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
-    private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
+    // private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
     /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
-    private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
+    // private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
     /**
      * Checks if the given translation, rotation, and field-relative flag match
      * the current state of the drivetrain.
@@ -96,13 +92,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     /** Swerve request to apply during robot-centric path following */
     private final SwerveRequest.ApplyRobotSpeeds m_pathApplyRobotSpeeds = new SwerveRequest.ApplyRobotSpeeds();
 
-    /* Swerve requests to apply during SysId characterization */
-    // private final SwerveRequest.SysIdSwerveTranslation
-    // m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
-    // private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization =
-    // new SwerveRequest.SysIdSwerveSteerGains();
-    // private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization =
-    // new SwerveRequest.SysIdSwerveRotation();
+
 
     /*
      * SysId routine for characterizing translation. This is used to find PID gains
@@ -116,6 +106,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         // gyro.setYaw(0);
 
         // SmartDashboard.putNumber("yaw2", gyro.getYaw().getValueAsDouble());
+
+        // getModule(0).getDriveMotor().setPosition(0);
+        // getModule(1).getDriveMotor().setPosition(0);
+        // getModule(2).getDriveMotor().setPosition(0);
+        // getModule(3).getDriveMotor().setPosition(0);
 
     
 
@@ -234,60 +229,41 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @return Command to run
      */
 
-    public void updateCameraPose() {
-        boolean doRejectUpdate = false;
-        int bestCamera;
-         cameraPoses[0] = grabPose("limelight");
-        {
-            if ( cameraPoses[0].tagCount == 1 ) {
-
-                bestCamera = 0;
-            } 
-
-            else {
-                bestCamera = -1;
-            }
-
+     public void updateCameraPose() {
+        // grab pose from Limelight
+        cameraPoses[0] = grabPose("limelight");
+    
+        boolean validPose = false;
+    
+        // check if the pose is valid 
+        if (cameraPoses[0] != null && cameraPoses[0].tagCount == 1) {
+            validPose = true;
         }
-
-        if (bestCamera == -1) {
-            doRejectUpdate = true;
+    
+        // reject updates if turn to fast 
+        double angularVelocityZ = gyro.getAngularVelocityZWorld().getValueAsDouble();
+        if (angularVelocityZ > 360) {
+            validPose = false;
         }
-        
-        else
-        
-        {
-            if(cameraPoses[0] != null){
-
-                doRejectUpdate=false; 
-
-            }
-        }
-        
-        
-        
-
-
-        if (gyro.getAngularVelocityZWorld().getValueAsDouble() > 360) // if our angular velocity is greater
-        {
-            doRejectUpdate = true;
-        }
-        SmartDashboard.putBoolean("RejectUpdate", doRejectUpdate);
-
-        if (!doRejectUpdate) {
-            SmartDashboard.putNumber("bestcamera", bestCamera);
-            SmartDashboard.putNumberArray("CameraPose", new double[] {
-                cameraPoses[bestCamera].pose.getTranslation().getX(),
-                cameraPoses[bestCamera].pose.getTranslation().getY(),
-                cameraPoses[bestCamera].pose.getRotation().getRadians()
+    
+        SmartDashboard.putBoolean("RejectUpdate", !validPose);
+    
+        // apply vision update if it sees something
+        if (validPose) {
+            PoseEstimate bestCameraPose = cameraPoses[0];
+    
+            SmartDashboard.putNumber("bestcamera", 0);
+            SmartDashboard.putNumberArray("CameraPose", new double[]{
+                bestCameraPose.pose.getTranslation().getX(),
+                bestCameraPose.pose.getTranslation().getY(),
+                bestCameraPose.pose.getRotation().getRadians()
             });
-            m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999));
-            m_poseEstimator.addVisionMeasurement(
-                    cameraPoses[bestCamera].pose,
-                    cameraPoses[bestCamera].timestampSeconds);
+    
+            // Apply vision measurement with lower confidence in rotation
+            m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999));
+            m_poseEstimator.addVisionMeasurement(bestCameraPose.pose, bestCameraPose.timestampSeconds);
         }
     }
-
     
     
 
@@ -400,41 +376,40 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
    
 public PoseEstimate grabPose(String camera) {
-
-   
- LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+    LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
       
 
  
-     boolean doRejectUpdate = false;
-      
-          if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
-            {
-             
-        if(mt1.rawFiducials[0].distToCamera > 2)
-        {
-          doRejectUpdate = true;
-        }
+    boolean doRejectUpdate = false;
+     
+         if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
+           {
+            
+       if(mt1.rawFiducials[0].distToCamera > 2)
+       {
+         doRejectUpdate = true;
+       }
 
-         
+        
 
 
 
-      }
-      if(mt1.tagCount == 0)
-      {
-        doRejectUpdate = true;
-      }
+     }
+     if(mt1.tagCount == 0)
+     {
+       doRejectUpdate = true;
+     }
 
-      if(!doRejectUpdate)
-      {
-        m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
-        m_poseEstimator.addVisionMeasurement(
-            mt1.pose,
-            mt1.timestampSeconds);
-      }
-          return mt1;
-  }
+     if(!doRejectUpdate)
+     {
+       m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
+       m_poseEstimator.addVisionMeasurement(
+           mt1.pose,
+           mt1.timestampSeconds);
+     }
+         return mt1;
+ }
+
 
     /**
      * Adds a vision measurement to the Kalman Filter. This will correct the
@@ -482,21 +457,11 @@ public PoseEstimate grabPose(String camera) {
 
     public SwerveModulePosition[] getModulePositions() {
 
-        /*
-         * AI\\
-         * SwerveModulePosition[] positions = new
-         * SwerveModulePosition[swerveModules.length];
-         * for (int i = 0; i < swerveModules.length; i++) {
-         * positions[i] = swerveModules[i].getPosition();
-         * }
-         * return positions;
-         */
-
-        // Return the positions of the swerve modules
+       
 
         return new SwerveModulePosition[] {
-                // Replace with actual module positions
-                new SwerveModulePosition(getModule(0).getDriveMotor().getPosition().getValueAsDouble()
+
+            new SwerveModulePosition(getModule(0).getDriveMotor().getPosition().getValueAsDouble()
                         * TunerConstants.wheelCircumference / TunerConstants.kDriveGearRatio,
                         getModule(0).getCurrentState().angle),
                 new SwerveModulePosition(getModule(1).getDriveMotor().getPosition().getValueAsDouble()
