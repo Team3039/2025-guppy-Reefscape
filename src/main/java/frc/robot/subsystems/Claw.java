@@ -28,7 +28,8 @@ public class Claw extends SubsystemBase {
     CORAL,
     ALGAE,
     RELEASE,
-    RELEASEA
+    RELEASEA,
+    BACKFEED
   }
 
   // Create a variable to store the current state of the claw
@@ -207,6 +208,13 @@ public class Claw extends SubsystemBase {
         
 
         break;
+
+        case BACKFEED:
+        
+        setWheelSpeed(-.1);
+
+  break;
+
     }
   
 

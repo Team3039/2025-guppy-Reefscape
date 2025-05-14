@@ -3,39 +3,39 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.285,
-        "y": 2.964
+        "x": 5.306503378378378,
+        "y": 2.9676520270270266
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.334206081081081,
-        "y": 0.7640202702702696
+        "x": 5.257094594594594,
+        "y": 1.1988175675675676
       },
       "isLocked": false,
-      "linkedName": "GP1"
+      "linkedName": "Pside2"
     },
     {
       "anchor": {
-        "x": 1.3142736486486484,
-        "y": 0.9122466216216207
+        "x": 1.383445945945946,
+        "y": 0.8727195945945948
       },
       "prevControl": {
-        "x": 3.4190878378378375,
-        "y": 0.9616554054054052
+        "x": 5.672128378378378,
+        "y": 1.0999999999999988
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP2"
+      "linkedName": "Pside3"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 0.7248263888888883,
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.7400362318840669,
       "constraints": {
-        "maxVelocity": 1.0,
+        "maxVelocity": 1.5,
         "maxAcceleration": 1.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -48,7 +48,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 1.5,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -56,13 +56,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 54.272601777200286
+    "rotation": 53.97262661489639
   },
   "reversed": false,
-  "folder": "the good pipe layer",
+  "folder": "New gen P side autos",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 119.99999999999999
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

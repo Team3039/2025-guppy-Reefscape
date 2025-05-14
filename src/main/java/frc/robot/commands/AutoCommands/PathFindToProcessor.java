@@ -28,11 +28,9 @@ public class PathFindToProcessor extends Command {
 
   final public JoystickButton driverSquare = new JoystickButton(driverPad, PS4Controller.Button.kL2.value);
 
-  private Command PathtoProcessor = null;
-  private Command GetItRightPal = null;
+  
   private boolean finish = false;
   private boolean Keeptrying = false;
-  private boolean YouDidIt = false;
 
         // Called when the command is initially scheduled.
         @Override
@@ -69,20 +67,7 @@ public class PathFindToProcessor extends Command {
 
     //         Pose2d currentPose = drivetrain.getPose();
             
-    // double distanceError = currentPose.getTranslation().getDistance(Targetpose.getTranslation());
-
-    // if (distanceError <= 0.0254) { // 1 inch
-    //     YouDidIt = true;
-    // }
-
-    // if (YouDidIt == false) {
-    //     Keeptrying = true;
-    // }
-
-    // if (YouDidIt == true) {
-    //     Keeptrying = false;
-    //     finish = true;
-    // }
+    
         
 
     if (Targetpose != null) {
@@ -100,12 +85,7 @@ public class PathFindToProcessor extends Command {
 
     if (Keeptrying == true) {
 
-        // Command GetItRightPal = AutoBuilder.pathfindToPose(
-        //     Targetpose,
-        //     constraints,
-        //     0.0 );
-            
-        //     GetItRightPal.schedule();
+      
     }
 
 
@@ -119,13 +99,7 @@ public class PathFindToProcessor extends Command {
   @Override
   public void end(boolean interrupted) {
 
-//     if (PathtoProcessor != null) {
-//       PathtoProcessor.cancel();
-//   }
 
-//   if (GetItRightPal != null) {
-//     GetItRightPal.cancel();
-// }
 
 }
 

@@ -353,13 +353,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
 
-    public Pose2d getLLPose() {
-        @SuppressWarnings("unused")
-		    var array = limelight.getEntry("botpose_wpiblue").getDoubleArray(new double[]{0,0,0,0,0,0});
+    // public Pose2d getLLPose() {
+    //     @SuppressWarnings("unused")
+	// 	    var array = limelight.getEntry("botpose_wpiblue").getDoubleArray(new double[]{0,0,0,0,0,0});
 
-            Pose2d pose = new Pose2d(0, 0, new Rotation2d(0));
-        return pose;
-      }
+    //         Pose2d pose = new Pose2d(0, 0, new Rotation2d(0));
+    //     return pose;
+    //   }
 
 
     

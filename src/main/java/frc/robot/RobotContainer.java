@@ -81,14 +81,20 @@ public RobotContainer() {
 
     // reset pose to start 
 
-    NamedCommands.registerCommand("R-P mid pipething", drivetrain.new ResetOdometry(drivetrain, new Pose2d(7.589, 1.169, Rotation2d.fromDegrees(180))));
+    NamedCommands.registerCommand("PSideStart", drivetrain.new ResetOdometry(drivetrain, new Pose2d(7.273, 1.169, Rotation2d.fromDegrees(180))));
 
 
     //Elevator commands
-    NamedCommands.registerCommand("score L2", new ScoreCoralL2());
+    NamedCommands.registerCommand("score L2", new ScoreCoralL2Auto());
     NamedCommands.registerCommand("score L3", new ScoreCoralL3());
-    NamedCommands.registerCommand("score L4", new ScoreCoralL4());
+    NamedCommands.registerCommand("score L4", new ScoreCoralL4Auto());
     NamedCommands.registerCommand("set Wrist/Elevator down", new ScoreCoralTrough());
+
+
+    // auto pathing
+
+    NamedCommands.registerCommand("RightPathing", new LeftBranchPathFinding());
+    NamedCommands.registerCommand("LeftPathing", new RightBranchPathfinding());
 
 
     //itake and spit coral             (intake)
@@ -210,7 +216,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         driverL2.onTrue (new LeftBranchPathFinding());
 
 
-        driverSquare.onTrue (new PathFindToProcessor()); 
+        driverSquare.onTrue (new ScoreCoralL2Auto()); 
 
         driverCircle.onTrue (drivetrain.new ResetOdometry(drivetrain, new Pose2d(3.192, 4.005, Rotation2d.fromDegrees(0))));
 

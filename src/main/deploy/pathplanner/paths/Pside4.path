@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.383445945945946,
+        "y": 0.8727195945945948
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.853885135135135,
+        "y": 0.9221283783783769
+      },
+      "isLocked": false,
+      "linkedName": "Pside3"
+    },
+    {
+      "anchor": {
+        "x": 5.741300675675675,
+        "y": 1.6830236486486478
+      },
+      "prevControl": {
+        "x": 4.05152027027027,
+        "y": 0.9418918918918916
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Pside1"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 2.5,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 121.78725312166475
+  },
+  "reversed": false,
+  "folder": "New gen P side autos",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 53.97262661489639
+  },
+  "useDefaultConstraints": false
+}

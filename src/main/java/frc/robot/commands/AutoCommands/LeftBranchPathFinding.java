@@ -157,7 +157,7 @@ public class LeftBranchPathFinding extends Command {
         Command followLeftPath = AutoBuilder.pathfindToPose(
             Targetpose,
             constraints,
-            0.01
+            0.03
     );
             followLeftPath.schedule();
 
@@ -175,10 +175,6 @@ public class LeftBranchPathFinding extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
-
-
-    cancel();
 
   }
     

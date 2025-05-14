@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 6.344087837837837,
-        "y": 1.396452702702702
+        "y": 0.9122466216216205
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 2.964
       },
       "prevControl": {
-        "x": 6.032884961761698,
-        "y": 2.1460794373443055
+        "x": 5.682010135135134,
+        "y": 2.266047297297297
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.5,
-      "rotationDegrees": 117.20576780064133
+      "rotationDegrees": 118.33530178387672
     }
   ],
   "constraintZones": [
@@ -67,7 +67,7 @@
   "folder": "the good pipe layer",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 179.64849656012666
   },
   "useDefaultConstraints": false
 }

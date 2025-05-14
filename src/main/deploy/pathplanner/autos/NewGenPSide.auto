@@ -11,22 +11,21 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "GP1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "score L2"
-                }
-              }
-            ]
+            "pathName": "start P side auto"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "score L4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "P side F"
           }
         },
         {
@@ -36,7 +35,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.0
+                  "waitTime": 0.4
                 }
               },
               {
@@ -49,38 +48,25 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "GP2"
+                  "pathName": "Pside3"
                 }
               },
               {
-                "type": "sequential",
+                "type": "wait",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "set Wrist/Elevator down"
-                      }
-                    }
-                  ]
+                  "waitTime": 1.2
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "set Wrist/Elevator down"
                 }
               }
             ]
