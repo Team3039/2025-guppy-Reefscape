@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.commands.ActuateElevatorToSetpoint;
 import frc.robot.commands.ActuateWristToSetpoint;
-import frc.robot.commands.SetClawBackFeedCoral;
+import frc.robot.commands.SetClawBackFeedCoralL2;
+import frc.robot.commands.SetClawBackFeedCoralL4;
 import frc.robot.subsystems.Elevator.ElevatorState;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -24,7 +25,7 @@ public class ScoreCoralL2Auto extends SequentialCommandGroup {
     addCommands(
       new ActuateWristToSetpoint(280, 2),
       new ActuateElevatorToSetpoint( 7, 3),
-      new SetClawBackFeedCoral()
+      new SetClawBackFeedCoralL2()
     );
   }
 }

@@ -10,11 +10,11 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Claw.ClawState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class SetClawBackFeedCoral extends Command {
+public class SetClawBackFeedCoralL2 extends Command {
 
   boolean wedonehere = false;
 
-  public SetClawBackFeedCoral() {
+  public SetClawBackFeedCoralL2() {
     addRequirements(RobotContainer.claw);
   }
 
