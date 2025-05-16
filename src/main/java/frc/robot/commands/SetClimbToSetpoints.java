@@ -4,22 +4,20 @@
 
 package frc.robot.commands;
 
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Climb.ClimbState;
 import frc.robot.subsystems.Wrist.WristState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class SetClimbManualOverride extends Command {
+public class SetClimbToSetpoints extends Command {
+boolean areyoureadykids = false;
+
   /** Creates a new SetElevatorManualOverride. */
-  public SetClimbManualOverride() {
+  public SetClimbToSetpoints() {
     addRequirements(RobotContainer.climb);
 
     if (RobotContainer.climb.getClimbPosition() >= 0.47) {
-            
-      System.out.println("Hey I should stop");
-
       RobotContainer.climb.setState(ClimbState.DISABLED);
     }
   }
@@ -28,8 +26,18 @@ public class SetClimbManualOverride extends Command {
   @Override
   public void initialize() {
 
-    RobotContainer.climb.setState(ClimbState.Manual);
-    RobotContainer.wrist.setState(WristState.CLIMB);
+    if(areyoureadykids == false){
+
+            RobotContainer.climb.setState(ClimbState.GetReadyTOClimb);
+ 
+            areyoureadykids = true;
+    }
+
+    if(areyoureadykids == true){
+
+            RobotContainer.climb.setState(ClimbState.CLIMBING);
+     }
+    
 
   }
 
@@ -37,7 +45,6 @@ public class SetClimbManualOverride extends Command {
   public void periodic() {
     if (RobotContainer.climb.getClimbPosition() <= 0.47) {
             
-      System.out.println("Hey I should stop");
 
       RobotContainer.climb.setState(ClimbState.DISABLED);
     }
@@ -54,7 +61,6 @@ public class SetClimbManualOverride extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
     RobotContainer.climb.setState(ClimbState.DISABLED);
     RobotContainer.wrist.setState(WristState.IDLE);
 

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.741300675675675,
-        "y": 1.6830236486486478
+        "x": 5.158277027027027,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.047635135135136,
-        "y": 1.841131756756756
+        "x": 4.6582872530240635,
+        "y": 7.003197794938096
       },
       "isLocked": false,
-      "linkedName": "Pside1"
+      "linkedName": "Intake 1"
     },
     {
       "anchor": {
-        "x": 5.306503378378378,
-        "y": 2.9676520270270266
+        "x": 3.8044763513513518,
+        "y": 7.0
       },
       "prevControl": {
-        "x": 5.632601351351351,
-        "y": 2.4439189189189188
+        "x": 4.427181129731869,
+        "y": 7.019177043100309
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Pside2"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
+    "maxVelocity": 0.5,
     "maxAcceleration": 0.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 119.99999999999999
+    "rotation": -179.65101734941726
   },
   "reversed": false,
-  "folder": "New gen P side autos",
+  "folder": "test paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 121.78725312166475
+    "rotation": -179.65101734941726
   },
   "useDefaultConstraints": false
 }

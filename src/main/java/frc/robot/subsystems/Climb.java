@@ -13,15 +13,11 @@ import edu.wpi.first.units.measure.Angle;
 // import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.Timer;
 // import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.generated.TunerConstants;
-import com.ctre.phoenix.sensors.CANCoder;
-// import edu.wpi.first.cameraserver.CameraServer;
-// import edu.wpi.first.cscore.UsbCamera;
 
 
 
@@ -42,7 +38,9 @@ private final CANcoder wcpIsTheBest = new CANcoder(18);
   // Create the possible states of the climb
   public enum ClimbState {
     DISABLED,
-    CLIMBING
+    CLIMBING,
+    GetReadyTOClimb,
+    Manual
   }
 
   // Create a variable to store the current state of the climb\]
@@ -109,47 +107,45 @@ private final CANcoder wcpIsTheBest = new CANcoder(18);
     switch (climbState) {
       // In the disabled state, the climb is disabled
       case DISABLED:
+
         climb.disable();
+
+
+        PDH.setSwitchableChannel(false);
+
+        break;
+
+        case Manual:
 
         if (RobotContainer.PitPad.x().getAsBoolean()) {
           climb.set(-.4);
         } 
 
-        PDH.setSwitchableChannel(false);
-
         break;
-      case CLIMBING:
 
+      case GetReadyTOClimb:
+
+      climb.set(1);
      
-      
-        if (RobotContainer.driverR1.getAsBoolean()) {
-          climb.set(.8);
-        } else if (RobotContainer.PitPad.rightBumper().getAsBoolean()) {
-          climb.set(-.4);
-        } 
-        else if(RobotContainer.driverL1.getAsBoolean()) {}
-        else {
-          climb.set(0);
-          
-            
-      }
+      if (RobotContainer.climb.getClimbPosition() >= -.14 && RobotContainer.climb.getClimbPosition() <= -.13) {
+  
+      RobotContainer.climb.setState(ClimbState.DISABLED);
+
+    }
+        
       break;
+
+      case CLIMBING :
+
+      climb.set(1);
+
+      if (RobotContainer.climb.getClimbPosition() >= -0.36 && RobotContainer.climb.getClimbPosition() <= -0.35) {
+
+      RobotContainer.climb.setState(ClimbState.DISABLED);
+    }
+
+      break;
+
     }
   }
 }
-
-
-/*
- * 
- * 
- * public getClimb
- * \
- * public getSetClimb
- * 
- * setClimb []
- * 
- * 
- * 
- * 
- * 
- */

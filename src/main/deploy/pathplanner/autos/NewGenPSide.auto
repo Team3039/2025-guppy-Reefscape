@@ -25,7 +25,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "P side F"
+            "pathName": "P side E"
           }
         },
         {
@@ -60,7 +60,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.2
+                  "waitTime": 1.0
                 }
               },
               {

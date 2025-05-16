@@ -9,9 +9,6 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 // import edu.wpi.first.units.Units;
 
-
-
-
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -23,6 +20,8 @@ import com.pathplanner.lib.auto.NamedCommands;
 // import com.pathplanner.lib.path.Waypoint;
 // import com.pathplanner.lib.util.FileVersionException;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.PS4Controller;
 // import edu.wpi.first.wpilibj.PowerDistribution;
 // import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -32,26 +31,22 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.SetClawIntakeAlgae;
 import frc.robot.commands.SetClawIntakeCoral;
 import frc.robot.commands.SetClawRelease;
-import frc.robot.commands.SetClawSpitAlgae;
 import frc.robot.commands.SetClimbManualOverride;
-import frc.robot.commands.SetElevatorManualOverride;
-import frc.robot.commands.SetWristManualOverride;
-import frc.robot.commands.StopPathFinding;
+import frc.robot.commands.SetClimbToSetpoints;
+import frc.robot.commands.AutoCommands.CoralintakeAuto;
+import frc.robot.commands.AutoCommands.LeftBranchPathFinding;
+import frc.robot.commands.AutoCommands.RightBranchPathfinding;
+import frc.robot.commands.AutoCommands.ScoreCoralL2Auto;
+import frc.robot.commands.AutoCommands.ScoreCoralL4Auto;
 // import frc.robot.commands.PathFinding.rightBranchPathfinding;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL3;
-import frc.robot.commands.ElevatorRoutines.ScoreAlgaeBarge;
-import frc.robot.commands.ElevatorRoutines.ScoreAlgaeProcessor;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL2;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL3;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL4;
@@ -61,9 +56,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.CommandSwerveDrivetrain.ResetOdometry;
 import frc.robot.subsystems.Elevator;
-import frc.robot.commands.AutoCommands.*;
 import frc.robot.subsystems.Wrist;
 
 
@@ -81,7 +74,9 @@ public RobotContainer() {
 
     // reset pose to start 
 
-    NamedCommands.registerCommand("PSideStart", drivetrain.new ResetOdometry(drivetrain, new Pose2d(7.273, 1.169, Rotation2d.fromDegrees(180))));
+    NamedCommands.registerCommand("PSideStart", drivetrain.new ResetOdometry(drivetrain, new Pose2d(7.273, 1.900, Rotation2d.fromDegrees(180))));
+
+    NamedCommands.registerCommand("Intake-test-start", drivetrain.new ResetOdometry(drivetrain, new Pose2d(6.542, 7.000, Rotation2d.fromDegrees(180))));
 
 
     //Elevator commands
@@ -227,7 +222,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         driverOptions.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
 
-        driverShare.toggleOnTrue(new SetClimbManualOverride());
+        driverShare.toggleOnTrue(new SetClimbToSetpoints());
 
         // drivetrain.registerTelemetry(logger::telemeterize); // Commented out as Logger does not have telemeterize method
 

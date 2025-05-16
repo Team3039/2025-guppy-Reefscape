@@ -8,12 +8,10 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,7 +44,7 @@ public class Elevator extends SubsystemBase {
 			TunerConstants.Elevator.ELEVATOR_KD);
 
 
-	private MotionMagicVoltage motionMagicControl = new MotionMagicVoltage(.0);
+	// private MotionMagicVoltage motionMagicControl = new MotionMagicVoltage(.0);
 
 	private MotionMagicConfigs motionMagicConfigs = new MotionMagicConfigs();
 
