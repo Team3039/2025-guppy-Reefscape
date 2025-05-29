@@ -23,7 +23,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 // import com.pathplanner.lib.path.Waypoint;
 // import com.pathplanner.lib.util.FileVersionException;
 
-import edu.wpi.first.wpilibj.PS4Controller;
+// import edu.wpi.first.wpilibj.PS4Controller;
 // import edu.wpi.first.wpilibj.PowerDistribution;
 // import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 // import edu.wpi.first.wpilibj.Timer;
@@ -32,36 +32,36 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+// import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
+// import edu.wpi.first.math.geometry.Translation2d;
 // import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+// import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.SetClawIntakeAlgae;
 import frc.robot.commands.SetClawIntakeCoral;
 import frc.robot.commands.SetClawRelease;
-import frc.robot.commands.SetClawSpitAlgae;
+// import frc.robot.commands.SetClawSpitAlgae;
 import frc.robot.commands.SetClimbManualOverride;
-import frc.robot.commands.SetElevatorManualOverride;
-import frc.robot.commands.SetWristManualOverride;
-import frc.robot.commands.StopPathFinding;
+// import frc.robot.commands.SetElevatorManualOverride;
+// import frc.robot.commands.SetWristManualOverride;
+// import frc.robot.commands.StopPathFinding;
 // import frc.robot.commands.PathFinding.rightBranchPathfinding;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL3;
-import frc.robot.commands.ElevatorRoutines.ScoreAlgaeBarge;
-import frc.robot.commands.ElevatorRoutines.ScoreAlgaeProcessor;
+// import frc.robot.commands.ElevatorRoutines.ScoreAlgaeBarge;
+// import frc.robot.commands.ElevatorRoutines.ScoreAlgaeProcessor;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL2;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL3;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL4;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralTrough;
-import frc.robot.controllers.InterpolatedPS4Gamepad;
+// import frc.robot.controllers.InterpolatedPS4Gamepad;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.CommandSwerveDrivetrain.ResetOdometry;
+// import frc.robot.subsystems.CommandSwerveDrivetrain.ResetOdometry;
 import frc.robot.subsystems.Elevator;
 import frc.robot.commands.AutoCommands.*;
 import frc.robot.subsystems.Wrist;
@@ -105,7 +105,7 @@ public RobotContainer() {
     
 }
     
-public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepad(0); 
+public static final CommandXboxController driverPad = new CommandXboxController(0); 
 
     public final static CommandXboxController operatorPad = new CommandXboxController(1);
 
@@ -114,25 +114,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
 
   /* Operator Buttons */
-  private final JoystickButton driverX = new JoystickButton(driverPad, PS4Controller.Button.kCross.value);
-  private final JoystickButton driverSquare = new JoystickButton(driverPad, PS4Controller.Button.kSquare.value);
-  private final JoystickButton driverTriangle = new JoystickButton(driverPad, PS4Controller.Button.kTriangle.value);
-  private final JoystickButton driverCircle = new JoystickButton(driverPad, PS4Controller.Button.kCircle.value);
-
-  public static final JoystickButton driverL1 = new JoystickButton(driverPad, PS4Controller.Button.kL1.value);
-  public static final JoystickButton driverR1 = new JoystickButton(driverPad, PS4Controller.Button.kR1.value);
-
-  public final static JoystickButton driverL2 = new JoystickButton(driverPad, PS4Controller.Button.kL2.value);
-  private final JoystickButton driverR2 = new JoystickButton(driverPad, PS4Controller.Button.kR2.value);
-  private final JoystickButton driverR3 = new JoystickButton(driverPad, PS4Controller.Button.kR3.value);
-
-  private final JoystickButton driverPadButton = new JoystickButton(driverPad,
-      PS4Controller.Button.kTouchpad.value);
-  private final JoystickButton driverStart = new JoystickButton(driverPad, PS4Controller.Button.kPS.value);
-
-  public final static JoystickButton driverShare = new JoystickButton(driverPad, PS4Controller.Button.kShare.value);
-  private final JoystickButton driverOptions = new JoystickButton(driverPad, PS4Controller.Button.kOptions.value);
-
+  
 
 
 
@@ -144,10 +126,15 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-    private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
-    private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
+
+
+    // private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+    // private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+    // private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
+
+
+            // .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
 
 
@@ -166,6 +153,11 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
 
 
+public void periodic() {
+
+    drivetrain.runOnce(() -> drivetrain.seedFieldCentric()).schedule(); // Ensure field-centric is seeded at the start of each periodic call
+
+}
    
 
     private void configureBindings() {
@@ -186,9 +178,11 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-            drive.withVelocityX(-driverPad.interpolatedLeftYAxis() * MaxSpeed) // Drive forward with negative Y (forward)
-            .withVelocityY(-driverPad.interpolatedLeftXAxis() * MaxSpeed) // Drive left with negative X (left)
-            .withRotationalRate(driverPad.interpolatedRightXAxis() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                drive.withVelocityX(-driverPad.getRightTriggerAxis() * MaxSpeed) // Drive forward with negative Y (forward)
+
+                     .withVelocityX(driverPad.getLeftTriggerAxis() * MaxSpeed) // Drive forward with positive Y (forward)
+
+                     .withRotationalRate(-driverPad.getLeftX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
@@ -204,24 +198,24 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
       
 
-        driverR2.onTrue (new RightBranchPathfinding());
+        driverPad.rightBumper().whileTrue (new RightBranchPathfinding());
 
 
-        driverL2.onTrue (new LeftBranchPathFinding());
+        driverPad.leftBumper().whileTrue (new LeftBranchPathFinding());
 
 
-        driverSquare.onTrue (new PathFindToProcessor()); 
+        // driverSquare.onTrue (new PathFindToProcessor()); 
 
-        driverCircle.onTrue (drivetrain.new ResetOdometry(drivetrain, new Pose2d(3.192, 4.005, Rotation2d.fromDegrees(0))));
+        // driverCircle.onTrue (drivetrain.new ResetOdometry(drivetrain, new Pose2d(3.192, 4.005, Rotation2d.fromDegrees(0))));
 
         // driverSquare.whileTrue(new SetClawIntakeCoral());
         // driverTriangle.whileTrue(new SetClawRelease());
 
     
-        driverOptions.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        // driverOptions.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
 
-        driverShare.toggleOnTrue(new SetClimbManualOverride());
+        // driverShare.toggleOnTrue(new SetClimbManualOverride());
 
         // drivetrain.registerTelemetry(logger::telemeterize); // Commented out as Logger does not have telemeterize method
 

@@ -122,21 +122,21 @@ private final CANcoder wcpIsTheBest = new CANcoder(18);
 
      
       
-        if (RobotContainer.driverR1.getAsBoolean()) {
-          climb.set(.8);
-        } else if (RobotContainer.PitPad.rightBumper().getAsBoolean()) {
-          climb.set(-.4);
-        } 
-        else if(RobotContainer.driverL1.getAsBoolean()) {}
-        else {
-          climb.set(0);
+        // if (RobotContainer.driverR1.getAsBoolean()) {
+        //   climb.set(.8);
+        // } else if (RobotContainer.PitPad.rightBumper().getAsBoolean()) {
+        //   climb.set(-.4);
+        // } 
+        // else if(RobotContainer.driverL1.getAsBoolean()) {}
+        // else {
+        //   climb.set(0);
           
             
       }
-      break;
+      // break;
     }
   }
-}
+// }
 
 
 /*
