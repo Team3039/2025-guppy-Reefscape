@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.285,
-        "y": 2.964
+        "x": 5.9630113636363635,
+        "y": 1.836235795454545
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.484577702702703,
-        "y": 1.1457567567567573
+        "x": 5.7808277027027035,
+        "y": 2.1771114864864867
       },
       "isLocked": false,
       "linkedName": "GP1"
     },
     {
       "anchor": {
-        "x": 1.383445945945946,
-        "y": 0.9122466216216207
+        "x": 5.285,
+        "y": 2.964
       },
       "prevControl": {
-        "x": 3.3400337837837832,
-        "y": 0.6157939189189188
+        "x": 5.536984797297297,
+        "y": 2.527549528346136
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,10 +33,10 @@
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 0.7248263888888883,
+      "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 1.0,
+        "maxVelocity": 0.5,
+        "maxAcceleration": 0.25,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -56,7 +56,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 52.53944513950935
+    "rotation": 120.579226872489
   },
   "reversed": false,
   "folder": "the good pipe layer",
