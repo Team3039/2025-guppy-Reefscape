@@ -16,18 +16,24 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 
 public class LeftBranchPathFinding extends Command {
+
+  public void Stop(CommandSwerveDrivetrain drivetrain) {
+    m_drivetrain = drivetrain;
+    addRequirements(m_drivetrain);
+}
+  
   APTarget TargetPose = null;
  
    public CommandSwerveDrivetrain m_drivetrain;
    
     APResult out;
-
     
+   
   
     private final SwerveRequest.FieldCentricFacingAngle m_request = new SwerveRequest.FieldCentricFacingAngle()
         .withForwardPerspective(ForwardPerspectiveValue.BlueAlliance)
         .withDriveRequestType(DriveRequestType.Velocity)
-        .withHeadingPID(1, 0, 0); /* tune this for your robot! */
+        .withHeadingPID(4, 0, 0); /* tune this for your robot! */
   
   
     // public LeftBranchPathFinding(APTarget target, CommandSwerveDrivetrain drivetrain) {
@@ -36,7 +42,9 @@ public class LeftBranchPathFinding extends Command {
     //   addRequirements(drivetrain);
     // }
 
-    public LeftBranchPathFinding() {
+    public LeftBranchPathFinding(CommandSwerveDrivetrain drivetrain) {
+      m_drivetrain = drivetrain;
+      addRequirements(drivetrain);
     }
   
     @Override
@@ -48,24 +56,24 @@ public class LeftBranchPathFinding extends Command {
     
             switch (aprilTagID) {
                 // Blue alliance tags
-                case 17: TargetPose = new APTarget(TunerConstants.POSES.REEF_C).withEntryAngle(Rotation2d.fromDegrees(60)); break;
-                case 18: TargetPose = new APTarget(TunerConstants.POSES.REEF_A).withEntryAngle(Rotation2d.fromDegrees(0)); break;
-                case 19: TargetPose = new APTarget(TunerConstants.POSES.REEF_K).withEntryAngle(Rotation2d.fromDegrees(-60)); break;
-                case 20: TargetPose = new APTarget(TunerConstants.POSES.REEF_I).withEntryAngle(Rotation2d.fromDegrees(-120)); break;
-                case 21: TargetPose = new APTarget(TunerConstants.POSES.REEF_G).withEntryAngle(Rotation2d.fromDegrees(180)); break;
-                case 22: TargetPose = new APTarget(TunerConstants.POSES.REEF_E).withEntryAngle(Rotation2d.fromDegrees(120)); break;
+                case 17: TargetPose = new APTarget(TunerConstants.POSES.REEF_C); break;
+                case 18: TargetPose = new APTarget(TunerConstants.POSES.REEF_A); break;
+                case 19: TargetPose = new APTarget(TunerConstants.POSES.REEF_K); break;
+                case 20: TargetPose = new APTarget(TunerConstants.POSES.REEF_I); break;
+                case 21: TargetPose = new APTarget(TunerConstants.POSES.REEF_G); break;
+                case 22: TargetPose = new APTarget(TunerConstants.POSES.REEF_E); break;
                 
                 // Red alliance tags
-                case 6: TargetPose = new APTarget(TunerConstants.POSES.REEF_K).withEntryAngle(Rotation2d.fromDegrees(-60)); break;
-                case 7: TargetPose = new APTarget(TunerConstants.POSES.REEF_A).withEntryAngle(Rotation2d.fromDegrees(0)); break;
-                case 8: TargetPose = new APTarget(TunerConstants.POSES.REEF_C).withEntryAngle(Rotation2d.fromDegrees(60)); break;
-                case 9: TargetPose = new APTarget(TunerConstants.POSES.REEF_E).withEntryAngle(Rotation2d.fromDegrees(120)); break;
-                case 10: TargetPose = new APTarget(TunerConstants.POSES.REEF_G).withEntryAngle(Rotation2d.fromDegrees(180)); break;
-                case 11: TargetPose = new APTarget(TunerConstants.POSES.REEF_I).withEntryAngle(Rotation2d.fromDegrees(-120)); break;
+                case 6: TargetPose = new APTarget(TunerConstants.POSES.REEF_K); break;
+                case 7: TargetPose = new APTarget(TunerConstants.POSES.REEF_A); break;
+                case 8: TargetPose = new APTarget(TunerConstants.POSES.REEF_C); break;
+                case 9: TargetPose = new APTarget(TunerConstants.POSES.REEF_E); break;
+                case 10: TargetPose = new APTarget(TunerConstants.POSES.REEF_G); break;
+                case 11: TargetPose = new APTarget(TunerConstants.POSES.REEF_I); break;
     
                 // If no valid tag is seen 
                 default: System.out.println("No AprilTag seen dip dumb");
-                    end(true);
+                    this.cancel(); break;
                   
             }
     
@@ -86,13 +94,18 @@ public class LeftBranchPathFinding extends Command {
           .withVelocityY(out.vy())
           .withTargetDirection(out.targetAngle()));
 
-          System.out.println("Im going :D");
+          // System.out.println("Im going left :D");
     }
   
     @Override
     public boolean isFinished() {
 
-        System.out.println("Im done :D");
+        // System.out.println("Im checking if im done going left >:-(");
+
+        System.out.println(m_drivetrain.getPose());
+
+        System.out.println(TunerConstants.kAutopilot.atTarget(m_drivetrain.getPose(), TargetPose));
+
 
       return TunerConstants.kAutopilot.atTarget(m_drivetrain.getPose(), TargetPose);
 
@@ -100,10 +113,14 @@ public class LeftBranchPathFinding extends Command {
   
     @Override
     public void end(boolean interrupted) {
+     System.out.println("im done going left :p");
+
       m_drivetrain.setControl(m_request
-      .withVelocityX(0)
-      .withVelocityY(0)
-      .withTargetDirection(out.targetAngle()));
+    .withVelocityX(0)
+    .withVelocityY(0)
+    .withTargetDirection(out.targetAngle()));
+
+      Stop(m_drivetrain);
     }
   }
 

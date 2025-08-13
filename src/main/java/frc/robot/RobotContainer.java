@@ -41,7 +41,7 @@ import frc.robot.commands.SetClawRelease;
 import frc.robot.commands.SetClimbManualOverride;
 import frc.robot.commands.AutoCommands.CoralintakeAuto;
 import frc.robot.commands.AutoCommands.LeftBranchPathFinding;
-import frc.robot.commands.AutoCommands.PathFindToProcessor;
+// import frc.robot.commands.AutoCommands.PathFindToProcessor;
 import frc.robot.commands.AutoCommands.RightBranchPathfinding;
 // import frc.robot.commands.PathFinding.rightBranchPathfinding;
 import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
@@ -193,15 +193,15 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
       
 
-        driverR2.onTrue (new RightBranchPathfinding());
+        driverR2.whileTrue (new RightBranchPathfinding(drivetrain));
 
 
-        driverL2.onTrue (new LeftBranchPathFinding());
+        driverL2.whileTrue (new LeftBranchPathFinding(drivetrain));
 
         
 
 
-        driverSquare.onTrue (new PathFindToProcessor()); 
+        // driverSquare.onTrue (new PathFindToProcessor()); 
 
         driverCircle.onTrue (drivetrain.new ResetOdometry(drivetrain, new Pose2d(3.192, 4.005, Rotation2d.fromDegrees(0))));
 

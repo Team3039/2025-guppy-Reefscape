@@ -337,6 +337,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 new double[] { botPose2d.getTranslation().getX(), botPose2d.getTranslation().getY(),
                         botPose2d.getRotation().getRadians() });
 
+        SmartDashboard.putNumberArray("ApTarget",                 
+                  new double[] { botPose2d.getTranslation().getX(), botPose2d.getTranslation().getY(),
+                      botPose2d.getRotation().getRadians() });
+
         /*
          * This allows us to correct the perspective in case the robot code restarts
          * mid-match.
