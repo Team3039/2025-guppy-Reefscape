@@ -43,7 +43,5 @@ public class CoralintakeAuto extends Command {
   @Override
   public boolean isFinished() {
     return RobotContainer.claw.hasGamepiece();
-
-    
   }
 }

@@ -1,227 +1,111 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.AutoCommands;
 
-import java.io.IOException;
-import java.util.function.BiConsumer;
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
+import com.therekrab.autopilot.APTarget;
+import com.therekrab.autopilot.Autopilot.APResult;
 
-import org.json.simple.parser.ParseException;
-
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.DriveFeedforwards;
-import com.pathplanner.lib.util.PathPlannerLogging;
-
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.LimelightHelpers;
-import frc.robot.controllers.InterpolatedPS4Gamepad;
 import frc.robot.generated.TunerConstants;
-import frc.robot.generated.TunerConstants.POSES;
-// import miracle;
-
-import com.pathplanner.lib.events.EventScheduler;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class RightBranchPathfinding extends Command {
-    
+  APTarget TargetPose = null;
  
+   public CommandSwerveDrivetrain m_drivetrain;
+   
+    APResult out;
 
-    private Pose2d Targetpose = null;
-
-    private boolean finish = false;
     
-        /** Creates a new LeftBranchPathFinding. */
-        public RightBranchPathfinding() {
-        }
-    final public InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepad(0); 
+  
+    private final SwerveRequest.FieldCentricFacingAngle m_request = new SwerveRequest.FieldCentricFacingAngle()
+        .withForwardPerspective(ForwardPerspectiveValue.BlueAlliance)
+        .withDriveRequestType(DriveRequestType.Velocity)
+        .withHeadingPID(1, 0, 0); /* tune this for your robot! */
+  
+  
+    // public LeftBranchPathFinding(APTarget target, CommandSwerveDrivetrain drivetrain) {
+    //   // m_target = target;
+    //   m_drivetrain = drivetrain;
+    //   addRequirements(drivetrain);
+    // }
 
-    final public JoystickButton driverR2 = new JoystickButton(driverPad, PS4Controller.Button.kL2.value);
- 
-        
-        // Called when the command is initially scheduled.
-        @Override
-        public void initialize() {
-        
-            System.out.println("rightBranchPathfinding method called.");
-        
-            double aprilTagID = LimelightHelpers.getFiducialID("limelight");
-            // Blue paths
+    public RightBranchPathfinding() {
+    }
+  
+    @Override
+    public void initialize() {
 
-            switch ((int) aprilTagID) {
-            case 17:
-                 {
-                    Targetpose = POSES.REEF_D;
-                }
-                break;
+    System.out.println("LeftBranchPathFinding initialize called.");
 
-            case 18 :
-            {
-                Targetpose = POSES.REEF_B;
+            int aprilTagID = (int) LimelightHelpers.getFiducialID("limelight");
+
+
+    
+            switch (aprilTagID) {
+                // Blue alliance tags
+                case 17: TargetPose = new APTarget(TunerConstants.POSES.REEF_D).withEntryAngle(Rotation2d.fromDegrees(60)); break;
+                case 18: TargetPose = new APTarget(TunerConstants.POSES.REEF_B).withEntryAngle(Rotation2d.fromDegrees(0)); break;
+                case 19: TargetPose = new APTarget(TunerConstants.POSES.REEF_L).withEntryAngle(Rotation2d.fromDegrees(-60)); break;
+                case 20: TargetPose = new APTarget(TunerConstants.POSES.REEF_J).withEntryAngle(Rotation2d.fromDegrees(-120)); break;
+                case 21: TargetPose = new APTarget(TunerConstants.POSES.REEF_H).withEntryAngle(Rotation2d.fromDegrees(180)); break;
+                case 22: TargetPose = new APTarget(TunerConstants.POSES.REEF_F).withEntryAngle(Rotation2d.fromDegrees(120)); break;
+                
+                // Red alliance tags
+                case 6: TargetPose = new APTarget(TunerConstants.POSES.REEF_L).withEntryAngle(Rotation2d.fromDegrees(-60)); break;
+                case 7: TargetPose = new APTarget(TunerConstants.POSES.REEF_B).withEntryAngle(Rotation2d.fromDegrees(0)); break;
+                case 8: TargetPose = new APTarget(TunerConstants.POSES.REEF_D).withEntryAngle(Rotation2d.fromDegrees(60)); break;
+                case 9: TargetPose = new APTarget(TunerConstants.POSES.REEF_F).withEntryAngle(Rotation2d.fromDegrees(120)); break;
+                case 10: TargetPose = new APTarget(TunerConstants.POSES.REEF_H).withEntryAngle(Rotation2d.fromDegrees(180)); break;
+                case 11: TargetPose = new APTarget(TunerConstants.POSES.REEF_J).withEntryAngle(Rotation2d.fromDegrees(-120)); break;
+    
+                // If no valid tag is seen 
+                default: System.out.println("No AprilTag seen dip dumb");
+                    end(true);
+                  
             }
-                break;
-            
-
-            case 19:
-            {
-                 Targetpose = POSES.REEF_L;
-            }
-                break;
-
-            case 20:
-            {
-                 Targetpose = POSES.REEF_J;
-            }
-                break;
-
-            case 21:
-            {
-                 Targetpose = POSES.REEF_H;
-            }
-                break;
-
-            case 22:
-            {
-                 Targetpose = POSES.REEF_F;
-            }
-                break;
-
-            // Red Paths
-            case 6:
-            {
-                 Targetpose = POSES.REEF_L;
-            }
-                break;
-
-            case 7:
-            {
-                 Targetpose = POSES.REEF_B;
-            }
-                break;
-
-            case 8:
-            {
-                 Targetpose = POSES.REEF_D;
-            }
-                break;
-
-            case 9:
-            {
-                 Targetpose = POSES.REEF_F;
-            }
-                break;
-
-            case 10:
-            {
-                 Targetpose = POSES.REEF_H;
-            }
-                break;
-
-            case 11:
-                 {
-                 Targetpose = POSES.REEF_J;
-               
-                }
-                break;
-
-            default:
-
-                break;
-            }
-           
-            return;
+    
         
         }
-        
-          
-          @Override
-          public void execute() {
-        
-        
-            PathConstraints constraints = new PathConstraints(
-        
-                    1,
-        
-                    .5,
-        
-                    .5,
-        
-                    .5
-        
-            );
-
-        
-
-    if (Targetpose != null) {
-
-
-        Command followRightPath = AutoBuilder.pathfindToPose(
-            Targetpose,
-            constraints,
-            0.01 );
-            
-        followRightPath.schedule();
-    }
-
-
-
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-
-
-    
-    
-   cancel();
-
-    }
-
 
   
+    @Override
+    public void execute() {
+      ChassisSpeeds robotRelativeSpeeds = m_drivetrain.getStateCopy().Speeds;
+      
+      Pose2d pose = m_drivetrain.getPose();
 
-
-
-
-
-
-
-
-  // Returns true when the command should end.
-  @Override
+      out = TunerConstants.kAutopilot.calculate(pose, robotRelativeSpeeds, TargetPose);
   
+      m_drivetrain.setControl(m_request
+          .withVelocityX(out.vx())
+          .withVelocityY(out.vy())
+          .withTargetDirection(out.targetAngle()));
+
+          System.out.println("Im going :D");
+    }
+  
+    @Override
     public boolean isFinished() {
 
+        System.out.println("Im done :D");
 
+      return TunerConstants.kAutopilot.atTarget(m_drivetrain.getPose(), TargetPose);
 
-       
-    if (driverR2.getAsBoolean() == false) {
-        finish = true;
     }
-
-    if (finish == true){  
-        return true ;
+  
+    @Override
+    public void end(boolean interrupted) {
+      m_drivetrain.setControl(m_request
+      .withVelocityX(0)
+      .withVelocityY(0)
+      .withTargetDirection(out.targetAngle()));
     }
-
-    else{
-        return false;
-    }
-        
-
-
-
-}
-
-}
+  }
