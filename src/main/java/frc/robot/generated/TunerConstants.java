@@ -452,7 +452,7 @@ public static final double METERS_TO_INCHES = 1.0 / 0.0254;
     .withJerk(.5);
 
         private static final APProfile kProfile = new APProfile(kConstraints)
-    .withErrorXY(Centimeters.of(2))
+    .withErrorXY(Centimeters.of(1))
     .withErrorTheta(Degrees.of(0.5))
     .withBeelineRadius(Centimeters.of(8));
 
