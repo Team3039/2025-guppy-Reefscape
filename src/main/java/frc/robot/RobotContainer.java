@@ -44,8 +44,8 @@ import frc.robot.commands.AutoCommands.LeftBranchPathFinding;
 // import frc.robot.commands.AutoCommands.PathFindToProcessor;
 import frc.robot.commands.AutoCommands.RightBranchPathfinding;
 // import frc.robot.commands.PathFinding.rightBranchPathfinding;
-import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
-import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL3;
+// import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
+// import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL3;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL2;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL3;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralL4;
@@ -76,7 +76,12 @@ public RobotContainer() {
 
     // reset pose to start 
 
-    NamedCommands.registerCommand("R-P mid pipething", drivetrain.new ResetOdometry(drivetrain, new Pose2d(7.589, 1.169, Rotation2d.fromDegrees(180))));
+    NamedCommands.registerCommand("R-P mid pipething", drivetrain.new ResetOdometry(drivetrain, new Pose2d(7.569, 0.517, Rotation2d.fromDegrees(180))));
+
+    // auto pathing commands
+
+    NamedCommands.registerCommand("LeftBranch Pathfinding", new LeftBranchPathFinding(drivetrain));
+    NamedCommands.registerCommand("RightBranch Pathfinding", new RightBranchPathfinding(drivetrain));
 
 
     //Elevator commands
@@ -93,7 +98,7 @@ public RobotContainer() {
 
 
      autoChooser = AutoBuilder.buildAutoChooser(); //Auto chooser
-    SmartDashboard.putData("Auto Mode", autoChooser);
+    SmartDashboard.putData("Auto Chooser", autoChooser);
 
         
     configureBindings();
@@ -110,8 +115,8 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
   /* Operator Buttons */
   private final JoystickButton driverX = new JoystickButton(driverPad, PS4Controller.Button.kCross.value);
-  private final JoystickButton driverSquare = new JoystickButton(driverPad, PS4Controller.Button.kSquare.value);
-  private final JoystickButton driverTriangle = new JoystickButton(driverPad, PS4Controller.Button.kTriangle.value);
+//   private final JoystickButton driverSquare = new JoystickButton(driverPad, PS4Controller.Button.kSquare.value);
+//   private final JoystickButton driverTriangle = new JoystickButton(driverPad, PS4Controller.Button.kTriangle.value);
   private final JoystickButton driverCircle = new JoystickButton(driverPad, PS4Controller.Button.kCircle.value);
 
   public static final JoystickButton driverL1 = new JoystickButton(driverPad, PS4Controller.Button.kL1.value);
@@ -119,11 +124,10 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
   public final static JoystickButton driverL2 = new JoystickButton(driverPad, PS4Controller.Button.kL2.value);
   private final JoystickButton driverR2 = new JoystickButton(driverPad, PS4Controller.Button.kR2.value);
-  private final JoystickButton driverR3 = new JoystickButton(driverPad, PS4Controller.Button.kR3.value);
+//   private final JoystickButton driverR3 = new JoystickButton(driverPad, PS4Controller.Button.kR3.value);
 
-  private final JoystickButton driverPadButton = new JoystickButton(driverPad,
-      PS4Controller.Button.kTouchpad.value);
-  private final JoystickButton driverStart = new JoystickButton(driverPad, PS4Controller.Button.kPS.value);
+//   private final JoystickButton driverPadButton = new JoystickButton(driverPad,  PS4Controller.Button.kTouchpad.value);
+//   private final JoystickButton driverStart = new JoystickButton(driverPad, PS4Controller.Button.kPS.value);
 
   public final static JoystickButton driverShare = new JoystickButton(driverPad, PS4Controller.Button.kShare.value);
   private final JoystickButton driverOptions = new JoystickButton(driverPad, PS4Controller.Button.kOptions.value);
@@ -242,13 +246,13 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         // intake and release
         operatorPad.a().whileTrue(new SetClawIntakeCoral());
         operatorPad.b().whileTrue(new SetClawRelease());
-        operatorPad.leftTrigger().whileTrue(new SetClawIntakeAlgae());
+        // operatorPad.leftTrigger().whileTrue(new SetClawIntakeAlgae());
 
 
 
         //clear algae
-        operatorPad.x().whileTrue(new RemoveAlgaeL2());
-        operatorPad.y().whileTrue(new RemoveAlgaeL3());
+        // operatorPad.x().whileTrue(new RemoveAlgaeL2());
+        // operatorPad.y().whileTrue(new RemoveAlgaeL3());
         // operatorPad.rightBumper().onTrue(new ScoreAlgaeBarge());
 
         
