@@ -3,45 +3,53 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.941,
-        "y": 2.8
+        "x": 2.6977195945945946,
+        "y": 3.708783783783783
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.091168918918918,
-        "y": 1.9205236486486483
+        "x": 3.465847432115529,
+        "y": 2.3783473424895147
       },
       "isLocked": false,
-      "linkedName": "GP2"
+      "linkedName": "BABABUWE"
     },
     {
       "anchor": {
-        "x": 1.3439189189189187,
-        "y": 0.9221283783783769
+        "x": 5.731418918918918,
+        "y": 1.6336148648648634
       },
       "prevControl": {
-        "x": 2.64831081081081,
-        "y": 1.0110641891891885
+        "x": 5.3674669623813775,
+        "y": 2.2639981451019837
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP4"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.18866517524235493,
-      "rotationDegrees": 70.16362126580854
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 0.5461956521739144,
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.15,
       "constraints": {
-        "maxVelocity": 1.5,
+        "maxVelocity": 2.0,
         "maxAcceleration": 1.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    },
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.15,
+      "maxWaypointRelativePos": 0.5,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -53,7 +61,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 2.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -61,13 +69,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 51.84277341263099
+    "rotation": 118.03385189146388
   },
   "reversed": false,
   "folder": "the good pipe layer",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 118.52311860631201
+    "rotation": 16.260204708312003
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

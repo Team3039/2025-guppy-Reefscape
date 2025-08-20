@@ -214,7 +214,7 @@ public class Elevator extends SubsystemBase {
 		SmartDashboard.putNumber("Elevator Encoder", getElevatorPosition());
 		SmartDashboard.putNumber("Elevator Output", elavator.get());
 		// SmartDashboard.putNumber("Elevator Output Current",
-		// elavator.getSupplyCurrent().getValueAsDouble());
+		// elavator.getSupply$Current().getValueAsDouble());
 		// SmartDashboard.putString("Elevator State", String.valueOf(getState()));
 		SmartDashboard.putNumber("Elevator Setpoint", getSetpoint());
 
