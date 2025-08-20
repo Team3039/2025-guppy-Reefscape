@@ -66,7 +66,7 @@ public class RightBranchPathfinding extends Command {
       
 
 
-    System.out.println("LeftBranchPathFinding initialize called.");
+    // System.out.println("LeftBranchPathFinding initialize called.");
 
             int aprilTagID = (int) LimelightHelpers.getFiducialID("limelight");
     
@@ -132,7 +132,7 @@ public class RightBranchPathfinding extends Command {
 
         // System.out.println(m_drivetrain.getPose());
 
-        System.out.println(TunerConstants.kAutopilot.atTarget(m_drivetrain.getPose(), TargetPose));
+        // System.out.println(TunerConstants.kAutopilot.atTarget(m_drivetrain.getPose(), TargetPose));
 
 
       return TunerConstants.kAutopilot.atTarget(m_drivetrain.getPose(), TargetPose);
@@ -141,7 +141,7 @@ public class RightBranchPathfinding extends Command {
   
     @Override
     public void end(boolean interrupted) {
-     System.out.println("im done going left :p");
+    //  System.out.println("im done going left :p");
  
       m_drivetrain.getModulePositions();
 
@@ -149,31 +149,10 @@ public class RightBranchPathfinding extends Command {
     .withVelocityX(0)
     .withVelocityY(0));
 
+     this.cancel();
       Stop(m_drivetrain);
     }
   }
 
 
 
-//   switch (aprilTagID) {
-//     // Blue alliance tags
-//     case 17: TargetPose = new APTarget(TunerConstants.POSES.REEF_D); break;
-//     case 18: TargetPose = new APTarget(TunerConstants.POSES.REEF_B); break;
-//     case 19: TargetPose = new APTarget(TunerConstants.POSES.REEF_L); break;
-//     case 20: TargetPose = new APTarget(TunerConstants.POSES.REEF_J); break;
-//     case 21: TargetPose = new APTarget(TunerConstants.POSES.REEF_H); break;
-//     case 22: TargetPose = new APTarget(TunerConstants.POSES.REEF_F); break;
-    
-//     // Red alliance tags
-//     case 6: TargetPose = new APTarget(FlippingUtil.flipFieldPose(TunerConstants.POSES.REEF_L)); break;
-//     case 7: TargetPose = new APTarget(FlippingUtil.flipFieldPose(TunerConstants.POSES.REEF_B)); break;
-//     case 8: TargetPose = new APTarget(FlippingUtil.flipFieldPose(TunerConstants.POSES.REEF_D)); break;
-//     case 9: TargetPose = new APTarget(FlippingUtil.flipFieldPose(TunerConstants.POSES.REEF_F)); break;
-//     case 10: TargetPose = new APTarget(FlippingUtil.flipFieldPose(TunerConstants.POSES.REEF_H)); break;
-//     case 11: TargetPose = new APTarget(FlippingUtil.flipFieldPose(TunerConstants.POSES.REEF_J)); break;
-
-//     // If no valid tag is seen 
-//     default: System.out.println("No AprilTag seen dip dumb");
-//       this.cancel(); break;
-      
-// }

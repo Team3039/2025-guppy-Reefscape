@@ -154,6 +154,7 @@ public class LeftBranchPathFinding extends Command {
     .withVelocityX(0)
     .withVelocityY(0));
 
+      this.cancel();
       Stop(m_drivetrain);
     }
   }

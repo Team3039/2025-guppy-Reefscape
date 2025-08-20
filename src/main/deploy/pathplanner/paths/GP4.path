@@ -3,65 +3,38 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.968581081081081,
-        "y": 1.880658783788724
+        "x": 1.3439189189189187,
+        "y": 0.9221283783783769
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.9131756756756757,
-        "y": 1.7917229729729733
+        "x": 1.9071790540540539,
+        "y": 1.179054054054053
       },
       "isLocked": false,
       "linkedName": "GP4"
     },
     {
       "anchor": {
-        "x": 3.0929898648648653,
-        "y": 1.3075168918918905
+        "x": 2.6977195945945946,
+        "y": 3.708783783783783
       },
       "prevControl": {
-        "x": 4.010784350384889,
-        "y": 2.0249489308348103
+        "x": 2.7273648648648647,
+        "y": 2.157347972972973
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BABABUWE"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.30525362318840504,
-      "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 1.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    },
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.31,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 2.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 1.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -69,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 54.11786275379582
+    "rotation": 16.260204708312003
   },
   "reversed": false,
   "folder": "the good pipe layer",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 120.21450831663185
+    "rotation": 51.84277341263099
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

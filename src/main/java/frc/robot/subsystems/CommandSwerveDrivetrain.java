@@ -353,6 +353,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public void resetGyro() {
         gyro.setYaw(0);
     }
+    public void resetGyroMidPipeThing() {
+        gyro.setYaw(90);
+    }
     public void resetGyro(double heading) {
         gyro.setYaw(heading);
     }

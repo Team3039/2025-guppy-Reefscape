@@ -9,19 +9,19 @@
       "prevControl": null,
       "nextControl": {
         "x": 6.630658783783783,
-        "y": 1.0308277027027009
+        "y": 1.030827702702701
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.9630113636363635,
-        "y": 1.836235795454545
+        "x": 5.533783783783783,
+        "y": 1.8707770270270259
       },
       "prevControl": {
-        "x": 6.710896325398061,
-        "y": 1.0183152327988503
+        "x": 6.281668745545481,
+        "y": 1.0528564643713312
       },
       "nextControl": null,
       "isLocked": false,
@@ -40,8 +40,8 @@
       "minWaypointRelativePos": 0.0,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 1.0,
+        "maxVelocity": 3.0,
+        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -67,7 +67,7 @@
   "folder": "the good pipe layer",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 90.0
   },
   "useDefaultConstraints": false
 }

@@ -44,7 +44,13 @@ public class CoralintakeAuto extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
     System.err.println("We all done here");
+
+    RobotContainer.claw.setState(ClawState.IDLE);
+
+
+    this.cancel();
   }
 
 

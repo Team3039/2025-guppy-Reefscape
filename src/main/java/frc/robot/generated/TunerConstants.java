@@ -421,12 +421,12 @@ public class TunerConstants {
 
 
     private static final APConstraints kConstraints = new APConstraints()
-            .withAcceleration(7.0)
-            .withJerk(7);
+            .withAcceleration(5.0)
+            .withJerk(5);
 
     private static final APProfile kProfile = new APProfile(kConstraints)
-            .withErrorXY(Centimeters.of(1))
-            .withErrorTheta(Degrees.of(1))
+            .withErrorXY(Centimeters.of(1.5))
+            .withErrorTheta(Degrees.of(3))
             .withBeelineRadius(Centimeters.of(8));
 
     public static final Autopilot kAutopilot = new Autopilot(kProfile);
@@ -471,7 +471,7 @@ public class TunerConstants {
         public static final Pose2d REEF_B = new Pose2d(3.171, 3.863, Rotation2d.fromDegrees(0));
         public static final Pose2d REEF_C = new Pose2d(3.688, 2.968, Rotation2d.fromDegrees(60));
         public static final Pose2d REEF_D = new Pose2d(3.975, 2.803, Rotation2d.fromDegrees(60));
-        public static final Pose2d REEF_E = new Pose2d(5.000, 2.790, Rotation2d.fromDegrees(120));
+        public static final Pose2d REEF_E = new Pose2d(4.961, 2.810, Rotation2d.fromDegrees(120));
         public static final Pose2d REEF_F = new Pose2d(5.285, 2.964, Rotation2d.fromDegrees(120));
         public static final Pose2d REEF_G = new Pose2d(5.805, 3.863, Rotation2d.fromDegrees(180));
         public static final Pose2d REEF_H = new Pose2d(5.805, 4.189, Rotation2d.fromDegrees(180));

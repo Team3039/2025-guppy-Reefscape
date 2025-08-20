@@ -76,7 +76,10 @@ public RobotContainer() {
 
     // reset pose to start 
 
-    NamedCommands.registerCommand("R-P mid pipething", drivetrain.new ResetOdometry(drivetrain, new Pose2d(7.569, 0.517, Rotation2d.fromDegrees(180))));
+    NamedCommands.registerCommand("R-P mid pipething", drivetrain.new ResetOdometry(drivetrain, new Pose2d(7.569, 0.517, Rotation2d.fromDegrees(90))));
+
+    NamedCommands.registerCommand("Mid pipething set gyro", (drivetrain.runOnce(() -> drivetrain.resetGyroMidPipeThing())));
+    
 
     // auto pathing commands
 
