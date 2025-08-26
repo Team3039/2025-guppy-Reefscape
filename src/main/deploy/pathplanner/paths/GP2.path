@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.533783783783783,
-        "y": 1.8707770270270259
+        "x": 5.553547297297298,
+        "y": 2.5624999999999987
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.351600122850123,
-        "y": 2.211652718058968
+        "x": 5.371363636363638,
+        "y": 2.9033756910319406
       },
       "isLocked": false,
       "linkedName": "GP1"
     },
     {
       "anchor": {
-        "x": 4.941,
-        "y": 2.8
+        "x": 5.2472128378378375,
+        "y": 2.9676520270270266
       },
       "prevControl": {
-        "x": 5.192984797297297,
-        "y": 2.363549528346136
+        "x": 5.499197635135134,
+        "y": 2.531201555373163
       },
       "nextControl": null,
       "isLocked": true,
@@ -62,7 +62,7 @@
   "folder": "the good pipe layer",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 119.99999999999999
+    "rotation": 121.29303899592026
   },
   "useDefaultConstraints": false
 }

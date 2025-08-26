@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.5930743243243235,
-        "y": 5.625844594594594
+        "x": 5.6339488636363635,
+        "y": 5.685269886363637
       },
       "prevControl": {
-        "x": 6.226011571944154,
-        "y": 6.414022895040614
+        "x": 6.266886111256194,
+        "y": 6.473448186809657
       },
       "nextControl": null,
       "isLocked": false,
@@ -61,13 +61,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -118.24973549497427
+    "rotation": -120.39979299839304
   },
   "reversed": false,
   "folder": "The Pipe man",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -179.96916972102272
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

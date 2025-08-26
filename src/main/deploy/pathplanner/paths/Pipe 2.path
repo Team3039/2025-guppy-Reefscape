@@ -3,36 +3,54 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.5930743243243235,
-        "y": 5.625844594594594
+        "x": 5.306503378378378,
+        "y": 5.082347972972972
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.5179054053982877,
-        "y": 7.444087837845021
+        "x": 4.802533783783784,
+        "y": 6.811655405405405
       },
       "isLocked": false,
-      "linkedName": "Pipe 1"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.4822635135135136,
-        "y": 7.167398648648648
+        "x": 1.5316722972972974,
+        "y": 7.246452702702702
       },
       "prevControl": {
-        "x": 3.0435810810810797,
-        "y": 6.712837837837837
+        "x": 3.8341216216216214,
+        "y": 7.43420608108108
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Pipe 2"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.1409395973154394,
+      "rotationDegrees": -41.196406984397136
+    }
+  ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.22554347826086485,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 0.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    },
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.23,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 1.5,
@@ -56,13 +74,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -53.44752724790847
+    "rotation": -55.95406264339831
   },
   "reversed": false,
   "folder": "The Pipe man",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -118.24973549497427
+    "rotation": -120.39979299839304
   },
   "useDefaultConstraints": true
 }

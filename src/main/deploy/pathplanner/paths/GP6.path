@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6977195945945946,
-        "y": 3.708783783783783
+        "x": 3.2807432432432426,
+        "y": 2.4834459459459457
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.465847432115529,
-        "y": 2.3783473424895147
+        "x": 4.048871080764177,
+        "y": 1.1530095046516773
       },
       "isLocked": false,
       "linkedName": "BABABUWE"
@@ -75,7 +75,7 @@
   "folder": "the good pipe layer",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 16.260204708312003
+    "rotation": 56.070202577939334
   },
   "useDefaultConstraints": true
 }

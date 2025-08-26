@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3439189189189187,
-        "y": 0.9221283783783769
+        "x": 7.174155405405405,
+        "y": 4.08429054054054
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8775337837837835,
-        "y": 1.287753378378378
+        "x": 6.711292399949407,
+        "y": 4.08429054054054
       },
       "isLocked": false,
-      "linkedName": "GP4"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.2807432432432426,
-        "y": 2.4834459459459457
+        "x": 6.413260135135135,
+        "y": 4.08429054054054
       },
       "prevControl": {
-        "x": 2.1443412162162154,
-        "y": 1.4952702702702707
+        "x": 7.485100541536928,
+        "y": 4.08429054054054
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BABABUWE"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 1.5,
     "maxAcceleration": 1.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 56.070202577939334
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "the good pipe layer",
+  "folder": "Mid Pipe goer ",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 51.84277341263099
+    "rotation": 180.0
   },
   "useDefaultConstraints": false
 }

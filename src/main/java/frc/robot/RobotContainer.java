@@ -247,8 +247,8 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         // operatorPad.leftStick().toggleOnTrue(new SetWristManualOverride());
         
         // intake and release
-        operatorPad.a().whileTrue(new SetClawIntakeCoral());
-        operatorPad.b().whileTrue(new SetClawRelease());
+        operatorPad.b().whileTrue(new SetClawIntakeCoral());
+        operatorPad.a().whileTrue(new SetClawRelease());
         // operatorPad.leftTrigger().whileTrue(new SetClawIntakeAlgae());
 
 
