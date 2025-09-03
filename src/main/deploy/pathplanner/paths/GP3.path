@@ -9,19 +9,19 @@
       "prevControl": null,
       "nextControl": {
         "x": 4.891469594594595,
-        "y": 1.603969594594594
+        "y": 1.6039695945945942
       },
       "isLocked": false,
       "linkedName": "GP2"
     },
     {
       "anchor": {
-        "x": 1.3439189189189187,
-        "y": 0.9221283783783769
+        "x": 1.1858108108108107,
+        "y": 1.0209459459459458
       },
       "prevControl": {
-        "x": 2.64831081081081,
-        "y": 1.0110641891891885
+        "x": 2.4902027027027014,
+        "y": 1.1098817567567572
       },
       "nextControl": null,
       "isLocked": false,
@@ -61,7 +61,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 51.84277341263099
+    "rotation": 57.52880770915151
   },
   "reversed": false,
   "folder": "the good pipe layer",

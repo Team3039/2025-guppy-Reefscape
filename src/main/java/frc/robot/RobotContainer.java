@@ -76,7 +76,9 @@ public RobotContainer() {
 
     // reset pose to start 
 
-    NamedCommands.registerCommand("R-P mid pipething", drivetrain.new ResetOdometry(drivetrain, new Pose2d(7.569, 0.517, Rotation2d.fromDegrees(90))));
+    NamedCommands.registerCommand("resetGyroAPtesting", drivetrain.new resetGyroAPtesting());
+
+    NamedCommands.registerCommand("R-P mid pipething", drivetrain.new ResetOdometry(drivetrain, new Pose2d(7.569, 0.517, Rotation2d.fromDegrees(0))));
 
     NamedCommands.registerCommand("Mid pipething set gyro", (drivetrain.runOnce(() -> drivetrain.resetGyroMidPipeThing())));
     
@@ -86,7 +88,7 @@ public RobotContainer() {
     NamedCommands.registerCommand("LeftBranch Pathfinding", new LeftBranchPathFinding(drivetrain));
     NamedCommands.registerCommand("RightBranch Pathfinding", new RightBranchPathfinding(drivetrain));
 
-
+//
     //Elevator commands
     NamedCommands.registerCommand("score L2", new ScoreCoralL2());
     NamedCommands.registerCommand("score L3", new ScoreCoralL3());

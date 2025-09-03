@@ -353,9 +353,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public void resetGyro() {
         gyro.setYaw(0);
     }
+
     public void resetGyroMidPipeThing() {
         gyro.setYaw(90);
     }
+
     public void resetGyro(double heading) {
         gyro.setYaw(heading);
     }
@@ -398,6 +400,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return Rotation2d.fromDegrees(getCompassHeading());//gyro.getYaw().getValueAsDouble());
     }
 
+    
 
     public Pose2d getLLPose() {
         @SuppressWarnings("unused")
@@ -408,6 +411,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       }
 
 
+      
+
     
       public class ResetOdometry extends InstantCommand {
 
@@ -416,6 +421,16 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             super(() -> drivetrain.resetOdometry(pose));
     
         }
+    
+    }
+
+
+    
+    public class resetGyroAPtesting extends InstantCommand {
+
+        public void resetGyroMidPipeThing() {
+        gyro.setYaw(-90);
+    }
     
     }
     

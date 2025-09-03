@@ -141,24 +141,6 @@ else if (getWristPosition() < 240 && output < 0)  {
 else {
  wrist.set(output) ;
 }
-
-// change the way these < > point if need be
-    
-    
-
-
-// if(RobotContainer.claw.hasCoral)
-
-
-
-  // wrist.set(percent +
-  //       Math.cos(Math.toRadians(getWristPosition() + TunerConstants.Wrist.WRIST_COG_OFFSET )) * TunerConstants.Wrist.Coral_WRIST_KG +
-  //       TunerConstants.Wrist.Coral_WRIST_KS );}
-// }
-// else{
-//     // wrist.set(percent +
-//     //      Math.cos(Math.toRadians(getWristPosition()  + TunerConstants.Wrist.WRIST_COG_OFFSET)) * TunerConstants.Wrist.WRIST_KG +
-//     //     TunerConstants.Wrist.WRIST_KS );}
   }
 
   /**

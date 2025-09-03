@@ -421,8 +421,8 @@ public class TunerConstants {
 
 
     private static final APConstraints kConstraints = new APConstraints()
-            .withAcceleration(5.0)
-            .withJerk(5);
+            .withAcceleration(6.0)
+            .withJerk(6);
 
     private static final APProfile kProfile = new APProfile(kConstraints)
             .withErrorXY(Centimeters.of(1.5))

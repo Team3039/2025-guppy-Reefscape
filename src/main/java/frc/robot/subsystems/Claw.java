@@ -139,12 +139,12 @@ public class Claw extends SubsystemBase {
     SmartDashboard.putBoolean("Aligned With Branch", isBranchDetected());
 
     // If the robot is ready to score a coral, rumble the driver controller to indicate this
-    if (isBranchDetected() && Elevator.getSetpoint() > 8) {
-      RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 5);
-    }
-    else {
-      RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 0); 
-    }
+    // if (isBranchDetected() && Elevator.getSetpoint() > 8) {
+    //   RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 5);
+    // }
+    // else {
+    //   RobotContainer.operatorPad.setRumble(RumbleType.kBothRumble, 0); 
+    // }
 
     // Claw State Machine
     switch (clawState) {
