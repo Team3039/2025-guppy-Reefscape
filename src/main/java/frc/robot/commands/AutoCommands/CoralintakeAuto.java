@@ -7,7 +7,7 @@ import frc.robot.commands.ActuateElevatorToIdle;
 import frc.robot.commands.ActuateWristToIdle;
 import frc.robot.commands.SetClawIntakeCoral;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Claw.ClawState;
+import frc.robot.subsystems.CoralClaw.ClawState;
 
 
 

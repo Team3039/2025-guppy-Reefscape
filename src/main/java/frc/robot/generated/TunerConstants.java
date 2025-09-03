@@ -217,7 +217,7 @@ public class TunerConstants {
 
     // Other CAN IDs
     public static final int CORALCANRANGE = 17;
-    public static final int BRANCHCANRANGE = 21;
+    public static final int aClaw = 21;
 
     public static final int wcpIsTheBest = 18;
     public static final int PDH = 1;

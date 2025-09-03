@@ -18,16 +18,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.generated.TunerConstants;
 
-public class Claw extends SubsystemBase {
+public class AlgaeClaw extends SubsystemBase {
 
 
   // Create the possible states of the claw
   public enum ClawState {
     IDLE,
     PASSIVE,
-    CORAL,
     ALGAE,
-    RELEASE,
     RELEASEA
   }
 
@@ -35,22 +33,16 @@ public class Claw extends SubsystemBase {
   ClawState clawState = ClawState.IDLE;
 
   // Keep track of whether or not the intake has a coral
-  public boolean hasCoral = false;
 
   // Keep track of whether or not the intake has an algae
   public boolean hasAlgae = false;
 
   // Create a talonfx for the claw
-  TalonFX claw = new TalonFX(TunerConstants.CLAW);
+  TalonFX aClaw = new TalonFX(TunerConstants.aClaw);
 
-  // This CANrange is used to detect coral in the intake
-  CANrange coralCANRange = new CANrange(TunerConstants.CORALCANRANGE);
-
-  // This CANrange is used to align with the branch when scoring coral
-  CANrange branchCANRange = new CANrange(TunerConstants.BRANCHCANRANGE);
 
   // Claw Constructor
-  public Claw() {
+  public AlgaeClaw() {
 
     // Create a talonfx configurator.
     TalonFXConfiguration clawConfig = new TalonFXConfiguration();
@@ -60,7 +52,7 @@ public class Claw extends SubsystemBase {
     clawConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
     // Apply the configurator to the claw motor
-    claw.getConfigurator().apply(clawConfig);
+    aClaw.getConfigurator().apply(clawConfig);
 
   }
     // Create a CANrange configurator
@@ -91,7 +83,7 @@ public class Claw extends SubsystemBase {
    * @param speed the speed to set the claw to (-1 to 1)
    */
   public void setWheelSpeed(double speed) {
-    claw.set(speed);
+    aClaw.set(speed);
   }
 
   
@@ -101,14 +93,12 @@ public class Claw extends SubsystemBase {
    * 
    * @return true if the intake has either gamepiece, false otherwise
    */
-  public boolean hasGamepiece() {
-    return hasCoral || hasAlgae;
+  public boolean hasAlgae() {
+    return hasAlgae;
   }
 
 
-  public boolean isCoralIn() {
-    return coralCANRange.getDistance().getValueAsDouble() < 0.15 ;
-  }
+  
 
   /**
    * Check to see if the claw is aligned with the branch.
@@ -117,10 +107,7 @@ public class Claw extends SubsystemBase {
    * 
    * @return true if the claw is aligned with the branch, false otherwise
    */
-  public boolean isBranchDetected() {
-    return branchCANRange.getDistance().getValueAsDouble() >= .2 && branchCANRange.getDistance().getValueAsDouble()  <=.3 ;
-  }
-
+ 
 
 
 
@@ -128,15 +115,14 @@ public class Claw extends SubsystemBase {
   @Override
   public void periodic() {
     // SmartDashboard.putNumber("CanRange Distance Detected", branchCANRange.getDistance().getValueAsDouble());
-    SmartDashboard.putNumber("Claw Current", claw.getSupplyCurrent().getValueAsDouble());
-    SmartDashboard.putString("Claw Status", String.valueOf(claw.getSupplyCurrent().getValueAsDouble()));
-    SmartDashboard.putBoolean("Has Coral", isCoralIn());
+    SmartDashboard.putNumber("Claw Current", aClaw.getSupplyCurrent().getValueAsDouble());
+    SmartDashboard.putString("Claw Status", String.valueOf(aClaw.getSupplyCurrent().getValueAsDouble()));
+    SmartDashboard.putBoolean("Has Algae", hasAlgae());
     
 
 
 
 
-    SmartDashboard.putBoolean("Aligned With Branch", isBranchDetected());
 
     // If the robot is ready to score a coral, rumble the driver controller to indicate this
     // if (isBranchDetected() && Elevator.getSetpoint() > 8) {
@@ -153,51 +139,31 @@ public class Claw extends SubsystemBase {
       case IDLE:
         setWheelSpeed(0);
         hasAlgae = false;
-        hasCoral = false;
         break;
-
-
-
 
 
       // In the coral state, the claw will spin in reverse to intake coral,
       //  deactivating if the coralCANRange detects an object
-      case CORAL:
-        if (isCoralIn() ) {
-          Timer.delay(.20);
-          setWheelSpeed(0);
-          hasCoral = true;
-        }
-        else if (!hasGamepiece()) {
-          setWheelSpeed(0.3);
-        }
-        break;
 
       // In the algae state, the claw will spin forwards to intake algae, 
-      //  deactivating if the current exceeds 10 amps
+      //  deactivating if the current exceeds 20 amps
       case ALGAE:
-        if (claw.getSupplyCurrent().getValueAsDouble() > 20) {
+        if (aClaw.getSupplyCurrent().getValueAsDouble() > 20) {
           setWheelSpeed(-.0);
           hasAlgae = true;
         }
-        else if (!hasGamepiece()) {
+        else if (!hasAlgae()) {
           setWheelSpeed(-0.2);
         }
         break;
 
       // In the release state, the claw will spin forwards to release the gamepiece
       //  and will release the deactivation lock
-      case RELEASE:
-        setWheelSpeed(0.3);
-        hasAlgae = false;
-        hasCoral = false;
-        break;
-
+    
 
         case RELEASEA:
         setWheelSpeed(0.25);
         hasAlgae = false;
-        hasCoral = false;
         break;
 
       // In the passive state, the claw will not intake, and will deactivate the intake. 

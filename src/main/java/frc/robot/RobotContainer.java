@@ -52,7 +52,7 @@ import frc.robot.commands.ElevatorRoutines.ScoreCoralL4;
 import frc.robot.commands.ElevatorRoutines.ScoreCoralTrough;
 import frc.robot.controllers.InterpolatedPS4Gamepad;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.CoralClaw;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
@@ -67,7 +67,7 @@ public class RobotContainer {
 private final SendableChooser<Command> autoChooser;
 
 
-APTarget ApReefF = new APTarget(TunerConstants.POSES.REEF_F)
+APTarget ApReef = new APTarget(TunerConstants.POSES.REEF_F)
   .withEntryAngle(Rotation2d.kZero);
 
 
@@ -160,7 +160,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
     public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public static final Elevator elevator = new Elevator();
     public static final Wrist wrist = new Wrist();
-    public static final Claw claw = new Claw();
+    public static final CoralClaw claw = new CoralClaw();
     public static final Climb climb = new Climb();
     // public static final Limelight limelight = new Limelight();
 

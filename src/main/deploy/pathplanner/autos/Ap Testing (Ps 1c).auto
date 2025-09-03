@@ -29,7 +29,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "score L4"
+                  "name": "score L2"
                 }
               }
             ]
@@ -153,7 +153,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "score L2"
+                        "name": "score L4"
                       }
                     }
                   ]
