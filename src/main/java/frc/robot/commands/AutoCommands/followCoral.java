@@ -3,83 +3,63 @@ package frc.robot.commands.AutoCommands;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
-import com.therekrab.autopilot.APTarget;
-import com.therekrab.autopilot.Autopilot.APResult;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
-
 public class followCoral extends Command {
 
-    public void Stop(CommandSwerveDrivetrain drivetrain) {
-        m_drivetrain = drivetrain;
-                addRequirements(m_drivetrain);
-            
-    }
-            private CommandSwerveDrivetrain m_drivetrain;
+    private final CommandSwerveDrivetrain m_drivetrain;
     private final NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
 
     private final SwerveRequest.FieldCentricFacingAngle m_request = new SwerveRequest.FieldCentricFacingAngle()
         .withForwardPerspective(ForwardPerspectiveValue.BlueAlliance)
         .withDriveRequestType(DriveRequestType.Velocity)
-        .withHeadingPID(4, 0, 0); // Tune this PID for your bot!
+        .withHeadingPID(4, 0, 0); // Tune this PID for your robot
 
-    public APTarget targetPose;
-    public APResult apOut;
+    // Alignment tolerance in degrees
+    private static final double ANGLE_TOLERANCE = 1.0;
 
-    public followCoral() {
-        this.m_drivetrain = m_drivetrain;
-        addRequirements(m_drivetrain);
+    public followCoral(CommandSwerveDrivetrain drivetrain) {
+        this.m_drivetrain = drivetrain;
+        addRequirements(drivetrain);
     }
 
     @Override
-    public void initialize() {
-        targetPose = null;
-        apOut = null;
-    }
+    public void initialize() {}
 
     @Override
     public void execute() {
-        // Grab Limelight vision data
 
-        double tx = limelight.getEntry("tx").getDouble(0.0); // horizontal offset (deg)
-        double ty = limelight.getEntry("ty").getDouble(0.0); // vertical offset (deg or distance depending on LL mode)
-        double ta = limelight.getEntry("ta").getDouble(0.0);
+        double tx = limelight.getEntry("tx").getDouble(0.0);
 
-       Pose2d coralPose = new Pose2d( tx, ty, Rotation2d.fromDegrees(tx));
+        boolean aligned = Math.abs(tx) < ANGLE_TOLERANCE;
 
-        // Create an APTarget from the Pose2d
-        targetPose = new APTarget(coralPose);
+        if (!aligned) {
 
-
-
-
-        if (targetPose != null) {
-            // Apply autopilot outputs to the drivetrain
             m_drivetrain.setControl(
                 m_request
-                    .withVelocityX(tx)   // forward/backward
-                    .withVelocityY(ty)   // strafe
-                    .withTargetDirection(Rotation2d.fromDegrees(tx)) // desired heading
+                    .withVelocityX(0.0) 
+                    .withTargetDirection(Rotation2d.fromDegrees(tx)) // turn until centered
+            );
+        } else {
+            // When alignen drive forward
+            m_drivetrain.setControl(
+                m_request
+                    .withVelocityX(1.0) 
             );
         }
     }
 
     @Override
     public boolean isFinished() {
-        if (targetPose == null) {return true;}
-        else {return false;}
-
+        return false;
     }
 
     @Override
     public void end(boolean interrupted) {
-        // Stop the drivetrain
-        Stop(m_drivetrain);
     }
 }

@@ -216,7 +216,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
         operatorPad.a().onTrue (drivetrain.new ResetOdometry(drivetrain, new Pose2d(3.192, 4.005, Rotation2d.fromDegrees(0))));
 
-        operatorPad.b().whileTrue(new followCoral());
+        operatorPad.b().whileTrue(new followCoral(drivetrain));
         // Follow_Coral
         // operatorPad.left.whileTrue(new SetClawIntakeAlgae());
 
