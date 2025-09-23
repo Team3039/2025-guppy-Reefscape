@@ -17,7 +17,9 @@ public class RemoveAlgaeL2 extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ActuateWristToSetpoint(280, 4),
+
+    // old set point 280
+      new ActuateWristToSetpoint(100, 4),
       new ActuateElevatorToSetpoint(12, 1)
     
 

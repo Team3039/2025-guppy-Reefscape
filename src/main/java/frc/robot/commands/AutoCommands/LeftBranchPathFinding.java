@@ -63,9 +63,6 @@ public class LeftBranchPathFinding extends Command {
     @Override
     public void initialize() {
 
-      
-                 
-
 
     System.out.println("LeftBranchPathFinding initialize called.");
 
@@ -125,9 +122,7 @@ public class LeftBranchPathFinding extends Command {
           .withVelocityX(out.vx())
           .withVelocityY(out.vy())
           .withTargetDirection(out.targetAngle()));
-        
-
-          // System.out.println("Im going left :D");
+      
     }
   
     @Override

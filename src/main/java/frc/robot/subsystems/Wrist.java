@@ -104,7 +104,7 @@ public class Wrist extends SubsystemBase {
    */
   public void setWristPosition() {
     double output = 0;
-    output = MathUtil.clamp(controller.calculate(getWristPosition(), setpointWrist), -.2, .3);
+    output = MathUtil.clamp(controller.calculate(getWristPosition(), setpointWrist), -.2, .4);
     setWristPercent(output * 1);
   }
 
@@ -124,8 +124,6 @@ public class Wrist extends SubsystemBase {
   public void setWristPercent(double percent) {
     double output = 0;
 
-
-    
 
 
     output = percent +
@@ -196,8 +194,8 @@ else {
       
       // In the idle state, the wrist rests within the robot
       case IDLE:
-        setSetpoint(260);
-         setWristPosition();
+        // setSetpoint(260);
+        //  setWristPosition();
         break;
 
       // In the manual state, the wrist is controlled directly by the operator

@@ -164,7 +164,7 @@ public class Claw extends SubsystemBase {
       //  deactivating if the coralCANRange detects an object
       case CORAL:
         if (isCoralIn() ) {
-          Timer.delay(.20);
+          Timer.delay(.30);
           setWheelSpeed(0);
           hasCoral = true;
         }

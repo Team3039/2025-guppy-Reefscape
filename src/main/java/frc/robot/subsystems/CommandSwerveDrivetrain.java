@@ -7,6 +7,7 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.ctre.phoenix6.swerve.SwerveRequest.FieldCentric;
 import com.pathplanner.lib.auto.AutoBuilder;
 // import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.config.PIDConstants;
@@ -194,6 +195,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             new PIDConstants(2, 0, 0)   // Rotation PID constants
     );
 
+    
+    public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {
+        return run(() -> this.setControl(requestSupplier.get()));
+    }
    
 
 
@@ -238,9 +243,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @param request Function returning the request to apply
      * @return Command to run
      */
-    public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {
-        return run(() -> this.setControl(requestSupplier.get()));
-    }
 
     /**
      * Runs the SysId Quasistatic test in the given direction for the routine
@@ -514,6 +516,16 @@ public PoseEstimate grabPose(String camera) {
         super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds),
                 visionMeasurementStdDevs);
     }
+
+
+
+    
+    // public double getRotation() {
+    //     double cameraLensHorizontalOffset = LimelightHelpers.getTX("limelight") / getDistance();
+    //     double realHorizontalOffset = Math.atan(cameraLensHorizontalOffset / getDistance());
+    //     double rotationError = Math.atan(realHorizontalOffset / getDistance());
+    //     return rotationError;
+    // }
     // Optional<PoseEstimate> leftEstimate = left.update(swerve.getMegaTag2Yaw());
     // Optional<PoseEstimate> rightEstimate = right.update(swerve.getMegaTag2Yaw());
 
@@ -549,6 +561,11 @@ public PoseEstimate grabPose(String camera) {
 
 
         
+    }
+
+    public Command applyRequest(Object object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'applyRequest'");
     }
 
     

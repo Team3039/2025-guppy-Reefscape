@@ -62,7 +62,7 @@
   "folder": "the good pipe layer",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 125.90972307917765
+    "rotation": 123.90110075035766
   },
   "useDefaultConstraints": false
 }

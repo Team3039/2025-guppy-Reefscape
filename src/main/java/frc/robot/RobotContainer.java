@@ -57,6 +57,7 @@ import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Wrist;
+import frc.robot.commands.AutoCommands.followCoral;
 
 
 public class RobotContainer {
@@ -120,16 +121,17 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
   /* Operator Buttons */
   private final JoystickButton driverX = new JoystickButton(driverPad, PS4Controller.Button.kCross.value);
-//   private final JoystickButton driverSquare = new JoystickButton(driverPad, PS4Controller.Button.kSquare.value);
-//   private final JoystickButton driverTriangle = new JoystickButton(driverPad, PS4Controller.Button.kTriangle.value);
+  private final JoystickButton driverSquare = new JoystickButton(driverPad, PS4Controller.Button.kSquare.value);
+  private final JoystickButton driverTriangle = new JoystickButton(driverPad, PS4Controller.Button.kTriangle.value);
   private final JoystickButton driverCircle = new JoystickButton(driverPad, PS4Controller.Button.kCircle.value);
+
 
   public static final JoystickButton driverL1 = new JoystickButton(driverPad, PS4Controller.Button.kL1.value);
   public static final JoystickButton driverR1 = new JoystickButton(driverPad, PS4Controller.Button.kR1.value);
 
   public final static JoystickButton driverL2 = new JoystickButton(driverPad, PS4Controller.Button.kL2.value);
   private final JoystickButton driverR2 = new JoystickButton(driverPad, PS4Controller.Button.kR2.value);
-//   private final JoystickButton driverR3 = new JoystickButton(driverPad, PS4Controller.Button.kR3.value);
+  private final JoystickButton driverR3 = new JoystickButton(driverPad, PS4Controller.Button.kR3.value);
 
 //   private final JoystickButton driverPadButton = new JoystickButton(driverPad,  PS4Controller.Button.kTouchpad.value);
 //   private final JoystickButton driverStart = new JoystickButton(driverPad, PS4Controller.Button.kPS.value);
@@ -190,9 +192,9 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-            drive.withVelocityX(-driverPad.interpolatedLeftYAxis() * MaxSpeed) // Drive forward with negative Y (forward)
-            .withVelocityY(-driverPad.interpolatedLeftXAxis() * MaxSpeed) // Drive left with negative X (left)
-            .withRotationalRate(driverPad.interpolatedRightXAxis() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+            drive.withVelocityX(-operatorPad.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+            .withVelocityY(-operatorPad.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+            .withRotationalRate(-operatorPad.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
@@ -202,27 +204,29 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
       
 
-        driverR2.whileTrue (new RightBranchPathfinding(drivetrain));
+        operatorPad.rightTrigger().whileTrue (new RightBranchPathfinding(drivetrain));
 
 
-        driverL2.whileTrue (new LeftBranchPathFinding(drivetrain));
+        operatorPad.leftTrigger().whileTrue (new LeftBranchPathFinding(drivetrain));
 
         
 
 
         // driverSquare.onTrue (new PathFindToProcessor()); 
 
-        driverCircle.onTrue (drivetrain.new ResetOdometry(drivetrain, new Pose2d(3.192, 4.005, Rotation2d.fromDegrees(0))));
+        operatorPad.a().onTrue (drivetrain.new ResetOdometry(drivetrain, new Pose2d(3.192, 4.005, Rotation2d.fromDegrees(0))));
 
-        driverX.whileTrue(new SetClawIntakeAlgae());
+        operatorPad.b().whileTrue(new followCoral());
+        // Follow_Coral
+        // operatorPad.left.whileTrue(new SetClawIntakeAlgae());
 
         // driverTriangle.whileTrue(new SetClawRelease());
 
     
-        driverOptions.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        operatorPad.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
 
-        driverShare.toggleOnTrue(new SetClimbManualOverride());
+        // operatorPad.().toggleOnTrue(new SetClimbManualOverride());
 
         // drivetrain.registerTelemetry(logger::telemeterize); // Commented out as Logger does not have telemeterize method
 
@@ -249,8 +253,8 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         // operatorPad.leftStick().toggleOnTrue(new SetWristManualOverride());
         
         // intake and release
-        operatorPad.b().whileTrue(new SetClawIntakeCoral());
-        operatorPad.a().whileTrue(new SetClawRelease());
+        driverL2.whileTrue(new SetClawIntakeCoral());
+        driverR2.whileTrue(new SetClawRelease());
         // operatorPad.leftTrigger().whileTrue(new SetClawIntakeAlgae());
 
 
@@ -262,11 +266,13 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
         
 
-        // Scoring Coral
-        operatorPad.povDown().onTrue(new ScoreCoralTrough());
-        operatorPad.povLeft().onTrue(new ScoreCoralL2());
-        operatorPad.povRight().onTrue(new ScoreCoralL3());
-        operatorPad.povUp().onTrue(new ScoreCoralL4());
+        // // Scoring Coral
+        driverX.onTrue(new ScoreCoralTrough());
+        driverSquare.onTrue(new ScoreCoralL2());
+        driverCircle.onTrue(new ScoreCoralL3());
+        driverTriangle.onTrue(new ScoreCoralL4());
+
+        
 
 
 

@@ -216,13 +216,13 @@ public class TunerConstants {
     private static final Distance kBackRightYPos = Inches.of(-11);
 
     // Other CAN IDs
-    public static final int CORALCANRANGE = 17;
-    public static final int BRANCHCANRANGE = 21;
+    public static final int CORALCANRANGE = 21;
+    public static final int BRANCHCANRANGE = 17;
 
     public static final int wcpIsTheBest = 18;
     public static final int PDH = 1;
-    public static final int CLAW = 15;
-    public static final int WRIST = 20;
+    public static final int CLAW = 20;
+    public static final int WRIST = 15;
     public static final int ELEVATOR = 14;
     // public static final int SHOULDER = 15; // <---- those who know
     public static final int CLIMB = 16;

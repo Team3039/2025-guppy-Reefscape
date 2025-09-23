@@ -55,8 +55,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 125.90972307917765
+    "velocity": 0.25,
+    "rotation": 123.90110075035766
   },
   "reversed": false,
   "folder": "the good pipe layer",

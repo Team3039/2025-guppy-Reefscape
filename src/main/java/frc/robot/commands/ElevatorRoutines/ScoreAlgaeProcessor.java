@@ -16,8 +16,11 @@ public class ScoreAlgaeProcessor extends SequentialCommandGroup {
   public ScoreAlgaeProcessor() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+
+// old setpoint 270
+
     addCommands(
-      new ActuateWristToSetpoint(270, 3),
+      new ActuateWristToSetpoint(90, 3),
       new ActuateElevatorToSetpoint(0.1, 5)
     );
   }

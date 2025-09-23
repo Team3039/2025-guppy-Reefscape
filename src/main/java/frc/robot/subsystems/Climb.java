@@ -122,7 +122,7 @@ private final CANcoder wcpIsTheBest = new CANcoder(18);
 
      
       
-        if (RobotContainer.driverR1.getAsBoolean()) {
+        if (RobotContainer.operatorPad.rightBumper().getAsBoolean()) {
           climb.set(.8);
         } else if (RobotContainer.PitPad.rightBumper().getAsBoolean()) {
           climb.set(-.4);

@@ -11,9 +11,9 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
+// import com.ctre.phoenix6.configs.MotionMagicConfigs;
+// import com.ctre.phoenix6.configs.Slot0Configs;
+// import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,7 +28,6 @@ public class Elevator extends SubsystemBase {
 		IDLE,
 		MANUAL,
 		POSITION,
-
 	}
 
 
@@ -46,27 +45,6 @@ public class Elevator extends SubsystemBase {
 			TunerConstants.Elevator.ELEVATOR_KD);
 
 
-	private MotionMagicVoltage motionMagicControl = new MotionMagicVoltage(.0);
-
-	private MotionMagicConfigs motionMagicConfigs = new MotionMagicConfigs();
-
-	{
-		// Set Motion Magic parameters
-
-		motionMagicConfigs.MotionMagicCruiseVelocity =  80; // Adjust as needed
-		motionMagicConfigs.MotionMagicAcceleration =  80;   // Adjust as needed
-
-		// Configure PID slot for Motion Magic
-		Slot0Configs slot0Configs = new Slot0Configs();
-		slot0Configs.kP = TunerConstants.Elevator.ELEVATOR_KP;
-		slot0Configs.kI = TunerConstants.Elevator.ELEVATOR_KI;
-		slot0Configs.kD = TunerConstants.Elevator.ELEVATOR_KD;
-		slot0Configs.kS = TunerConstants.Elevator.ELEVATOR_KS; // Feedforward constant
-
-		// Apply configurations to the motor
-		elavator.getConfigurator().apply(motionMagicConfigs);
-		elavator.getConfigurator().apply(slot0Configs);
-	}
 
 
 	// Create a variable to store the setpoint of the elevator in kraken encoder
