@@ -152,8 +152,9 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
-    private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
+    public final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
+         .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
 
 

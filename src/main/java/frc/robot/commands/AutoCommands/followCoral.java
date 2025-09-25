@@ -21,11 +21,14 @@ public class followCoral extends Command {
         .withHeadingPID(4, 0, 0); // Tune this PID for your robot
 
     // Alignment tolerance in degrees
-    private static final double ANGLE_TOLERANCE = 1.0;
 
     public followCoral(CommandSwerveDrivetrain drivetrain) {
         this.m_drivetrain = drivetrain;
         addRequirements(drivetrain);
+
+
+
+        
     }
 
     @Override
@@ -33,26 +36,41 @@ public class followCoral extends Command {
 
     @Override
     public void execute() {
+        double tv = limelight.getEntry("tv").getDouble(0.0);
 
         double tx = limelight.getEntry("tx").getDouble(0.0);
 
-        boolean aligned = Math.abs(tx) < ANGLE_TOLERANCE;
+        System.out.println(tx);
 
-        if (!aligned) {
+        // boolean aligned = Math.abs(tx) < 0;
+        if (tv > 0.8) {
+
+            Rotation2d targetHeading = m_drivetrain.getPigeon2().getRotation2d().minus(Rotation2d.fromDegrees(tx));
+        
 
             m_drivetrain.setControl(
                 m_request
-                    .withVelocityX(0.0) 
-                    .withTargetDirection(Rotation2d.fromDegrees(tx)) // turn until centered
-            );
-        } else {
-            // When alignen drive forward
-            m_drivetrain.setControl(
-                m_request
-                    .withVelocityX(1.0) 
-            );
+                    .withTargetDirection(targetHeading));
+           
+
         }
-    }
+       
+        
+        if (tx < .5 && tx > -.5 && tv > 0.8) {
+
+            double forwardSpeed = 1.0; // tune this value
+
+            // m_drivetrain.setControl(
+            //     new SwerveRequest.RobotCentricFacingAngle()
+            //         .withDriveRequestType(DriveRequestType.Velocity)
+            //         .withHeadingPID(4, 0, 0) // tune this PID
+            //         .withVelocityX(forwardSpeed) // robot forward
+            // );
+    
+        
+        }
+        }
+    
 
     @Override
     public boolean isFinished() {
