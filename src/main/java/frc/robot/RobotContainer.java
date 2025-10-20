@@ -43,6 +43,7 @@ import frc.robot.commands.AutoCommands.CoralintakeAuto;
 import frc.robot.commands.AutoCommands.LeftBranchPathFinding;
 // import frc.robot.commands.AutoCommands.PathFindToProcessor;
 import frc.robot.commands.AutoCommands.RightBranchPathfinding;
+import frc.robot.commands.AutoCommands.goooooAndDontHitShit;
 // import frc.robot.commands.PathFinding.rightBranchPathfinding;
 // import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
 // import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL3;
@@ -57,7 +58,7 @@ import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Wrist;
-import frc.robot.commands.AutoCommands.followCoral;
+// import frc.robot.commands.AutoCommands.followCoral;
 
 
 public class RobotContainer {
@@ -217,7 +218,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
         operatorPad.a().onTrue (drivetrain.new ResetOdometry(drivetrain, new Pose2d(3.192, 4.005, Rotation2d.fromDegrees(0))));
 
-        operatorPad.b().whileTrue(new followCoral(drivetrain));
+        operatorPad.b().whileTrue(new goooooAndDontHitShit());
         // Follow_Coral
         // operatorPad.left.whileTrue(new SetClawIntakeAlgae());
 
