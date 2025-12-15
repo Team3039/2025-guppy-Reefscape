@@ -35,28 +35,28 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.SetClawIntakeAlgae;
-import frc.robot.commands.SetClawIntakeCoral;
-import frc.robot.commands.SetClawRelease;
-import frc.robot.commands.SetClimbManualOverride;
-import frc.robot.commands.AutoCommands.CoralintakeAuto;
+// import frc.robot.commands.SetClawIntakeAlgae;
+// import frc.robot.commands.SetClawIntakeCoral;
+// import frc.robot.commands.SetClawRelease;
+// import frc.robot.commands.SetClimbManualOverride;
+// import frc.robot.commands.AutoCommands.CoralintakeAuto;
 import frc.robot.commands.AutoCommands.LeftBranchPathFinding;
 // import frc.robot.commands.AutoCommands.PathFindToProcessor;
 import frc.robot.commands.AutoCommands.RightBranchPathfinding;
 // import frc.robot.commands.PathFinding.rightBranchPathfinding;
 // import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL2;
 // import frc.robot.commands.ElevatorRoutines.RemoveAlgaeL3;
-import frc.robot.commands.ElevatorRoutines.ScoreCoralL2;
-import frc.robot.commands.ElevatorRoutines.ScoreCoralL3;
-import frc.robot.commands.ElevatorRoutines.ScoreCoralL4;
-import frc.robot.commands.ElevatorRoutines.ScoreCoralTrough;
+// import frc.robot.commands.ElevatorRoutines.ScoreCoralL2;
+// import frc.robot.commands.ElevatorRoutines.ScoreCoralL3;
+// import frc.robot.commands.ElevatorRoutines.ScoreCoralL4;
+// import frc.robot.commands.ElevatorRoutines.ScoreCoralTrough;
 import frc.robot.controllers.InterpolatedPS4Gamepad;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.Claw;
+// import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Wrist;
+// import frc.robot.subsystems.Elevator;
+// import frc.robot.subsystems.Wrist;
 
 
 public class RobotContainer {
@@ -76,9 +76,9 @@ public RobotContainer() {
 
     // reset pose to start 
 
-    NamedCommands.registerCommand("R-P mid pipething", drivetrain.new ResetOdometry(drivetrain, new Pose2d(7.569, 0.517, Rotation2d.fromDegrees(90))));
+    // NamedCommands.registerCommand("R-P mid pipething", drivetrain.new ResetOdometry(drivetrain, new Pose2d(7.569, 0.517, Rotation2d.fromDegrees(90))));
 
-    NamedCommands.registerCommand("Mid pipething set gyro", (drivetrain.runOnce(() -> drivetrain.resetGyroMidPipeThing())));
+    // NamedCommands.registerCommand("Mid pipething set gyro", (drivetrain.runOnce(() -> drivetrain.resetGyroMidPipeThing())));
     
 
     // auto pathing commands
@@ -87,17 +87,17 @@ public RobotContainer() {
     NamedCommands.registerCommand("RightBranch Pathfinding", new RightBranchPathfinding(drivetrain));
 
 
-    //Elevator commands
-    NamedCommands.registerCommand("score L2", new ScoreCoralL2());
-    NamedCommands.registerCommand("score L3", new ScoreCoralL3());
-    NamedCommands.registerCommand("score L4", new ScoreCoralL4());
-    NamedCommands.registerCommand("set Wrist/Elevator down", new ScoreCoralTrough());
+    // //Elevator commands
+    // NamedCommands.registerCommand("score L2", new ScoreCoralL2());
+    // NamedCommands.registerCommand("score L3", new ScoreCoralL3());
+    // NamedCommands.registerCommand("score L4", new ScoreCoralL4());
+    // NamedCommands.registerCommand("set Wrist/Elevator down", new ScoreCoralTrough());
 
 
-    //itake and spit coral             (intake)
-    NamedCommands.registerCommand("LoveCrushingLoaf", new CoralintakeAuto());
-    NamedCommands.registerCommand("WaterBucketRelease", new SetClawRelease());
-    //                                  (Release)
+    // //itake and spit coral             (intake)
+    // NamedCommands.registerCommand("LoveCrushingLoaf", new CoralintakeAuto());
+    // NamedCommands.registerCommand("WaterBucketRelease", new SetClawRelease());
+    // //                                  (Release)
 
 
      autoChooser = AutoBuilder.buildAutoChooser(); //Auto chooser
@@ -156,9 +156,9 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
 
     public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    public static final Elevator elevator = new Elevator();
-    public static final Wrist wrist = new Wrist();
-    public static final Claw claw = new Claw();
+    // public static final Elevator elevator = new Elevator();
+    // public static final Wrist wrist = new Wrist();
+    // public static final Claw claw = new Claw();
     public static final Climb climb = new Climb();
     // public static final Limelight limelight = new Limelight();
 
@@ -188,9 +188,9 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-            drive.withVelocityX(-driverPad.interpolatedLeftYAxis() * MaxSpeed) // Drive forward with negative Y (forward)
-            .withVelocityY(-driverPad.interpolatedLeftXAxis() * MaxSpeed) // Drive left with negative X (left)
-            .withRotationalRate(driverPad.interpolatedRightXAxis() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+            drive.withVelocityX(-operatorPad.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+            .withVelocityY(-operatorPad.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+            .withRotationalRate(-operatorPad.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
@@ -210,9 +210,9 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
 
         // driverSquare.onTrue (new PathFindToProcessor()); 
 
-        driverCircle.onTrue (drivetrain.new ResetOdometry(drivetrain, new Pose2d(3.192, 4.005, Rotation2d.fromDegrees(0))));
+        // driverCircle.onTrue (drivetrain.new ResetOdometry(drivetrain, new Pose2d(3.192, 4.005, Rotation2d.fromDegrees(0))));
 
-        driverX.whileTrue(new SetClawIntakeAlgae());
+        // driverX.whileTrue(new SetClawIntakeAlgae());
 
         // driverTriangle.whileTrue(new SetClawRelease());
 
@@ -220,11 +220,9 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         driverOptions.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
 
-        driverShare.toggleOnTrue(new SetClimbManualOverride());
+        // driverShare.toggleOnTrue(new SetClimbManualOverride());
 
         // drivetrain.registerTelemetry(logger::telemeterize); // Commented out as Logger does not have telemeterize method
-
-
 
 
 
@@ -234,7 +232,7 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         //pit pad
 
 
-        PitPad.y().toggleOnTrue(new SetClimbManualOverride());
+        // PitPad.y().toggleOnTrue(new SetClimbManualOverride());
         
 
 
@@ -247,8 +245,8 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         // operatorPad.leftStick().toggleOnTrue(new SetWristManualOverride());
         
         // intake and release
-        operatorPad.a().whileTrue(new SetClawIntakeCoral());
-        operatorPad.b().whileTrue(new SetClawRelease());
+        // operatorPad.a().whileTrue(new SetClawIntakeCoral());
+        // operatorPad.b().whileTrue(new SetClawRelease());
         // operatorPad.leftTrigger().whileTrue(new SetClawIntakeAlgae());
 
 
@@ -261,10 +259,10 @@ public static final InterpolatedPS4Gamepad driverPad = new InterpolatedPS4Gamepa
         
 
         // Scoring Coral
-        operatorPad.povDown().onTrue(new ScoreCoralTrough());
-        operatorPad.povLeft().onTrue(new ScoreCoralL2());
-        operatorPad.povRight().onTrue(new ScoreCoralL3());
-        operatorPad.povUp().onTrue(new ScoreCoralL4());
+        // operatorPad.povDown().onTrue(new ScoreCoralTrough());
+        // operatorPad.povLeft().onTrue(new ScoreCoralL2());
+        // operatorPad.povRight().onTrue(new ScoreCoralL3());
+        // operatorPad.povUp().onTrue(new ScoreCoralL4());
 
 
 
